@@ -6,6 +6,9 @@ import Register from './pages/auth/Register';
 import Menu from './pages/customer/Menu';
 import PizzaBuilder from './pages/customer/PizzaBuilder';
 import Cart from './pages/customer/Cart';
+import AdminLayout from './pages/admin/AdminLayout';
+import AdminDashboard from './pages/admin/Dashboard';
+import AdminOrders from './pages/admin/Orders';
 import './App.css';
 
 // Placeholder Home component
@@ -19,6 +22,7 @@ const Home = () => (
       <a href="/menu" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-premium)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)' }}>Menu</a>
       <a href="/build" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-primary)', color: 'white', borderRadius: 'var(--radius-md)' }}>Build Pizza</a>
       <a href="/cart" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-secondary)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)' }}>Cart</a>
+      <a href="/admin/dashboard" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-text-main)', color: 'var(--color-text-light)', borderRadius: 'var(--radius-md)' }}>Admin</a>
     </div>
   </div>
 );
@@ -34,6 +38,13 @@ function App() {
         <Route path="/cart" element={<Cart />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
+        
+        {/* Admin Routes */}
+        <Route path="/admin" element={<AdminLayout />}>
+          <Route path="dashboard" element={<AdminDashboard />} />
+          <Route path="orders" element={<AdminOrders />} />
+          <Route path="menu" element={<div>Menu Inventory (Coming Soon)</div>} />
+        </Route>
       </Routes>
     </>
   );

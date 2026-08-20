@@ -1,5 +1,5 @@
 import React from 'react';
-import { Input as ShadcnInput } from './input';
+import { Input as ShadcnInput } from './input.tsx';
 
 const Input = React.forwardRef(({ 
   label, 

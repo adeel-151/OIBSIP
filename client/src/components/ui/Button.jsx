@@ -1,5 +1,5 @@
 import React from 'react';
-import { Button as ShadcnButton } from './button';
+import { Button as ShadcnButton } from './button.tsx';
 import { motion } from 'framer-motion';
 
 const Button = ({ 

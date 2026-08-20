@@ -1,0 +1,42 @@
+import axios from 'axios';
+
+const api = axios.create({
+  baseURL: import.meta.env.VITE_API_URL || 'http://localhost:5000/api',
+  headers: {
+    'Content-Type': 'application/json',
+  },
+});
+
+api.interceptors.request.use(
+  (config) => {
+    // We get the token from localStorage (managed by Zustand persist)
+    const storageData = localStorage.getItem('auth-storage');
+    if (storageData) {
+      try {
+        const { state } = JSON.parse(storageData);
+        if (state.token) {
+          config.headers.Authorization = `Bearer ${state.token}`;
+        }
+      } catch (error) {
+        console.error('Error parsing auth storage', error);
+      }
+    }
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+api.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    // Handle 401 globally if needed (e.g., dispatch a logout event)
+    if (error.response && error.response.status === 401) {
+      // You could clear storage here or trigger a logout action
+    }
+    return Promise.reject(error);
+  }
+);
+
+export default api;

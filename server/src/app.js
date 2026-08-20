@@ -12,6 +12,8 @@ app.use(express.json());
 app.use(morgan('dev'));
 
 const authRoutes = require('./routes/authRoutes');
+const pizzaRoutes = require('./routes/pizzaRoutes');
+const ingredientRoutes = require('./routes/ingredientRoutes');
 
 // Basic route
 app.get('/', (req, res) => {
@@ -19,6 +21,8 @@ app.get('/', (req, res) => {
 });
 
 app.use('/api/auth', authRoutes);
+app.use('/api/pizzas', pizzaRoutes);
+app.use('/api/ingredients', ingredientRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

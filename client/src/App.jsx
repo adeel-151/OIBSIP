@@ -4,6 +4,7 @@ import { Toaster } from 'react-hot-toast';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Menu from './pages/customer/Menu';
+import PizzaBuilder from './pages/customer/PizzaBuilder';
 import './App.css';
 
 // Placeholder Home component
@@ -15,6 +16,7 @@ const Home = () => (
       <a href="/login" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-accent)', color: 'white', borderRadius: 'var(--radius-md)' }}>Login</a>
       <a href="/register" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-neutral)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)', border: '1px solid #ccc' }}>Register</a>
       <a href="/menu" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-premium)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)' }}>Menu</a>
+      <a href="/build" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-primary)', color: 'white', borderRadius: 'var(--radius-md)' }}>Build Pizza</a>
     </div>
   </div>
 );
@@ -26,6 +28,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/menu" element={<Menu />} />
+        <Route path="/build" element={<PizzaBuilder />} />
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
       </Routes>

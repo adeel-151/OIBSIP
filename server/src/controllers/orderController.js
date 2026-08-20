@@ -1,4 +1,6 @@
 const Order = require('../models/Order');
+const Pizza = require('../models/Pizza');
+const Ingredient = require('../models/Ingredient');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
 
@@ -9,12 +11,33 @@ const razorpay = new Razorpay({
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const { items, totalAmount, deliveryAddress, paymentMethod } = req.body;
+    const { items, deliveryAddress, paymentMethod } = req.body;
+
+    // Securely calculate totalAmount on the backend
+    let calculatedTotal = 0;
+    
+    for (const item of items) {
+      if (item.isCustom) {
+        // Fetch all custom ingredients
+        const { base, sauce, cheese, vegetables } = item.customIngredients;
+        const allIngredientIds = [base, sauce, cheese, ...(vegetables || [])].filter(Boolean);
+        const ingredients = await Ingredient.find({ _id: { $in: allIngredientIds } });
+        
+        const itemTotal = ingredients.reduce((sum, ing) => sum + (ing.price || 0), 0);
+        calculatedTotal += itemTotal * (item.quantity || 1);
+      } else {
+        // Fetch standard pizza price
+        const pizza = await Pizza.findById(item.pizza);
+        if (pizza) {
+          calculatedTotal += pizza.price * (item.quantity || 1);
+        }
+      }
+    }
 
     const order = new Order({
-      user: req.user.userId,
+      user: req.user.id, // Fixed: use req.user.id (from the updated JWT middleware)
       items,
-      totalAmount,
+      totalAmount: calculatedTotal,
       deliveryAddress,
       paymentMethod,
     });

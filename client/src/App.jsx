@@ -1,6 +1,7 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
+import SEO from './components/SEO';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Menu from './pages/customer/Menu';
@@ -14,6 +15,7 @@ import './App.css';
 // Placeholder Home component
 const Home = () => (
   <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+    <SEO title="Home" />
     <h1>Pizzaro - Crafted Your Way</h1>
     <p style={{ marginTop: '1rem', color: 'var(--color-text-muted)' }}>The premium pizza platform.</p>
     <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>

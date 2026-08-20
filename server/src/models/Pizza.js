@@ -58,11 +58,10 @@ const pizzaSchema = new mongoose.Schema(
 );
 
 // Create slug before saving
-pizzaSchema.pre('save', function (next) {
+pizzaSchema.pre('save', function () {
   if (this.isModified('name')) {
     this.slug = slugify(this.name, { lower: true, strict: true });
   }
-  next();
 });
 
 module.exports = mongoose.model('Pizza', pizzaSchema);

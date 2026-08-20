@@ -96,7 +96,9 @@ const seedData = async () => {
       }
     ];
 
-    await Pizza.insertMany(pizzas);
+    for (const pizzaData of pizzas) {
+      await Pizza.create(pizzaData);
+    }
     console.log('Pizzas seeded!');
     
     // Seed Admin

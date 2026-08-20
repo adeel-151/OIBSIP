@@ -9,7 +9,7 @@ import PizzaPreview from '../../components/pizza/PizzaPreview';
 import IngredientCard from '../../components/pizza/IngredientCard';
 import Button from '../../components/ui/Button';
 import styles from './Builder.module.css';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 
 const STEPS = [
   { id: 'BASE', title: '01 Base' },

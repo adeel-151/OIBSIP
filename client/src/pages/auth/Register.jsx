@@ -7,7 +7,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import styles from './Auth.module.css';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import useAuthStore from '../../store/authStore';
 
 const registerSchema = z.object({

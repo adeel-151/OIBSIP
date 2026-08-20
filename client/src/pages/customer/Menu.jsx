@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { getAllPizzas } from '../../services/pizzaService';
+import api from '../../services/api';
+import useCartStore from '../../store/cartStore';
+import { toast } from 'sonner';
 import PizzaCard from '../../components/pizza/PizzaCard';
 import styles from './Menu.module.css';
-import toast from 'react-hot-toast';
 
 const Menu = () => {
   const [pizzas, setPizzas] = useState([]);

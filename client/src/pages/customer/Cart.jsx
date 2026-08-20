@@ -5,7 +5,7 @@ import useCartStore from '../../store/cartStore';
 import useAuthStore from '../../store/authStore';
 import Button from '../../components/ui/Button';
 import styles from './Cart.module.css';
-import toast from 'react-hot-toast';
+import { toast } from 'sonner';
 import api from '../../services/api';
 
 const Cart = () => {

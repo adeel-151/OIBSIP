@@ -1,25 +1,24 @@
-import React, { forwardRef } from 'react';
-import styles from './Input.module.css';
+import React from 'react';
+import { Input as ShadcnInput } from './input';
 
-const Input = forwardRef(({ label, error, className = '', id, ...props }, ref) => {
+const Input = React.forwardRef(({ 
+  label, 
+  error, 
+  className = '', 
+  ...props 
+}, ref) => {
   return (
-    <div className={`${styles.inputGroup} ${className}`}>
-      {label && (
-        <label htmlFor={id} className={styles.label}>
-          {label}
-        </label>
-      )}
-      <input
-        id={id}
+    <div className={`flex flex-col space-y-1.5 w-full mb-4 ${className}`}>
+      {label && <label className="text-sm font-medium text-foreground">{label}</label>}
+      <ShadcnInput 
         ref={ref}
-        className={`${styles.input} ${error ? styles.inputError : ''}`}
-        {...props}
+        className={`${error ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+        {...props} 
       />
-      {error && <span className={styles.errorMessage}>{error.message || error}</span>}
+      {error && <span className="text-xs text-destructive mt-1">{error}</span>}
     </div>
   );
 });
 
 Input.displayName = 'Input';
-
 export default Input;

@@ -1,6 +1,6 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import { Toaster } from 'react-hot-toast';
+import { Toaster } from '@/components/ui/sonner';
 import Login from './pages/auth/Login';
 import Register from './pages/auth/Register';
 import Menu from './pages/customer/Menu';

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useSearchParams, useNavigate } from 'react-router-dom';
 import useBuilderStore from '../../store/builderStore';
+import useCartStore from '../../store/cartStore';
 import { getPizzaById } from '../../services/pizzaService';
 import { getAllIngredients } from '../../services/ingredientService';
 import PizzaPreview from '../../components/pizza/PizzaPreview';
@@ -60,6 +61,8 @@ const PizzaBuilder = () => {
 
   const currentStep = STEPS[currentStepIndex];
 
+  const { items, addToCart } = useCartStore();
+
   const handleNext = () => {
     if (currentStepIndex < STEPS.length - 1) {
       // Validate step
@@ -69,9 +72,24 @@ const PizzaBuilder = () => {
       }
       setCurrentStepIndex(prev => prev + 1);
     } else {
-      // Go to cart
-      toast.success('Pizza added to cart!');
-      // navigate('/cart');
+      // Add to cart
+      const cartItem = {
+        pizzaId,
+        isCustom: true,
+        customIngredients: {
+          base: selectedBase,
+          sauce: selectedSauce,
+          cheese: selectedCheese,
+          vegetables: selectedVegetables
+        },
+        quantity: 1,
+        price: totalPrice
+      };
+      
+      addToCart(cartItem);
+      toast.success('Custom pizza added to cart!');
+      resetBuilder();
+      navigate('/cart');
     }
   };
 

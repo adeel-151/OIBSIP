@@ -14,6 +14,7 @@ app.use(morgan('dev'));
 const authRoutes = require('./routes/authRoutes');
 const pizzaRoutes = require('./routes/pizzaRoutes');
 const ingredientRoutes = require('./routes/ingredientRoutes');
+const orderRoutes = require('./routes/orderRoutes');
 
 // Basic route
 app.get('/', (req, res) => {
@@ -23,6 +24,7 @@ app.get('/', (req, res) => {
 app.use('/api/auth', authRoutes);
 app.use('/api/pizzas', pizzaRoutes);
 app.use('/api/ingredients', ingredientRoutes);
+app.use('/api/orders', orderRoutes);
 
 // Global Error Handler
 app.use((err, req, res, next) => {

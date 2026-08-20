@@ -9,6 +9,7 @@ import Register from './pages/auth/Register';
 import Menu from './pages/customer/Menu';
 import PizzaBuilder from './pages/customer/PizzaBuilder';
 import Cart from './pages/customer/Cart';
+import Dashboard from './pages/customer/Dashboard';
 import AdminLayout from './pages/admin/AdminLayout';
 import AdminDashboard from './pages/admin/Dashboard';
 import AdminOrders from './pages/admin/Orders';
@@ -35,6 +36,7 @@ function App() {
         <Route path="/menu" element={<CustomerLayout><Menu /></CustomerLayout>} />
         <Route path="/build" element={<CustomerLayout><PizzaBuilder /></CustomerLayout>} />
         <Route path="/cart" element={<CustomerLayout><Cart /></CustomerLayout>} />
+        <Route path="/dashboard" element={<CustomerLayout><Dashboard /></CustomerLayout>} />
         
         {/* Auth Routes (No Navbar/Footer usually, or can add them if preferred) */}
         <Route path="/login" element={<Login />} />

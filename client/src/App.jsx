@@ -12,19 +12,21 @@ import AdminDashboard from './pages/admin/Dashboard';
 import AdminOrders from './pages/admin/Orders';
 import './App.css';
 
+import { Link } from 'react-router-dom';
+
 // Placeholder Home component
 const Home = () => (
-  <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', height: '100vh', flexDirection: 'column' }}>
+  <div className="flex justify-center items-center h-screen flex-col bg-background text-foreground">
     <SEO title="Home" />
-    <h1>Pizzaro - Crafted Your Way</h1>
-    <p style={{ marginTop: '1rem', color: 'var(--color-text-muted)' }}>The premium pizza platform.</p>
-    <div style={{ marginTop: '2rem', display: 'flex', gap: '1rem' }}>
-      <a href="/login" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-accent)', color: 'white', borderRadius: 'var(--radius-md)' }}>Login</a>
-      <a href="/register" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-neutral)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)', border: '1px solid #ccc' }}>Register</a>
-      <a href="/menu" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-premium)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)' }}>Menu</a>
-      <a href="/build" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-primary)', color: 'white', borderRadius: 'var(--radius-md)' }}>Build Pizza</a>
-      <a href="/cart" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-secondary)', color: 'var(--color-text-main)', borderRadius: 'var(--radius-md)' }}>Cart</a>
-      <a href="/admin/dashboard" style={{ padding: '0.75rem 1.5rem', background: 'var(--color-text-main)', color: 'var(--color-text-light)', borderRadius: 'var(--radius-md)' }}>Admin</a>
+    <h1 className="text-4xl font-bold mb-4">Pizzaro - Crafted Your Way</h1>
+    <p className="mb-8 text-muted-foreground">The premium pizza platform.</p>
+    <div className="flex flex-wrap gap-4 justify-center">
+      <Link to="/login" className="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Login</Link>
+      <Link to="/register" className="px-6 py-3 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors">Register</Link>
+      <Link to="/menu" className="px-6 py-3 bg-accent text-accent-foreground rounded-md hover:bg-accent/90 transition-colors">Menu</Link>
+      <Link to="/build" className="px-6 py-3 bg-primary text-primary-foreground rounded-md hover:bg-primary/90 transition-colors">Build Pizza</Link>
+      <Link to="/cart" className="px-6 py-3 bg-secondary text-secondary-foreground rounded-md hover:bg-secondary/80 transition-colors">Cart</Link>
+      <Link to="/admin/dashboard" className="px-6 py-3 border border-border text-foreground rounded-md hover:bg-accent hover:text-accent-foreground transition-colors">Admin</Link>
     </div>
   </div>
 );

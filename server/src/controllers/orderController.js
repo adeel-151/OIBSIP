@@ -31,11 +31,11 @@ exports.createOrder = async (req, res, next) => {
         const validObjectIds = allIngredientIds.filter(id => mongoose.Types.ObjectId.isValid(id));
         const ingredients = await Ingredient.find({ _id: { $in: validObjectIds } });
         
-        let itemTotal = ingredients.reduce((sum, ing) => sum + (ing.price || 0), 0);
+        let itemTotal = ingredients.reduce((sum, ing) => sum + (Number(ing.price) || 0), 0);
         
         // Fallback for mock ingredients
         if (itemTotal === 0 && item.price) {
-          itemTotal = item.price;
+          itemTotal = Number(item.price) || 0;
         }
         
         // Clean up invalid custom ingredient IDs
@@ -48,12 +48,12 @@ exports.createOrder = async (req, res, next) => {
           }
         }
         
-        calculatedTotal += itemTotal * (item.quantity || 1);
+        calculatedTotal += itemTotal * (Number(item.quantity) || 1);
       } else {
         let itemTotal = 0;
         if (mongoose.Types.ObjectId.isValid(item.pizza)) {
           const pizza = await Pizza.findById(item.pizza);
-          if (pizza) itemTotal = pizza.price;
+          if (pizza) itemTotal = Number(pizza.price) || 0;
         } else {
           // Remove invalid pizza ID to prevent CastError
           delete cleanItem.pizza;
@@ -61,10 +61,10 @@ exports.createOrder = async (req, res, next) => {
         
         // Fallback for mock pizzas
         if (itemTotal === 0 && item.price) {
-          itemTotal = item.price;
+          itemTotal = Number(item.price) || 0;
         }
         
-        calculatedTotal += itemTotal * (item.quantity || 1);
+        calculatedTotal += itemTotal * (Number(item.quantity) || 1);
       }
       
       cleanItems.push(cleanItem);
@@ -83,8 +83,10 @@ exports.createOrder = async (req, res, next) => {
       else if (code === 'FLAT100') calculatedTotal -= 100;
     }
 
-    // Ensure total is never negative or 0 (Razorpay requires minimum 1 INR)
-    if (calculatedTotal <= 0) calculatedTotal = 1;
+    // Ensure total is a valid positive number (Razorpay requires minimum 1 INR)
+    if (isNaN(calculatedTotal) || calculatedTotal <= 0) {
+      calculatedTotal = 1;
+    }
 
     const order = new Order({
       user: req.user.id || req.user._id, // Support both depending on jwt payload

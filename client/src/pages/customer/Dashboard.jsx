@@ -144,7 +144,7 @@ const Dashboard = () => {
                 </div>
                 <div>
                   <p className="text-sm text-muted-foreground mb-1">Total Amount</p>
-                  <p className="font-bold text-primary">₹{activeOrder.totalAmount}</p>
+                  <p className="font-bold text-primary">Rs.{activeOrder.totalAmount}</p>
                 </div>
                 <Button variant="outline" size="sm">View Details</Button>
               </div>
@@ -228,7 +228,7 @@ const Dashboard = () => {
                       <td className="p-4 text-sm">
                         {order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}
                       </td>
-                      <td className="p-4 font-bold">₹{order.totalAmount}</td>
+                      <td className="p-4 font-bold">Rs.{order.totalAmount}</td>
                       <td className="p-4">
                         <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
                           {order.status}

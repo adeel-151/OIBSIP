@@ -208,21 +208,21 @@ const PizzaBuilder = () => {
                 <span className="font-bold block">Base</span>
                 <span className="text-sm text-muted-foreground">{selectedBase?.name}</span>
               </div>
-              <span className="font-medium">+₹{selectedBase?.price}</span>
+              <span className="font-medium">+Rs.{selectedBase?.price}</span>
             </li>
             <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
               <div>
                 <span className="font-bold block">Sauce</span>
                 <span className="text-sm text-muted-foreground">{selectedSauce?.name || 'None'}</span>
               </div>
-              <span className="font-medium">+₹{selectedSauce?.price || 0}</span>
+              <span className="font-medium">+Rs.{selectedSauce?.price || 0}</span>
             </li>
             <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
               <div>
                 <span className="font-bold block">Cheese</span>
                 <span className="text-sm text-muted-foreground">{selectedCheese?.name || 'None'}</span>
               </div>
-              <span className="font-medium">+₹{selectedCheese?.price || 0}</span>
+              <span className="font-medium">+Rs.{selectedCheese?.price || 0}</span>
             </li>
             <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
               <div>
@@ -232,7 +232,7 @@ const PizzaBuilder = () => {
                 </span>
               </div>
               <span className="font-medium">
-                +₹{selectedVegetables.reduce((acc, curr) => acc + curr.price, 0)}
+                +Rs.{selectedVegetables.reduce((acc, curr) => acc + curr.price, 0)}
               </span>
             </li>
             <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
@@ -243,13 +243,13 @@ const PizzaBuilder = () => {
                 </span>
               </div>
               <span className="font-medium">
-                +₹{meatTotal}
+                +Rs.{meatTotal}
               </span>
             </li>
           </ul>
           <div className="border-t border-border pt-4 flex justify-between items-center">
             <span className="text-lg font-bold">Grand Total</span>
-            <span className="text-3xl font-extrabold text-primary font-heading">₹{finalPrice}</span>
+            <span className="text-3xl font-extrabold text-primary font-heading">Rs.{finalPrice}</span>
           </div>
         </div>
       );
@@ -381,7 +381,7 @@ const PizzaBuilder = () => {
               <div className="mt-4 w-full border-t border-border pt-6 flex justify-between items-center">
                 <div>
                   <span className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Total Amount</span>
-                  <h2 className="text-3xl font-bold font-heading text-primary">₹{finalPrice}</h2>
+                  <h2 className="text-3xl font-bold font-heading text-primary">Rs.{finalPrice}</h2>
                 </div>
                 <div className="text-right text-xs text-muted-foreground">
                   {selectedSize.multiplier !== 1 && (
@@ -423,27 +423,23 @@ const PizzaBuilder = () => {
 
             {/* Navigation Buttons */}
             <div className="mt-12 flex justify-between items-center border-t border-border pt-8">
-              <Button 
-                variant="outline" 
-                size="lg"
+              <button 
                 onClick={handlePrev} 
                 disabled={currentStepIndex === 0}
-                className="w-[120px]"
+                className={`w-[120px] flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-bold font-heading border-2 border-border transition-all duration-300 ${currentStepIndex === 0 ? 'opacity-50 cursor-not-allowed bg-secondary/30' : 'bg-background hover:bg-secondary/80 hover:border-foreground/20 text-foreground active:scale-95'}`}
               >
-                <ArrowLeft className="w-4 h-4 mr-2" /> Back
-              </Button>
-              <Button 
-                variant="premium" 
-                size="lg"
+                <ArrowLeft className="w-4 h-4" /> Back
+              </button>
+              <button 
                 onClick={handleNext}
-                className={`min-w-[160px] shadow-lg shadow-accent/20 ${currentStepIndex === STEPS.length - 1 ? 'bg-primary text-primary-foreground shadow-primary/20 hover:bg-primary/90' : ''}`}
+                className={`min-w-[160px] flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-bold font-heading shadow-xl transition-all duration-300 active:scale-95 ${currentStepIndex === STEPS.length - 1 ? 'bg-gradient-to-r from-primary to-rose-600 text-white shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40' : 'bg-foreground text-background hover:bg-foreground/90 shadow-foreground/20'}`}
               >
                 {currentStepIndex === STEPS.length - 1 ? (
-                  <><ShoppingCart className="w-4 h-4 mr-2" /> Add to Cart — ₹{finalPrice}</>
+                  <><ShoppingCart className="w-4 h-4 mr-2" /> Add to Cart — Rs.{finalPrice}</>
                 ) : (
                   <>Next <ArrowRight className="w-4 h-4 ml-2" /></>
                 )}
-              </Button>
+              </button>
             </div>
           </div>
         </div>

@@ -62,7 +62,7 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
           {/* Price & Calories Row */}
           <div className="flex items-center justify-between pb-4 border-b border-border/50">
             <span className="text-2xl font-black text-foreground tracking-tight">
-              ₹{pizza.basePrice || pizza.price || 0}
+              Rs.{pizza.basePrice || pizza.price || 0}
             </span>
             <span className="flex items-center gap-1.5 text-xs font-bold text-muted-foreground bg-secondary/80 px-3 py-1.5 rounded-xl border border-border/50">
               <Flame className="w-3.5 h-3.5 text-accent" /> {pizza.calories || '850'} kcal

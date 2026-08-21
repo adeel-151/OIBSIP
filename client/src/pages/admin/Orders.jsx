@@ -57,7 +57,7 @@ const AdminOrders = () => {
               <td>{order._id.substring(0, 8)}...</td>
               <td>{order.user?.name || 'Unknown'}</td>
               <td>{order.items.length} items</td>
-              <td>₹{order.totalAmount}</td>
+              <td>Rs.{order.totalAmount}</td>
               <td>
                 <span className={`${styles.statusBadge} ${
                   order.paymentStatus === 'COMPLETED' ? styles['status-completed'] : 

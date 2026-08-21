@@ -67,7 +67,7 @@ const Cart = () => {
     if (couponDiscount) {
       setDiscount(couponDiscount);
       setCouponApplied(true);
-      toast.success(`Coupon applied! ₹${couponDiscount} off`);
+      toast.success(`Coupon applied! Rs.${couponDiscount} off`);
     } else {
       toast.error('Invalid coupon code');
     }
@@ -248,7 +248,7 @@ const Cart = () => {
                               <p className="text-sm text-muted-foreground mt-1">Classic Menu Item</p>
                             )}
                           </div>
-                          <span className="text-lg font-bold text-primary whitespace-nowrap">₹{item.price * item.quantity}</span>
+                          <span className="text-lg font-bold text-primary whitespace-nowrap">Rs.{item.price * item.quantity}</span>
                         </div>
 
                         <div className="flex justify-between items-center mt-4 sm:mt-0">
@@ -299,7 +299,7 @@ const Cart = () => {
                   <Truck className={`w-5 h-5 ${deliveryMode === 'delivery' ? 'text-primary' : 'text-muted-foreground'}`} />
                   <div className="text-left">
                     <p className="font-bold text-sm">Delivery</p>
-                    <p className="text-xs text-muted-foreground">To your door • ₹50</p>
+                    <p className="text-xs text-muted-foreground">To your door • Rs.50</p>
                   </div>
                 </button>
                 <button
@@ -454,7 +454,7 @@ const Cart = () => {
                     <div className="flex items-center gap-2">
                       <Check className="w-4 h-4 text-green-400" />
                       <span className="text-sm font-semibold text-green-400">{couponCode.toUpperCase()}</span>
-                      <span className="text-xs text-muted-foreground">(-₹{discount})</span>
+                      <span className="text-xs text-muted-foreground">(-Rs.{discount})</span>
                     </div>
                     <button onClick={handleRemoveCoupon} className="text-xs text-muted-foreground hover:text-foreground">
                       Remove
@@ -467,18 +467,18 @@ const Cart = () => {
               <div className="space-y-4 mb-6">
                 <div className="flex justify-between text-foreground/80">
                   <span>Subtotal</span>
-                  <span className="font-medium">₹{subtotal}</span>
+                  <span className="font-medium">Rs.{subtotal}</span>
                 </div>
                 <div className="flex justify-between text-foreground/80">
                   <span>{deliveryMode === 'delivery' ? 'Delivery Charge' : 'Pickup'}</span>
                   <span className="font-medium">
-                    {deliveryFee === 0 ? <span className="text-green-400">Free</span> : `₹${deliveryFee}`}
+                    {deliveryFee === 0 ? <span className="text-green-400">Free</span> : `Rs.${deliveryFee}`}
                   </span>
                 </div>
                 {discount > 0 && (
                   <div className="flex justify-between text-green-400">
                     <span>Coupon Discount</span>
-                    <span className="font-medium">-₹{discount}</span>
+                    <span className="font-medium">-Rs.{discount}</span>
                   </div>
                 )}
               </div>
@@ -486,7 +486,7 @@ const Cart = () => {
               <div className="border-t border-border pt-4 mb-6">
                 <div className="flex justify-between items-center">
                   <span className="text-lg font-bold">Total</span>
-                  <span className="text-2xl font-bold font-heading text-primary">₹{totalAmount}</span>
+                  <span className="text-2xl font-bold font-heading text-primary">Rs.{totalAmount}</span>
                 </div>
                 <p className="text-xs text-muted-foreground mt-1 text-right">Inclusive of all taxes</p>
               </div>
@@ -506,7 +506,7 @@ const Cart = () => {
                 onClick={handleCheckout}
                 isLoading={isProcessing}
               >
-                {!isProcessing && <><ShoppingCart className="w-5 h-5 mr-2" /> Pay ₹{totalAmount}</>}
+                {!isProcessing && <><ShoppingCart className="w-5 h-5 mr-2" /> Pay Rs.{totalAmount}</>}
               </Button>
               
               {!isAuthenticated && (

@@ -20,6 +20,7 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
             src={ingredient.image} 
             alt={ingredient.name} 
             className="w-full h-full object-cover transition-transform duration-500 hover:scale-110"
+            onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=200&h=200' }}
           />
         ) : (
           <div className="text-4xl font-heading text-muted-foreground opacity-20">
@@ -42,7 +43,7 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
           )}
         </div>
         <p className="text-sm font-medium text-muted-foreground">
-          {ingredient.price === 0 ? 'Included' : `+ ₹${ingredient.price}`}
+          {ingredient.price === 0 ? 'Included' : `+ Rs.${ingredient.price}`}
         </p>
       </div>
     </motion.div>

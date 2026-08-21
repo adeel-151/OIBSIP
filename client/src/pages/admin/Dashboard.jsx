@@ -69,7 +69,7 @@ const AdminDashboard = () => {
         <StatCard
           icon={DollarSign}
           label="Total Revenue"
-          value={`₹${stats.totalRevenue.toLocaleString()}`}
+          value={`Rs.${stats.totalRevenue.toLocaleString()}`}
           color="bg-green-500/10 text-green-400"
           trend="+12.5%"
         />

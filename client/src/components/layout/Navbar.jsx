@@ -137,7 +137,7 @@ const Navbar = () => {
                           </div>
                           <div className="flex-1 min-w-0">
                             <p className="text-sm font-semibold truncate">{item.name}</p>
-                            <p className="text-xs text-muted-foreground">{item.quantity}x ₹{item.price}</p>
+                            <p className="text-xs text-muted-foreground">{item.quantity}x Rs.{item.price}</p>
                           </div>
                           <button
                             onClick={() => removeFromCart(item.cartItemId)}
@@ -156,7 +156,7 @@ const Navbar = () => {
                     <div className="p-4 border-t border-border">
                       <div className="flex justify-between items-center mb-3">
                         <span className="text-sm font-medium text-muted-foreground">Subtotal</span>
-                        <span className="font-bold text-primary">₹{getTotalAmount()}</span>
+                        <span className="font-bold text-primary">Rs.{getTotalAmount()}</span>
                       </div>
                       <Link
                         to="/cart"

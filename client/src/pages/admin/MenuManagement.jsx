@@ -179,7 +179,7 @@ const MenuManagement = () => {
                       </span>
                     </td>
                     <td className="p-4 font-medium text-sm">
-                      {item.price === 0 ? <span className="text-muted-foreground">Included</span> : `₹${item.price}`}
+                      {item.price === 0 ? <span className="text-muted-foreground">Included</span> : `Rs.${item.price}`}
                     </td>
                     <td className="p-4 text-right">
                       <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -280,7 +280,7 @@ const MenuManagement = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">Price (₹)</label>
+                  <label className="text-sm font-medium text-foreground mb-1.5 block">Price (Rs.)</label>
                   <input
                     type="number"
                     value={form.price}

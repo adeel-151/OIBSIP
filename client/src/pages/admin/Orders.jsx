@@ -269,7 +269,9 @@ const AdminOrders = () => {
                     <div className="col-span-2">
                       <p className="text-xs text-muted-foreground mb-1">Delivery Address</p>
                       <p className="font-medium bg-secondary/30 p-3 rounded-xl border border-border/50">
-                        {selectedOrder.deliveryAddress || 'No address provided'}
+                        {typeof selectedOrder.deliveryAddress === 'object' 
+                          ? `${selectedOrder.deliveryAddress?.street || ''}, ${selectedOrder.deliveryAddress?.city || ''}, ${selectedOrder.deliveryAddress?.state || ''} ${selectedOrder.deliveryAddress?.zipCode || ''}`.replace(/(^[,\s]+)|([,\s]+$)/g, '')
+                          : (selectedOrder.deliveryAddress || 'No address provided')}
                       </p>
                     </div>
                   </div>

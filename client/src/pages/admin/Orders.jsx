@@ -19,6 +19,7 @@ const AdminOrders = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [filterStatus, setFilterStatus] = useState('ALL');
+  const [selectedOrder, setSelectedOrder] = useState(null);
 
   useEffect(() => {
     fetchOrders();
@@ -189,7 +190,10 @@ const AdminOrders = () => {
                       <option value="DELIVERED">Delivered</option>
                       <option value="CANCELLED">Cancelled</option>
                     </select>
-                    <button className="px-4 py-2.5 bg-primary/10 text-primary hover:bg-primary hover:text-white font-bold rounded-xl transition-colors text-sm">
+                    <button 
+                      onClick={() => setSelectedOrder(order)}
+                      className="px-4 py-2.5 bg-primary/10 text-primary hover:bg-primary hover:text-white font-bold rounded-xl transition-colors text-sm"
+                    >
                       Details
                     </button>
                   </div>
@@ -207,6 +211,130 @@ const AdminOrders = () => {
           )}
         </div>
       )}
+
+      {/* Order Details Modal */}
+      <AnimatePresence>
+        {selectedOrder && (
+          <>
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setSelectedOrder(null)}
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
+            />
+            <motion.div
+              initial={{ opacity: 0, scale: 0.95, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.95, y: 20 }}
+              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-card border border-border shadow-2xl rounded-3xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
+            >
+              {/* Modal Header */}
+              <div className="p-6 border-b border-border flex justify-between items-center bg-secondary/30">
+                <div>
+                  <h3 className="text-2xl font-black font-heading tracking-tight mb-1">Order Details</h3>
+                  <p className="text-sm text-muted-foreground font-mono">#{selectedOrder._id}</p>
+                </div>
+                <button 
+                  onClick={() => setSelectedOrder(null)}
+                  className="w-10 h-10 rounded-full bg-background border border-border flex items-center justify-center hover:bg-secondary transition-colors"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="w-5 h-5"><path d="M18 6 6 18"/><path d="m6 6 12 12"/></svg>
+                </button>
+              </div>
+              
+              {/* Modal Content */}
+              <div className="p-6 overflow-y-auto custom-scrollbar flex-grow space-y-8">
+                
+                {/* Customer Info */}
+                <div>
+                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 border-b border-border/50 pb-2">Customer Information</h4>
+                  <div className="grid grid-cols-2 gap-4">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Name</p>
+                      <p className="font-bold">{selectedOrder.user?.name || 'Guest User'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Email</p>
+                      <p className="font-bold">{selectedOrder.user?.email || 'N/A'}</p>
+                    </div>
+                    <div className="col-span-2">
+                      <p className="text-xs text-muted-foreground mb-1">Delivery Address</p>
+                      <p className="font-medium bg-secondary/30 p-3 rounded-xl border border-border/50">
+                        {selectedOrder.deliveryAddress || 'No address provided'}
+                      </p>
+                    </div>
+                  </div>
+                </div>
+
+                {/* Order Logistics */}
+                <div>
+                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 border-b border-border/50 pb-2">Logistics</h4>
+                  <div className="grid grid-cols-2 gap-4 bg-secondary/10 p-4 rounded-xl border border-border/30">
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Delivery Mode</p>
+                      <p className="font-bold uppercase">{selectedOrder.deliveryMode || 'delivery'}</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-muted-foreground mb-1">Time Slot</p>
+                      <p className="font-bold">{selectedOrder.deliveryTimeSlot || 'ASAP'}</p>
+                    </div>
+                    {selectedOrder.specialInstructions && (
+                      <div className="col-span-2 mt-2">
+                        <p className="text-xs text-muted-foreground mb-1">Special Instructions</p>
+                        <p className="text-sm font-medium italic text-amber-500 bg-amber-500/10 p-3 rounded-lg">
+                          "{selectedOrder.specialInstructions}"
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+                
+                {/* Order Items */}
+                <div>
+                  <h4 className="text-sm font-bold text-muted-foreground uppercase tracking-wider mb-4 border-b border-border/50 pb-2">Items Ordered</h4>
+                  <div className="space-y-3">
+                    {selectedOrder.items.map((item, idx) => (
+                      <div key={idx} className="flex justify-between items-center bg-secondary/20 p-3 rounded-xl border border-border/50">
+                        <div className="flex items-center gap-3">
+                          <div className="w-8 h-8 rounded-full bg-primary/10 flex items-center justify-center font-bold text-primary text-sm">
+                            {item.quantity}x
+                          </div>
+                          <div>
+                            <p className="font-bold text-sm">{item.name || 'Custom Pizza'}</p>
+                            {item.isCustom && <span className="text-[10px] uppercase font-bold text-primary bg-primary/10 px-2 py-0.5 rounded-sm">Custom Built</span>}
+                          </div>
+                        </div>
+                        <p className="font-bold text-sm">Rs.{item.price || 0}</p>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                
+              </div>
+              
+              {/* Modal Footer */}
+              <div className="p-6 border-t border-border bg-secondary/30 flex justify-between items-center">
+                <div>
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1">Payment</p>
+                  <p className="font-bold text-sm flex items-center gap-2">
+                    {selectedOrder.paymentMethod} 
+                    <span className={`px-2 py-0.5 text-[10px] rounded-full uppercase ${
+                      selectedOrder.paymentStatus === 'COMPLETED' ? 'bg-green-500/20 text-green-500' : 'bg-yellow-500/20 text-yellow-500'
+                    }`}>
+                      {selectedOrder.paymentStatus}
+                    </span>
+                  </p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xs font-bold text-muted-foreground uppercase tracking-wider mb-1">Total Amount</p>
+                  <p className="text-2xl font-black text-primary">Rs.{selectedOrder.totalAmount}</p>
+                </div>
+              </div>
+            </motion.div>
+          </>
+        )}
+      </AnimatePresence>
     </div>
   );
 };

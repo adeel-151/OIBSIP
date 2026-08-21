@@ -219,19 +219,19 @@ const AdminOrders = () => {
       {/* Order Details Modal */}
       <AnimatePresence>
         {selectedOrder && (
-          <>
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 sm:p-6">
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={() => setSelectedOrder(null)}
-              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
+              className="absolute inset-0 bg-background/80 backdrop-blur-sm"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed left-1/2 top-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-2xl bg-card border border-border shadow-2xl rounded-3xl z-50 overflow-hidden flex flex-col max-h-[90vh]"
+              className="relative w-full max-w-2xl bg-card border border-border shadow-2xl rounded-3xl overflow-hidden flex flex-col max-h-[90vh] z-10"
             >
               {/* Modal Header */}
               <div className="p-6 border-b border-border flex justify-between items-center bg-secondary/30">
@@ -342,7 +342,7 @@ const AdminOrders = () => {
                 </div>
               </div>
             </motion.div>
-          </>
+          </div>
         )}
       </AnimatePresence>
     </div>

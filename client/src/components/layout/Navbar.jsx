@@ -1,16 +1,9 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, Trash2, Settings, UserPlus, Info, Phone } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, ChevronDown, Trash2, Settings, UserPlus, Info, Phone } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
-
-const navLinks = [
-  { label: 'Menu', path: '/menu' },
-  { label: 'Build Pizza', path: '/build' },
-  { label: 'Dashboard', path: '/dashboard' },
-  { label: 'About', path: '/about' },
-];
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
@@ -19,7 +12,16 @@ const Navbar = () => {
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
   const [showMiniCart, setShowMiniCart] = useState(false);
+  const [showProfileMenu, setShowProfileMenu] = useState(false);
   const miniCartRef = useRef(null);
+  const profileMenuRef = useRef(null);
+
+  const navLinks = [
+    { label: 'Menu', path: '/menu' },
+    { label: 'Build Pizza', path: '/build' },
+    { label: 'Dashboard', path: user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/dashboard' },
+    { label: 'About', path: '/about' },
+  ];
 
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   const isActive = (path) => location.pathname === path;
@@ -34,13 +36,17 @@ const Navbar = () => {
   useEffect(() => {
     setMobileOpen(false);
     setShowMiniCart(false);
+    setShowProfileMenu(false);
   }, [location.pathname]);
 
-  // Close mini cart on outside click
+  // Close dropdowns on outside click
   useEffect(() => {
     const handleClickOutside = (e) => {
       if (miniCartRef.current && !miniCartRef.current.contains(e.target)) {
         setShowMiniCart(false);
+      }
+      if (profileMenuRef.current && !profileMenuRef.current.contains(e.target)) {
+        setShowProfileMenu(false);
       }
     };
     document.addEventListener('mousedown', handleClickOutside);
@@ -97,7 +103,10 @@ const Navbar = () => {
             {/* Cart with Mini Preview */}
             <div className="relative" ref={miniCartRef}>
               <button
-                onClick={() => setShowMiniCart(!showMiniCart)}
+                onClick={() => {
+                  setShowMiniCart(!showMiniCart);
+                  setShowProfileMenu(false);
+                }}
                 className={`relative p-2.5 rounded-xl transition-all duration-200 ${
                   isActive('/cart')
                     ? 'text-primary bg-primary/10'
@@ -173,30 +182,61 @@ const Navbar = () => {
 
             {/* Desktop Auth */}
             {isAuthenticated ? (
-              <div className="hidden md:flex items-center gap-2 pl-2 border-l border-border/50">
-                <Link
-                  to={user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/dashboard'}
-                  className="flex items-center gap-2 px-4 py-2 text-sm font-bold font-heading text-foreground/80 hover:text-foreground hover:bg-secondary/80 rounded-full transition-all"
+              <div className="hidden md:flex items-center gap-2 pl-2 border-l border-border/50 relative" ref={profileMenuRef}>
+                <button
+                  onClick={() => {
+                    setShowProfileMenu(!showProfileMenu);
+                    setShowMiniCart(false);
+                  }}
+                  className="flex items-center gap-2 px-3 py-1.5 text-sm font-bold font-heading text-foreground/80 hover:text-foreground hover:bg-secondary/80 rounded-full transition-all border border-transparent hover:border-border"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-primary border border-primary/20">
                     <User className="h-4 w-4" />
                   </div>
-                  <span className="max-w-[120px] truncate">{user?.name?.split(' ')[0] || 'Account'}</span>
-                </Link>
-                <Link
-                  to="/profile"
-                  className="p-2.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-all"
-                  title="Settings"
-                >
-                  <Settings className="h-5 w-5" />
-                </Link>
-                <button
-                  onClick={logout}
-                  className="p-2.5 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
-                  title="Logout"
-                >
-                  <LogOut className="h-5 w-5" />
+                  <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0] || 'Account'}</span>
+                  <ChevronDown className={`w-4 h-4 text-muted-foreground transition-transform duration-200 ${showProfileMenu ? 'rotate-180' : ''}`} />
                 </button>
+
+                <AnimatePresence>
+                  {showProfileMenu && (
+                    <motion.div
+                      initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                      animate={{ opacity: 1, y: 0, scale: 1 }}
+                      exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                      transition={{ duration: 0.2 }}
+                      className="absolute right-0 top-full mt-3 w-56 bg-card border border-border rounded-2xl shadow-2xl z-50 overflow-hidden py-2"
+                    >
+                      <div className="px-4 py-2 mb-2 border-b border-border/50">
+                        <p className="font-bold text-sm truncate">{user?.name}</p>
+                        <p className="text-xs text-muted-foreground truncate">{user?.email}</p>
+                      </div>
+                      <Link
+                        to={user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/dashboard'}
+                        onClick={() => setShowProfileMenu(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold hover:bg-secondary/80 transition-colors"
+                      >
+                        <User className="w-4 h-4 text-primary" /> Dashboard
+                      </Link>
+                      <Link
+                        to="/profile"
+                        onClick={() => setShowProfileMenu(false)}
+                        className="flex items-center gap-2 px-4 py-2 text-sm font-semibold hover:bg-secondary/80 transition-colors"
+                      >
+                        <Settings className="w-4 h-4 text-muted-foreground" /> Settings
+                      </Link>
+                      <div className="border-t border-border/50 my-2"></div>
+                      <button
+                        onClick={() => {
+                          logout();
+                          setShowProfileMenu(false);
+                        }}
+                        className="w-full flex items-center gap-2 px-4 py-2 text-sm font-semibold text-destructive hover:bg-destructive/10 transition-colors"
+                      >
+                        <LogOut className="w-4 h-4" /> Logout
+                      </button>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             ) : (
               <div className="hidden md:flex items-center gap-3 pl-3 border-l border-border/50">

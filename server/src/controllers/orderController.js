@@ -13,7 +13,7 @@ const mongoose = require('mongoose');
 
 exports.createOrder = async (req, res, next) => {
   try {
-    const { items, deliveryAddress, paymentMethod, deliveryMode, couponCode } = req.body;
+    const { items, deliveryAddress, paymentMethod, deliveryMode, couponCode, specialInstructions, deliveryTimeSlot } = req.body;
 
     // Securely calculate totalAmount on the backend
     let calculatedTotal = 0;
@@ -74,6 +74,10 @@ exports.createOrder = async (req, res, next) => {
       totalAmount: calculatedTotal,
       deliveryAddress,
       paymentMethod,
+      deliveryMode,
+      specialInstructions,
+      deliveryTimeSlot,
+      couponCode,
     });
 
     if (paymentMethod === 'ONLINE') {

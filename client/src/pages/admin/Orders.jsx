@@ -59,6 +59,7 @@ const AdminOrders = () => {
               <td>{order.items.length} items</td>
               <td>Rs.{order.totalAmount}</td>
               <td>
+                <div className="text-xs font-semibold mb-1 text-muted-foreground">{order.paymentMethod}</div>
                 <span className={`${styles.statusBadge} ${
                   order.paymentStatus === 'COMPLETED' ? styles['status-completed'] : 
                   order.paymentStatus === 'FAILED' ? styles['status-failed'] : 

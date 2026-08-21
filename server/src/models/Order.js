@@ -56,6 +56,20 @@ const orderSchema = new mongoose.Schema(
       enum: ['PENDING', 'COMPLETED', 'FAILED'],
       default: 'PENDING',
     },
+    deliveryMode: {
+      type: String,
+      enum: ['delivery', 'pickup'],
+      default: 'delivery',
+    },
+    specialInstructions: {
+      type: String,
+    },
+    deliveryTimeSlot: {
+      type: String,
+    },
+    couponCode: {
+      type: String,
+    },
     razorpayOrderId: {
       type: String,
     },

@@ -48,6 +48,7 @@ const Cart = () => {
   const [specialInstructions, setSpecialInstructions] = useState('');
   const [selectedTimeSlot, setSelectedTimeSlot] = useState('asap');
   const [showInstructions, setShowInstructions] = useState(false);
+  const [paymentMethod, setPaymentMethod] = useState('COD');
 
   const subtotal = getTotalAmount();
   const deliveryFee = deliveryMode === 'delivery' ? (subtotal > 0 ? 50 : 0) : 0;
@@ -99,10 +100,13 @@ const Cart = () => {
     setIsProcessing(true);
 
     try {
-      const res = await loadRazorpayScript();
-      if (!res) {
-        toast.error('Razorpay SDK failed to load. Check your connection.');
-        return;
+      if (paymentMethod === 'ONLINE') {
+        const res = await loadRazorpayScript();
+        if (!res) {
+          toast.error('Razorpay SDK failed to load. Check your connection.');
+          setIsProcessing(false);
+          return;
+        }
       }
 
       const orderPayload = {
@@ -131,10 +135,18 @@ const Cart = () => {
         specialInstructions,
         deliveryTimeSlot: selectedTimeSlot,
         couponCode: couponApplied ? couponCode : null,
-        paymentMethod: 'ONLINE' // Backend enum expects 'ONLINE'
+        paymentMethod
       };
 
       const orderRes = await createOrder(orderPayload);
+      
+      if (paymentMethod === 'COD') {
+        clearCart();
+        toast.success('Order placed successfully!');
+        navigate('/dashboard');
+        return;
+      }
+
       const { order, razorpayOrder } = orderRes;
 
       const options = {
@@ -511,6 +523,33 @@ const Cart = () => {
                   Est. {deliveryMode === 'delivery' ? 'delivery' : 'pickup'}: <span className="font-bold text-foreground">{TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.desc}</span>
                 </span>
               </div>
+              
+              {/* Payment Method Toggle */}
+              <div className="bg-secondary/50 rounded-xl p-4 mb-6">
+                <h3 className="font-bold text-sm mb-3 uppercase tracking-wider text-muted-foreground">Payment Method</h3>
+                <div className="grid grid-cols-2 gap-3">
+                  <button
+                    onClick={() => setPaymentMethod('COD')}
+                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                      paymentMethod === 'COD'
+                        ? 'border-primary bg-primary/5 font-bold text-primary'
+                        : 'border-border hover:border-primary/40 font-medium'
+                    }`}
+                  >
+                    Cash on Delivery
+                  </button>
+                  <button
+                    onClick={() => setPaymentMethod('ONLINE')}
+                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                      paymentMethod === 'ONLINE'
+                        ? 'border-primary bg-primary/5 font-bold text-primary'
+                        : 'border-border hover:border-primary/40 font-medium'
+                    }`}
+                  >
+                    Pay Online
+                  </button>
+                </div>
+              </div>
 
               <Button 
                 variant="premium" 
@@ -519,7 +558,7 @@ const Cart = () => {
                 onClick={handleCheckout}
                 isLoading={isProcessing}
               >
-                {!isProcessing ? <><ShoppingCart className="w-5 h-5 mr-2" /> Pay Rs.{totalAmount}</> : "Processing..."}
+                {!isProcessing ? <><ShoppingCart className="w-5 h-5 mr-2" /> {paymentMethod === 'COD' ? 'Place Order' : 'Pay'} Rs.{totalAmount}</> : "Processing..."}
               </Button>
               
               {!isAuthenticated && (

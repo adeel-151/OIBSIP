@@ -9,9 +9,11 @@ const razorpay = new Razorpay({
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
 
+const mongoose = require('mongoose');
+
 exports.createOrder = async (req, res, next) => {
   try {
-    const { items, deliveryAddress, paymentMethod } = req.body;
+    const { items, deliveryAddress, paymentMethod, deliveryMode, couponCode } = req.body;
 
     // Securely calculate totalAmount on the backend
     let calculatedTotal = 0;
@@ -21,21 +23,53 @@ exports.createOrder = async (req, res, next) => {
         // Fetch all custom ingredients
         const { base, sauce, cheese, vegetables } = item.customIngredients;
         const allIngredientIds = [base, sauce, cheese, ...(vegetables || [])].filter(Boolean);
-        const ingredients = await Ingredient.find({ _id: { $in: allIngredientIds } });
         
-        const itemTotal = ingredients.reduce((sum, ing) => sum + (ing.price || 0), 0);
+        // Filter out mock string IDs to prevent Mongoose CastErrors
+        const validObjectIds = allIngredientIds.filter(id => mongoose.Types.ObjectId.isValid(id));
+        const ingredients = await Ingredient.find({ _id: { $in: validObjectIds } });
+        
+        let itemTotal = ingredients.reduce((sum, ing) => sum + (ing.price || 0), 0);
+        
+        // Fallback for mock ingredients (portfolio mode)
+        if (itemTotal === 0 && item.price) {
+          itemTotal = item.price;
+        }
+        
         calculatedTotal += itemTotal * (item.quantity || 1);
       } else {
-        // Fetch standard pizza price
-        const pizza = await Pizza.findById(item.pizza);
-        if (pizza) {
-          calculatedTotal += pizza.price * (item.quantity || 1);
+        let itemTotal = 0;
+        if (mongoose.Types.ObjectId.isValid(item.pizza)) {
+          const pizza = await Pizza.findById(item.pizza);
+          if (pizza) itemTotal = pizza.price;
         }
+        
+        // Fallback for mock pizzas
+        if (itemTotal === 0 && item.price) {
+          itemTotal = item.price;
+        }
+        
+        calculatedTotal += itemTotal * (item.quantity || 1);
       }
     }
 
+    // Add Delivery Fee
+    if (deliveryMode === 'delivery' && calculatedTotal > 0) {
+      calculatedTotal += 50;
+    }
+
+    // Add Coupon Discount (Mock Logic for portfolio)
+    if (couponCode) {
+      const code = couponCode.toUpperCase();
+      if (code === 'PIZZA20') calculatedTotal -= 20;
+      else if (code === 'WELCOME50') calculatedTotal -= 50;
+      else if (code === 'FLAT100') calculatedTotal -= 100;
+    }
+
+    // Ensure total is never negative or 0 (Razorpay requires minimum 1 INR)
+    if (calculatedTotal <= 0) calculatedTotal = 1;
+
     const order = new Order({
-      user: req.user.id, // Fixed: use req.user.id (from the updated JWT middleware)
+      user: req.user.id || req.user._id, // Support both depending on jwt payload
       items,
       totalAmount: calculatedTotal,
       deliveryAddress,

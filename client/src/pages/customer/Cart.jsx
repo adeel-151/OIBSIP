@@ -114,7 +114,9 @@ const Cart = () => {
           const formattedItem = {
             isCustom: item.isCustom || false,
             quantity: item.quantity,
-            price: item.price
+            price: item.price,
+            name: item.name,
+            image: item.image
           };
           
           if (item.isCustom) {

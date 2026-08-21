@@ -15,10 +15,13 @@ exports.createOrder = async (req, res, next) => {
   try {
     const { items, deliveryAddress, paymentMethod, deliveryMode, couponCode, specialInstructions, deliveryTimeSlot } = req.body;
 
-    // Securely calculate totalAmount on the backend
+    // Securely calculate totalAmount and clean up mock IDs
     let calculatedTotal = 0;
+    const cleanItems = [];
     
     for (const item of items) {
+      let cleanItem = { ...item };
+      
       if (item.isCustom) {
         // Fetch all custom ingredients
         const { base, sauce, cheese, vegetables } = item.customIngredients;
@@ -30,9 +33,19 @@ exports.createOrder = async (req, res, next) => {
         
         let itemTotal = ingredients.reduce((sum, ing) => sum + (ing.price || 0), 0);
         
-        // Fallback for mock ingredients (portfolio mode)
+        // Fallback for mock ingredients
         if (itemTotal === 0 && item.price) {
           itemTotal = item.price;
+        }
+        
+        // Clean up invalid custom ingredient IDs
+        if (cleanItem.customIngredients) {
+          if (!mongoose.Types.ObjectId.isValid(cleanItem.customIngredients.base)) delete cleanItem.customIngredients.base;
+          if (!mongoose.Types.ObjectId.isValid(cleanItem.customIngredients.sauce)) delete cleanItem.customIngredients.sauce;
+          if (!mongoose.Types.ObjectId.isValid(cleanItem.customIngredients.cheese)) delete cleanItem.customIngredients.cheese;
+          if (cleanItem.customIngredients.vegetables) {
+            cleanItem.customIngredients.vegetables = cleanItem.customIngredients.vegetables.filter(id => mongoose.Types.ObjectId.isValid(id));
+          }
         }
         
         calculatedTotal += itemTotal * (item.quantity || 1);
@@ -41,6 +54,9 @@ exports.createOrder = async (req, res, next) => {
         if (mongoose.Types.ObjectId.isValid(item.pizza)) {
           const pizza = await Pizza.findById(item.pizza);
           if (pizza) itemTotal = pizza.price;
+        } else {
+          // Remove invalid pizza ID to prevent CastError
+          delete cleanItem.pizza;
         }
         
         // Fallback for mock pizzas
@@ -50,6 +66,8 @@ exports.createOrder = async (req, res, next) => {
         
         calculatedTotal += itemTotal * (item.quantity || 1);
       }
+      
+      cleanItems.push(cleanItem);
     }
 
     // Add Delivery Fee
@@ -70,7 +88,7 @@ exports.createOrder = async (req, res, next) => {
 
     const order = new Order({
       user: req.user.id || req.user._id, // Support both depending on jwt payload
-      items,
+      items: cleanItems,
       totalAmount: calculatedTotal,
       deliveryAddress,
       paymentMethod,

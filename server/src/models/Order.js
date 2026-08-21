@@ -15,6 +15,12 @@ const orderItemSchema = new mongoose.Schema({
     cheese: { type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient' },
     vegetables: [{ type: mongoose.Schema.Types.ObjectId, ref: 'Ingredient' }]
   },
+  name: {
+    type: String,
+  },
+  image: {
+    type: String,
+  },
   quantity: {
     type: Number,
     required: true,

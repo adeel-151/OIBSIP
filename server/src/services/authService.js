@@ -43,24 +43,25 @@ exports.registerUser = async (userData) => {
   `;
   
   try {
-    await sendEmail({
-      email: user.email,
-      subject: 'Pizzaro - Email Verification',
-      html: message,
-    });
+    // In portfolio mode, we attempt to send email but don't crash if it fails
+    if (process.env.SMTP_HOST) {
+      await sendEmail({
+        email: user.email,
+        subject: 'Pizzaro - Email Verification',
+        html: message,
+      });
+    }
   } catch (error) {
-    user.verificationToken = undefined;
-    user.verificationTokenExpires = undefined;
-    await user.save({ validateBeforeSave: false });
-    
-    const emailError = new Error('Email could not be sent');
-    emailError.statusCode = 500;
-    throw emailError;
+    console.error('Email sending failed, but user was created successfully:', error.message);
   }
+  
+  // Auto-verify for portfolio project
+  user.isEmailVerified = true;
+  await user.save({ validateBeforeSave: false });
   
   return {
     success: true,
-    message: 'Registration successful. Please check your email to verify your account.',
+    message: 'Registration successful! You can now log in.',
   };
 };
 
@@ -72,11 +73,12 @@ exports.loginUser = async (email, password) => {
     throw error;
   }
   
-  if (!user.isEmailVerified) {
-    const error = new Error('Please verify your email first');
-    error.statusCode = 403;
-    throw error;
-  }
+  // Bypassed email verification for portfolio ease-of-use
+  // if (!user.isEmailVerified) {
+  //   const error = new Error('Please verify your email first');
+  //   error.statusCode = 403;
+  //   throw error;
+  // }
   
   const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) {

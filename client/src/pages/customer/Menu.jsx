@@ -176,7 +176,7 @@ const Menu = () => {
   }, [pizzas, searchQuery, activeCategory, sortBy]);
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background py-12">
+    <div className="min-h-screen bg-background pt-32 pb-20">
       <SEO title="Menu" description="Explore our premium pizza menu. Fresh ingredients, perfectly baked." />
       <div className="container mx-auto px-4 max-w-7xl">
         
@@ -299,8 +299,28 @@ const Menu = () => {
           </p>
         )}
 
+        {/* Promotional Banner */}
+        <motion.div 
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.4 }}
+          className="mb-10 bg-gradient-to-r from-primary to-rose-600 rounded-3xl p-8 md:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-primary/20 overflow-hidden relative"
+        >
+          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+          <div className="relative z-10 max-w-xl text-center md:text-left">
+            <h2 className="text-3xl font-black font-heading mb-2">Can't find what you're craving?</h2>
+            <p className="text-white/80 font-medium text-lg">Be the chef! Build your perfect pizza from scratch with our 50+ premium ingredients.</p>
+          </div>
+          <button 
+            onClick={() => navigate('/build')}
+            className="relative z-10 shrink-0 bg-white text-primary hover:bg-white/90 px-8 py-4 rounded-full font-black text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105 active:scale-95"
+          >
+            Build Your Own
+          </button>
+        </motion.div>
+
         {/* Pizza Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
           {isLoading ? (
             Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
           ) : filteredPizzas.length > 0 ? (

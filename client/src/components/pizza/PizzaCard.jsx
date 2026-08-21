@@ -44,15 +44,6 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
           <Star className="w-3.5 h-3.5 text-accent fill-accent" /> {pizza.rating || '4.8'}
         </div>
 
-        {/* Floating Quick Add Button (Bottom Right of Image) */}
-        {onQuickAdd && (
-          <button 
-            onClick={(e) => { e.stopPropagation(); onQuickAdd(pizza); }}
-            className="absolute -bottom-5 right-6 w-14 h-14 bg-gradient-to-tr from-primary to-rose-500 text-white rounded-2xl flex items-center justify-center shadow-xl shadow-primary/40 hover:scale-110 active:scale-95 transition-all duration-300 z-20 group/btn"
-          >
-            <ShoppingCart className="w-6 h-6 group-hover/btn:-rotate-12 transition-transform" />
-          </button>
-        )}
       </div>
       
       {/* Content Section */}
@@ -79,12 +70,22 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
           </div>
           
           {/* Action Buttons Row */}
-          <button 
-            onClick={() => onCustomize(pizza)}
-            className="w-full flex items-center justify-center gap-2 text-sm font-bold font-heading border-2 border-border bg-background hover:bg-secondary/80 hover:border-foreground/20 text-foreground px-6 py-3.5 rounded-2xl transition-all duration-300 group/cust"
-          >
-            Customize Pizza <ArrowRight className="w-4 h-4 group-hover/cust:translate-x-1 transition-transform" />
-          </button>
+          <div className="flex items-center gap-3">
+            {onQuickAdd && (
+              <button 
+                onClick={(e) => { e.stopPropagation(); onQuickAdd(pizza); }}
+                className="flex-1 flex items-center justify-center gap-2 bg-gradient-to-r from-primary to-rose-600 text-white px-2 py-3.5 rounded-xl text-sm font-bold font-heading shadow-md hover:shadow-lg hover:shadow-primary/30 transition-all duration-300 active:scale-[0.98]"
+              >
+                <ShoppingCart className="w-4 h-4" /> Add to Cart
+              </button>
+            )}
+            <button 
+              onClick={() => onCustomize(pizza)}
+              className="flex-1 flex items-center justify-center gap-2 text-sm font-bold font-heading border-2 border-border bg-background hover:bg-secondary/80 hover:border-foreground/20 text-foreground px-2 py-3.5 rounded-xl transition-all duration-300 active:scale-[0.98] group/cust"
+            >
+              Customize <ArrowRight className="w-4 h-4 group-hover/cust:translate-x-1 transition-transform" />
+            </button>
+          </div>
         </div>
       </div>
     </motion.div>

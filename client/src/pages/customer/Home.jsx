@@ -157,7 +157,7 @@ const Home = () => {
         {/* Decorative Glow */}
         <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] z-0" />
         
-        <div className="container relative z-20 mx-auto px-4">
+        <div className="container relative z-20 mx-auto px-4 -mt-12 md:-mt-24">
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}

@@ -140,7 +140,7 @@ const Home = () => {
       <SEO title="Home" />
       
       {/* ─── HERO ─── */}
-      <section className="relative min-h-screen pt-32 md:pt-40 pb-20 flex flex-col justify-center overflow-hidden">
+      <section className="relative min-h-[100dvh] pt-24 pb-12 md:pt-32 flex flex-col justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/40 z-10" />
@@ -166,22 +166,22 @@ const Home = () => {
               initial={{ opacity: 0, x: -20 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium mb-8"
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium mb-6"
             >
               <Sparkles className="w-4 h-4 text-accent" />
               <span className="text-foreground/80">Now with Real-Time Order Tracking</span>
             </motion.div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-heading mb-8 leading-[0.95] tracking-tight">
+            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-heading mb-6 leading-[0.95] tracking-tight">
               Your Pizza.<br />
               <span className="text-gradient">Your Rules.</span>
             </h1>
             
-            <p className="text-lg md:text-xl text-foreground/60 mb-12 max-w-lg leading-relaxed">
+            <p className="text-lg md:text-xl text-foreground/60 mb-8 max-w-lg leading-relaxed">
               Build your perfect pizza from 50+ premium ingredients and track every step from our kitchen to your doorstep.
             </p>
             
-            <div className="flex flex-wrap gap-4 mb-16">
+            <div className="flex flex-wrap gap-4 mb-10 md:mb-12">
               <Link to="/build">
                 <Button variant="default" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary bg-primary text-primary-foreground hover:bg-primary/90">
                   <Flame className="w-5 h-5 mr-2" /> Build Your Pizza

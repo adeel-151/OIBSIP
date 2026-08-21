@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, Minus, Plus, Trash2, Settings } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, Trash2, Settings, UserPlus, Info, Phone } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
 
@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'Menu', path: '/menu' },
   { label: 'Build Pizza', path: '/build' },
   { label: 'Dashboard', path: '/dashboard' },
+  { label: 'About', path: '/about' },
 ];
 
 const Navbar = () => {
@@ -48,38 +49,43 @@ const Navbar = () => {
 
   return (
     <>
-      <nav className={`fixed top-0 z-50 w-full transition-all duration-300 ${
+      <nav className={`fixed z-50 w-full transition-all duration-500 ease-in-out ${
         scrolled
-          ? 'bg-background/95 backdrop-blur-xl border-b border-border/60 shadow-lg shadow-background/20'
-          : 'bg-transparent border-b border-transparent'
+          ? 'top-4'
+          : 'top-0'
       }`}>
-        <div className="container mx-auto px-4 h-18 flex items-center justify-between py-3.5">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2.5 group">
-            <div className="w-9 h-9 bg-primary rounded-xl flex items-center justify-center group-hover:glow-primary transition-shadow">
-              <Pizza className="h-5 w-5 text-primary-foreground" />
-            </div>
-            <span className="text-xl font-bold font-heading tracking-tight">PIZZARO</span>
-          </Link>
+        <div className={`mx-auto transition-all duration-500 ease-in-out ${
+          scrolled 
+            ? 'w-[95%] max-w-7xl glass rounded-full shadow-2xl shadow-background/50 border border-border/50 px-6 py-2.5' 
+            : 'w-full px-4 md:px-8 py-4 bg-gradient-to-b from-background/90 to-transparent border-b border-transparent'
+        }`}>
+          <div className="flex items-center justify-between">
+            {/* Logo */}
+            <Link to="/" className="flex items-center gap-2.5 group">
+              <div className="w-10 h-10 bg-gradient-to-br from-primary to-rose-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
+                <Pizza className="h-5 w-5 text-white" />
+              </div>
+              <span className="text-2xl font-extrabold font-heading tracking-tight">PIZZARO</span>
+            </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center gap-1">
+          <div className="hidden md:flex items-center gap-2">
             {navLinks.map(link => (
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative px-4 py-2 text-sm font-medium rounded-lg transition-all duration-200 ${
+                className={`relative px-4 py-2.5 text-[15px] font-bold font-heading rounded-full transition-all duration-300 ${
                   isActive(link.path)
                     ? 'text-primary bg-primary/10'
-                    : 'text-foreground/70 hover:text-foreground hover:bg-secondary/80'
+                    : 'text-foreground/80 hover:text-foreground hover:bg-secondary/80'
                 }`}
               >
                 {link.label}
                 {isActive(link.path) && (
                   <motion.div
                     layoutId="activeNav"
-                    className="absolute bottom-0 left-2 right-2 h-0.5 bg-primary rounded-full"
-                    transition={{ type: 'spring', bounce: 0.2, duration: 0.4 }}
+                    className="absolute inset-0 border-2 border-primary/20 rounded-full"
+                    transition={{ type: 'spring', bounce: 0.2, duration: 0.6 }}
                   />
                 )}
               </Link>
@@ -167,44 +173,44 @@ const Navbar = () => {
 
             {/* Desktop Auth */}
             {isAuthenticated ? (
-              <div className="hidden md:flex items-center gap-2">
+              <div className="hidden md:flex items-center gap-2 pl-2 border-l border-border/50">
                 <Link
                   to={user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/dashboard'}
-                  className="flex items-center gap-2 px-3 py-2 text-sm font-medium text-foreground/70 hover:text-foreground hover:bg-secondary/80 rounded-xl transition-all"
+                  className="flex items-center gap-2 px-4 py-2 text-sm font-bold font-heading text-foreground/80 hover:text-foreground hover:bg-secondary/80 rounded-full transition-all"
                 >
-                  <div className="w-7 h-7 rounded-full bg-primary/15 flex items-center justify-center text-primary">
-                    <User className="h-3.5 w-3.5" />
+                  <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-primary border border-primary/20">
+                    <User className="h-4 w-4" />
                   </div>
-                  <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0] || 'Account'}</span>
+                  <span className="max-w-[120px] truncate">{user?.name?.split(' ')[0] || 'Account'}</span>
                 </Link>
                 <Link
                   to="/profile"
-                  className="p-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-all"
+                  className="p-2.5 rounded-full text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-all"
                   title="Settings"
                 >
-                  <Settings className="h-4 w-4" />
+                  <Settings className="h-5 w-5" />
                 </Link>
                 <button
                   onClick={logout}
-                  className="p-2.5 rounded-xl text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
+                  className="p-2.5 rounded-full text-muted-foreground hover:text-destructive hover:bg-destructive/10 transition-all"
                   title="Logout"
                 >
-                  <LogOut className="h-4 w-4" />
+                  <LogOut className="h-5 w-5" />
                 </button>
               </div>
             ) : (
-              <div className="hidden md:flex items-center gap-3">
+              <div className="hidden md:flex items-center gap-3 pl-3 border-l border-border/50">
                 <Link
                   to="/login"
-                  className="text-sm font-medium text-foreground/70 hover:text-foreground px-4 py-2.5 rounded-xl hover:bg-secondary/80 transition-all"
+                  className="flex items-center text-sm font-bold font-heading text-foreground/80 hover:text-foreground px-5 py-2.5 rounded-full border border-border/50 hover:bg-secondary/80 hover:border-border transition-all"
                 >
-                  Log in
+                  Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/90 px-5 py-2.5 rounded-xl transition-all shadow-lg shadow-primary/20"
+                  className="flex items-center gap-1.5 text-sm font-bold font-heading bg-gradient-to-r from-primary to-rose-600 text-white hover:shadow-lg hover:shadow-primary/25 px-6 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95"
                 >
-                  Sign up
+                  <UserPlus className="w-4 h-4" /> Sign Up
                 </Link>
               </div>
             )}
@@ -217,6 +223,7 @@ const Navbar = () => {
               <MenuIcon className="h-5 w-5" />
             </button>
           </div>
+        </div>
         </div>
       </nav>
 
@@ -261,10 +268,10 @@ const Navbar = () => {
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`flex items-center justify-between px-4 py-3.5 rounded-xl font-medium transition-all ${
+                      className={`flex items-center justify-between px-4 py-3.5 rounded-2xl font-bold font-heading transition-all ${
                         isActive(link.path)
-                          ? 'bg-primary/10 text-primary'
-                          : 'text-foreground/80 hover:bg-secondary/80'
+                          ? 'bg-gradient-to-r from-primary/10 to-transparent text-primary border-l-4 border-primary'
+                          : 'text-foreground/80 hover:bg-secondary/80 border-l-4 border-transparent'
                       }`}
                     >
                       {link.label}
@@ -310,15 +317,15 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/login"
-                      className="block text-center px-4 py-3 rounded-xl text-sm font-medium border border-border hover:bg-secondary/80 transition-all"
+                      className="flex items-center justify-center px-4 py-3.5 rounded-2xl text-sm font-bold font-heading border-2 border-border hover:bg-secondary/80 transition-all"
                     >
-                      Log in
+                      Log In
                     </Link>
                     <Link
                       to="/register"
-                      className="block text-center px-4 py-3 rounded-xl text-sm font-bold bg-primary text-primary-foreground hover:bg-primary/90 transition-all shadow-lg shadow-primary/20"
+                      className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl text-sm font-bold font-heading bg-gradient-to-r from-primary to-rose-600 text-white hover:shadow-lg transition-all"
                     >
-                      Sign up free
+                      <UserPlus className="w-4 h-4" /> Sign Up Free
                     </Link>
                   </>
                 )}

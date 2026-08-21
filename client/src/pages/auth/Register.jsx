@@ -36,7 +36,8 @@ const Register = () => {
       toast.success('Registration successful! Please log in.');
       navigate('/login');
     } else {
-      toast.error('Registration failed. Please try again.');
+      const errorMsg = useAuthStore.getState().error || 'Registration failed. Please try again.';
+      toast.error(errorMsg);
     }
   };
 

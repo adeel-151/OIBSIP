@@ -4,6 +4,8 @@ import { motion } from 'framer-motion';
 import { ChefHat, Truck, Clock, Leaf, ArrowRight, CheckCircle2, ShoppingCart, Settings2, Star, Sparkles, Flame, Shield } from 'lucide-react';
 import SEO from '../../components/SEO';
 import Button from '../../components/ui/Button';
+import useCartStore from '../../store/cartStore';
+import { toast } from 'sonner';
 
 const featuredPizzas = [
   {
@@ -119,12 +121,26 @@ const itemVariants = {
 };
 
 const Home = () => {
+  const { addToCart } = useCartStore();
+
+  const handleQuickAdd = (pizza) => {
+    addToCart({
+      name: pizza.name,
+      image: pizza.image,
+      pizzaId: pizza._id,
+      isCustom: false,
+      quantity: 1,
+      price: pizza.basePrice || pizza.price,
+    });
+    toast.success(`${pizza.name} added to cart!`);
+  };
+
   return (
     <div className="flex flex-col bg-background text-foreground overflow-hidden">
       <SEO title="Home" />
       
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[100vh] flex items-center overflow-hidden">
+      <section className="relative min-h-screen pt-32 md:pt-40 pb-20 flex flex-col justify-center overflow-hidden">
         {/* Background */}
         <div className="absolute inset-0 z-0">
           <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/40 z-10" />
@@ -139,7 +155,7 @@ const Home = () => {
         {/* Decorative Glow */}
         <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] z-0" />
         
-        <div className="container relative z-20 mx-auto px-4 pt-32 pb-20">
+        <div className="container relative z-20 mx-auto px-4">
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -167,12 +183,12 @@ const Home = () => {
             
             <div className="flex flex-wrap gap-4 mb-16">
               <Link to="/build">
-                <Button size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary">
+                <Button variant="default" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary bg-primary text-primary-foreground hover:bg-primary/90">
                   <Flame className="w-5 h-5 mr-2" /> Build Your Pizza
                 </Button>
               </Link>
               <Link to="/menu">
-                <Button variant="outline" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full border-2 border-border/80 bg-card/40 backdrop-blur-xl hover:bg-card/80">
+                <Button variant="default" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary bg-primary text-primary-foreground hover:bg-primary/90">
                   Explore Menu
                 </Button>
               </Link>
@@ -301,11 +317,24 @@ const Home = () => {
                     <span className="text-xs font-medium text-muted-foreground bg-secondary/80 px-3 py-1.5 rounded-lg">
                       🔥 {pizza.calories} kcal
                     </span>
-                    <Link to={`/build?pizza=${pizza._id}`}>
-                      <Button variant="premium" size="sm" className="rounded-full shadow-md shadow-accent/20 hover:shadow-lg hover:shadow-accent/30 transition-all">
-                        Customize <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                    <div className="flex items-center gap-2">
+                      <Button 
+                        variant="default" 
+                        size="sm" 
+                        className="rounded-full shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all text-xs px-3"
+                        onClick={(e) => {
+                          e.preventDefault();
+                          handleQuickAdd(pizza);
+                        }}
+                      >
+                        <ShoppingCart className="w-3.5 h-3.5 mr-1" /> Add
                       </Button>
-                    </Link>
+                      <Link to={`/build?pizza=${pizza._id}`}>
+                        <Button variant="premium" size="sm" className="rounded-full shadow-md shadow-accent/20 hover:shadow-lg hover:shadow-accent/30 transition-all text-xs px-3">
+                          Customize <ArrowRight className="w-3.5 h-3.5 ml-1" />
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
                 </div>
               </motion.div>

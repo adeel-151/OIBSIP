@@ -45,20 +45,6 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
         <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
           <Star className="w-3 h-3 text-accent fill-accent" /> {pizza.rating || '4.8'}
         </div>
-
-        {/* Quick Add Button (appears on hover) */}
-        {onQuickAdd && (
-          <motion.button
-            initial={{ opacity: 0, y: 10 }}
-            whileHover={{ scale: 1.05 }}
-            className="absolute bottom-3 right-3 opacity-0 group-hover:opacity-100 transition-all duration-300 bg-primary text-primary-foreground p-2.5 rounded-full shadow-lg shadow-primary/30"
-            onClick={(e) => { e.stopPropagation(); onQuickAdd(pizza); }}
-            title="Quick Add to Cart"
-          >
-            <ShoppingCart className="w-4 h-4" />
-          </motion.button>
-        )}
-      </div>
       
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-2 gap-2">
@@ -74,14 +60,26 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
           <span className="text-xs font-medium text-muted-foreground bg-secondary/50 px-2.5 py-1 rounded-md">
             🔥 {pizza.calories || '850'} kcal
           </span>
-          <Button 
-            variant="premium" 
-            size="sm" 
-            onClick={() => onCustomize(pizza)}
-            className="rounded-full shadow-md shadow-primary/20 group-hover:bg-primary/90 text-xs"
-          >
-            Customize <ArrowRight className="w-3 h-3 ml-1" />
-          </Button>
+          <div className="flex items-center gap-2">
+            {onQuickAdd && (
+              <Button 
+                variant="default" 
+                size="sm" 
+                className="rounded-full shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all text-xs px-3"
+                onClick={(e) => { e.stopPropagation(); onQuickAdd(pizza); }}
+              >
+                <ShoppingCart className="w-3.5 h-3.5 mr-1" /> Add
+              </Button>
+            )}
+            <Button 
+              variant="premium" 
+              size="sm" 
+              onClick={() => onCustomize(pizza)}
+              className="rounded-full shadow-md shadow-accent/20 group-hover:bg-accent/90 text-xs px-3"
+            >
+              Customize <ArrowRight className="w-3 h-3 ml-1" />
+            </Button>
+          </div>
         </div>
       </div>
     </motion.div>

@@ -1,7 +1,14 @@
 import axios from 'axios';
 
-const rawApiUrl = import.meta.env.VITE_API_URL || 'https://oibsip-xnyz.onrender.com/api';
-const baseURL = rawApiUrl.endsWith('/api') ? rawApiUrl : `${rawApiUrl}/api`;
+let baseURL = import.meta.env.VITE_API_URL || 'https://oibsip-xnyz.onrender.com/api';
+// Remove trailing slash if exists
+if (baseURL.endsWith('/')) {
+  baseURL = baseURL.slice(0, -1);
+}
+// Append /api if missing
+if (!baseURL.endsWith('/api')) {
+  baseURL = `${baseURL}/api`;
+}
 
 const api = axios.create({
   baseURL,

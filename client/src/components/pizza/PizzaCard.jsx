@@ -41,10 +41,10 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
           )}
         </div>
         
-        {/* Rating Badge */}
         <div className="absolute top-3 right-3 bg-background/90 backdrop-blur px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-sm">
           <Star className="w-3 h-3 text-accent fill-accent" /> {pizza.rating || '4.8'}
         </div>
+      </div>
       
       <div className="p-5 flex flex-col flex-grow">
         <div className="flex justify-between items-start mb-2 gap-2">

@@ -1,4 +1,5 @@
 import axios from 'axios';
+import useAuthStore from '../store/authStore';
 
 let baseURL = import.meta.env.VITE_API_URL || 'https://oibsip-xnyz.onrender.com/api';
 // Remove trailing slash if exists
@@ -41,9 +42,10 @@ api.interceptors.request.use(
 api.interceptors.response.use(
   (response) => response,
   (error) => {
-    // Handle 401 globally if needed (e.g., dispatch a logout event)
+    // Handle 401 globally: dispatch a logout event and redirect
     if (error.response && error.response.status === 401) {
-      // You could clear storage here or trigger a logout action
+      useAuthStore.getState().logout();
+      window.location.href = '/login?redirect=' + window.location.pathname;
     }
     return Promise.reject(error);
   }

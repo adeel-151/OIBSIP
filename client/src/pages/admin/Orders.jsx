@@ -71,7 +71,7 @@ const AdminOrders = () => {
                 <select 
                   value={order.orderStatus} 
                   onChange={(e) => updateStatus(order._id, e.target.value)}
-                  style={{ padding: '0.25rem', borderRadius: '4px', border: '1px solid #ccc' }}
+                  className="px-2 py-1 text-sm bg-secondary border border-border rounded-lg text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
                 >
                   <option value="RECEIVED">Received</option>
                   <option value="PREPARING">Preparing</option>

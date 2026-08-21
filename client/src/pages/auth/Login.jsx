@@ -3,7 +3,7 @@ import { useForm as useReactHookForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import * as z from 'zod';
 import { motion } from 'framer-motion';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { toast } from 'sonner';
@@ -20,6 +20,8 @@ const Login = () => {
   const login = useAuthStore((state) => state.login);
   const isLoading = useAuthStore((state) => state.isLoading);
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
+  const redirectTo = searchParams.get('redirect') || '/';
   
   const { register, handleSubmit, formState: { errors } } = useReactHookForm({
     resolver: zodResolver(loginSchema),
@@ -29,7 +31,7 @@ const Login = () => {
     const success = await login(data);
     if (success) {
       toast.success('Logged in successfully!');
-      navigate('/');
+      navigate(redirectTo);
     } else {
       toast.error('Login failed. Please check your credentials.');
     }
@@ -94,12 +96,7 @@ const Login = () => {
               {...register('password')}
               error={errors.password?.message}
             />
-            
-            <div className="text-right -mt-2 mb-4">
-              <Link to="/forgot-password" className="text-sm font-medium text-primary hover:text-primary/80 transition-colors">
-                Forgot password?
-              </Link>
-            </div>
+
             
             <Button type="submit" fullWidth isLoading={isLoading} className="h-12 rounded-xl text-base shadow-lg shadow-primary/20">
               Sign In

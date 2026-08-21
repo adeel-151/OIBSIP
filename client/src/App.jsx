@@ -1,19 +1,29 @@
-import React from 'react';
+import React, { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
 import Navbar from './components/layout/Navbar';
 import Footer from './components/layout/Footer';
-import Home from './pages/customer/Home';
-import Login from './pages/auth/Login';
-import Register from './pages/auth/Register';
-import Menu from './pages/customer/Menu';
-import PizzaBuilder from './pages/customer/PizzaBuilder';
-import Cart from './pages/customer/Cart';
-import Dashboard from './pages/customer/Dashboard';
-import AdminLayout from './pages/admin/AdminLayout';
-import AdminDashboard from './pages/admin/Dashboard';
-import AdminOrders from './pages/admin/Orders';
-import './App.css';
+import ErrorBoundary from './components/ErrorBoundary';
+import ProtectedRoute from './components/ProtectedRoute';
+import PageLoader from './components/PageLoader';
+
+
+// Lazy-loaded pages for code splitting
+const Home = lazy(() => import('./pages/customer/Home'));
+const Login = lazy(() => import('./pages/auth/Login'));
+const Register = lazy(() => import('./pages/auth/Register'));
+const Menu = lazy(() => import('./pages/customer/Menu'));
+const PizzaBuilder = lazy(() => import('./pages/customer/PizzaBuilder'));
+const Cart = lazy(() => import('./pages/customer/Cart'));
+const Dashboard = lazy(() => import('./pages/customer/Dashboard'));
+const Profile = lazy(() => import('./pages/customer/Profile'));
+const NotFound = lazy(() => import('./pages/NotFound'));
+
+// Admin pages
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
+const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
+const AdminOrders = lazy(() => import('./pages/admin/Orders'));
+const AdminMenu = lazy(() => import('./pages/admin/MenuManagement'));
 
 // A wrapper for customer pages to include Navbar and Footer
 const CustomerLayout = ({ children }) => (
@@ -28,28 +38,58 @@ const CustomerLayout = ({ children }) => (
 
 function App() {
   return (
-    <>
+    <ErrorBoundary>
       <Toaster position="top-center" />
-      <Routes>
-        {/* Customer Routes */}
-        <Route path="/" element={<CustomerLayout><Home /></CustomerLayout>} />
-        <Route path="/menu" element={<CustomerLayout><Menu /></CustomerLayout>} />
-        <Route path="/build" element={<CustomerLayout><PizzaBuilder /></CustomerLayout>} />
-        <Route path="/cart" element={<CustomerLayout><Cart /></CustomerLayout>} />
-        <Route path="/dashboard" element={<CustomerLayout><Dashboard /></CustomerLayout>} />
-        
-        {/* Auth Routes (No Navbar/Footer usually, or can add them if preferred) */}
-        <Route path="/login" element={<Login />} />
-        <Route path="/register" element={<Register />} />
-        
-        {/* Admin Routes */}
-        <Route path="/admin" element={<AdminLayout />}>
-          <Route path="dashboard" element={<AdminDashboard />} />
-          <Route path="orders" element={<AdminOrders />} />
-          <Route path="menu" element={<div>Menu Inventory (Coming Soon)</div>} />
-        </Route>
-      </Routes>
-    </>
+      <Suspense fallback={<PageLoader />}>
+        <Routes>
+          {/* Public Customer Routes */}
+          <Route path="/" element={<CustomerLayout><Home /></CustomerLayout>} />
+          <Route path="/menu" element={<CustomerLayout><Menu /></CustomerLayout>} />
+          <Route path="/build" element={<CustomerLayout><PizzaBuilder /></CustomerLayout>} />
+          
+          {/* Protected Customer Routes */}
+          <Route path="/cart" element={
+            <CustomerLayout>
+              <ProtectedRoute>
+                <Cart />
+              </ProtectedRoute>
+            </CustomerLayout>
+          } />
+          <Route path="/dashboard" element={
+            <CustomerLayout>
+              <ProtectedRoute>
+                <Dashboard />
+              </ProtectedRoute>
+            </CustomerLayout>
+          } />
+          <Route path="/profile" element={
+            <CustomerLayout>
+              <ProtectedRoute>
+                <Profile />
+              </ProtectedRoute>
+            </CustomerLayout>
+          } />
+          
+          {/* Auth Routes */}
+          <Route path="/login" element={<Login />} />
+          <Route path="/register" element={<Register />} />
+          
+          {/* Admin Routes (Role-protected) */}
+          <Route path="/admin" element={
+            <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+              <AdminLayout />
+            </ProtectedRoute>
+          }>
+            <Route path="dashboard" element={<AdminDashboard />} />
+            <Route path="orders" element={<AdminOrders />} />
+            <Route path="menu" element={<AdminMenu />} />
+          </Route>
+
+          {/* 404 Catch-All */}
+          <Route path="*" element={<NotFound />} />
+        </Routes>
+      </Suspense>
+    </ErrorBoundary>
   );
 }
 

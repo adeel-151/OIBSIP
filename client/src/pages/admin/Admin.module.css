@@ -1,7 +1,124 @@
 .adminLayout {
   display: flex;
   min-height: 100vh;
-  background-color: var(--color-background);
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
+}
+
+.sidebar {
+  width: 260px;
+  background: hsl(var(--card));
+  border-right: 1px solid hsl(var(--border));
+  display: flex;
+  flex-direction: column;
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  z-index: 40;
+}
+
+.sidebarHeader {
+  padding: 1.5rem;
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.sidebarHeader h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: hsl(var(--foreground));
+  margin: 0;
+}
+
+.sidebarNav {
+  flex: 1;
+  padding: 1rem 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+}
+
+.navItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  text-decoration: none;
+  transition: all 0.2s;
+}
+
+.navItem:hover {
+  background: hsl(var(--secondary));
+  color: hsl(var(--foreground));
+}
+
+.navItem.active {
+  background: hsl(var(--primary) / 0.1);
+  color: hsl(var(--primary));
+}
+
+.sidebarFooter {
+  padding: 1rem;
+  border-top: 1px solid hsl(var(--border));
+}
+
+.logoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.75rem;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: hsl(var(--muted-foreground));
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.logoutBtn:hover {
+  background: hsl(var(--destructive) / 0.1);
+  color: hsl(var(--destructive-foreground));
+}
+
+.mainContent {
+  flex: 1;
+  margin-left: 260px;
+  display: flex;
+  flex-direction: column;
+}
+
+.topHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1.25rem 2rem;
+  border-bottom: 1px solid hsl(var(--border));
+  background: hsl(var(--card));
+}
+
+.topHeader h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  font-size: 1.125rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+.userInfo span {
+  font-size: 0.875rem;
+  color: hsl(var(--muted-foreground));
+}
+
+.content {
+  padding: 2rem;
+  flex: 1;
 }
 
 .unauthorized {
@@ -9,136 +126,87 @@
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  height: 100vh;
+  min-height: 100vh;
+  background: hsl(var(--background));
+  color: hsl(var(--foreground));
   text-align: center;
+  gap: 1rem;
+  padding: 2rem;
 }
 
-.unauthorized a {
-  margin-top: var(--spacing-md);
-  color: var(--color-accent);
-  text-decoration: underline;
-}
-
-.sidebar {
-  width: 250px;
-  background-color: var(--color-text-main);
-  color: var(--color-text-light);
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebarHeader {
-  padding: var(--spacing-xl);
-  border-bottom: 1px solid rgba(255,255,255,0.1);
-}
-
-.sidebarHeader h2 {
-  color: var(--color-premium);
-  margin: 0;
+.unauthorized h2 {
+  font-family: 'Plus Jakarta Sans', sans-serif;
   font-size: 1.5rem;
-}
-
-.sidebarNav {
-  flex-grow: 1;
-  padding: var(--spacing-md) 0;
-}
-
-.navItem {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-md);
-  padding: var(--spacing-md) var(--spacing-xl);
-  color: rgba(255,255,255,0.7);
-  text-decoration: none;
-  transition: all 0.2s ease;
-}
-
-.navItem:hover, .active {
-  background-color: rgba(255,255,255,0.05);
-  color: var(--color-premium);
-  border-left: 4px solid var(--color-premium);
-}
-
-.sidebarFooter {
-  padding: var(--spacing-md) var(--spacing-xl);
-  border-top: 1px solid rgba(255,255,255,0.1);
-}
-
-.logoutBtn {
-  display: flex;
-  align-items: center;
-  gap: var(--spacing-sm);
-  background: none;
-  border: none;
-  color: var(--color-accent);
-  cursor: pointer;
-  padding: var(--spacing-sm) 0;
-  font-size: 1rem;
-}
-
-.mainContent {
-  flex-grow: 1;
-  display: flex;
-  flex-direction: column;
-}
-
-.topHeader {
-  background-color: var(--color-text-light);
-  padding: var(--spacing-lg) var(--spacing-2xl);
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: var(--shadow-sm);
-}
-
-.topHeader h2 {
-  margin: 0;
-  font-size: 1.25rem;
-  color: var(--color-text-main);
-}
-
-.userInfo {
-  color: var(--color-text-muted);
-  font-weight: 500;
-}
-
-.content {
-  padding: var(--spacing-2xl);
-  flex-grow: 1;
-  overflow-y: auto;
-}
-
-/* Common Admin Table Styles */
-.adminTable {
-  width: 100%;
-  border-collapse: collapse;
-  background-color: var(--color-text-light);
-  border-radius: var(--radius-lg);
-  overflow: hidden;
-  box-shadow: var(--shadow-sm);
-}
-
-.adminTable th, .adminTable td {
-  padding: var(--spacing-md) var(--spacing-lg);
-  text-align: left;
-  border-bottom: 1px solid var(--color-neutral);
-}
-
-.adminTable th {
-  background-color: var(--color-secondary);
-  color: var(--color-text-muted);
-  font-weight: 600;
-  text-transform: uppercase;
-  font-size: 0.875rem;
-}
-
-.statusBadge {
-  padding: 0.25rem 0.75rem;
-  border-radius: var(--radius-full);
-  font-size: 0.75rem;
   font-weight: 700;
 }
 
-.status-pending { background-color: #FEF08A; color: #854D0E; }
-.status-completed { background-color: #BBF7D0; color: #166534; }
-.status-failed { background-color: #FECACA; color: #991B1B; }
+.unauthorized p {
+  color: hsl(var(--muted-foreground));
+}
+
+.unauthorized a {
+  color: hsl(var(--primary));
+  text-decoration: underline;
+}
+
+/* Admin Table */
+.adminTable {
+  width: 100%;
+  border-collapse: collapse;
+  background: hsl(var(--card));
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: 1px solid hsl(var(--border));
+}
+
+.adminTable th {
+  padding: 0.875rem 1rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: hsl(var(--muted-foreground));
+  background: hsl(var(--secondary));
+  border-bottom: 1px solid hsl(var(--border));
+}
+
+.adminTable td {
+  padding: 0.875rem 1rem;
+  font-size: 0.875rem;
+  border-bottom: 1px solid hsl(var(--border) / 0.5);
+  color: hsl(var(--foreground));
+}
+
+.adminTable tr:last-child td {
+  border-bottom: none;
+}
+
+.adminTable tr:hover td {
+  background: hsl(var(--secondary) / 0.3);
+}
+
+/* Status Badges */
+.statusBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.625rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 600;
+}
+
+.status-completed {
+  background: hsl(var(--success) / 0.15);
+  color: hsl(142 71% 55%);
+}
+
+.status-pending {
+  background: hsl(var(--warning) / 0.15);
+  color: hsl(38 92% 60%);
+}
+
+.status-failed {
+  background: hsl(var(--destructive) / 0.15);
+  color: hsl(0 62.8% 50%);
+}

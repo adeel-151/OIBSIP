@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, Minus, Plus, Trash2, Settings } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
 
@@ -13,10 +13,12 @@ const navLinks = [
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
-  const { items } = useCartStore();
+  const { items, removeFromCart, updateQuantity, getTotalAmount } = useCartStore();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
+  const [showMiniCart, setShowMiniCart] = useState(false);
+  const miniCartRef = useRef(null);
 
   const cartItemCount = items.reduce((total, item) => total + item.quantity, 0);
   const isActive = (path) => location.pathname === path;
@@ -30,7 +32,19 @@ const Navbar = () => {
   // Close mobile menu on route change
   useEffect(() => {
     setMobileOpen(false);
+    setShowMiniCart(false);
   }, [location.pathname]);
+
+  // Close mini cart on outside click
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (miniCartRef.current && !miniCartRef.current.contains(e.target)) {
+        setShowMiniCart(false);
+      }
+    };
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => document.removeEventListener('mousedown', handleClickOutside);
+  }, []);
 
   return (
     <>
@@ -74,26 +88,82 @@ const Navbar = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
-            {/* Cart */}
-            <Link
-              to="/cart"
-              className={`relative p-2.5 rounded-xl transition-all duration-200 ${
-                isActive('/cart')
-                  ? 'text-primary bg-primary/10'
-                  : 'text-foreground/70 hover:text-foreground hover:bg-secondary/80'
-              }`}
-            >
-              <ShoppingCart className="h-5 w-5" />
-              {cartItemCount > 0 && (
-                <motion.span
-                  initial={{ scale: 0 }}
-                  animate={{ scale: 1 }}
-                  className="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground ring-2 ring-background"
-                >
-                  {cartItemCount > 9 ? '9+' : cartItemCount}
-                </motion.span>
-              )}
-            </Link>
+            {/* Cart with Mini Preview */}
+            <div className="relative" ref={miniCartRef}>
+              <button
+                onClick={() => setShowMiniCart(!showMiniCart)}
+                className={`relative p-2.5 rounded-xl transition-all duration-200 ${
+                  isActive('/cart')
+                    ? 'text-primary bg-primary/10'
+                    : 'text-foreground/70 hover:text-foreground hover:bg-secondary/80'
+                }`}
+              >
+                <ShoppingCart className="h-5 w-5" />
+                {cartItemCount > 0 && (
+                  <motion.span
+                    initial={{ scale: 0 }}
+                    animate={{ scale: 1 }}
+                    className="absolute -top-0.5 -right-0.5 flex h-5 w-5 items-center justify-center rounded-full bg-primary text-[10px] font-bold text-primary-foreground ring-2 ring-background"
+                  >
+                    {cartItemCount > 9 ? '9+' : cartItemCount}
+                  </motion.span>
+                )}
+              </button>
+
+              {/* Mini Cart Dropdown */}
+              <AnimatePresence>
+                {showMiniCart && items.length > 0 && (
+                  <motion.div
+                    initial={{ opacity: 0, y: -10, scale: 0.95 }}
+                    animate={{ opacity: 1, y: 0, scale: 1 }}
+                    exit={{ opacity: 0, y: -10, scale: 0.95 }}
+                    transition={{ duration: 0.2 }}
+                    className="absolute right-0 top-full mt-3 w-80 bg-card border border-border rounded-2xl shadow-2xl z-50 overflow-hidden"
+                  >
+                    <div className="p-4 border-b border-border bg-secondary/30">
+                      <h3 className="font-bold text-sm">Cart ({cartItemCount} items)</h3>
+                    </div>
+                    <div className="max-h-64 overflow-y-auto divide-y divide-border/50">
+                      {items.slice(0, 4).map(item => (
+                        <div key={item.cartItemId} className="p-3 flex items-center gap-3">
+                          <div className="w-12 h-12 bg-secondary rounded-lg overflow-hidden flex-shrink-0">
+                            <img src={item.image || 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=100'} alt={item.name} className="w-full h-full object-cover" />
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <p className="text-sm font-semibold truncate">{item.name}</p>
+                            <p className="text-xs text-muted-foreground">{item.quantity}x ₹{item.price}</p>
+                          </div>
+                          <button
+                            onClick={() => removeFromCart(item.cartItemId)}
+                            className="p-1 text-muted-foreground hover:text-destructive transition-colors"
+                          >
+                            <Trash2 className="w-3.5 h-3.5" />
+                          </button>
+                        </div>
+                      ))}
+                      {items.length > 4 && (
+                        <p className="p-3 text-center text-xs text-muted-foreground">
+                          +{items.length - 4} more item(s)
+                        </p>
+                      )}
+                    </div>
+                    <div className="p-4 border-t border-border">
+                      <div className="flex justify-between items-center mb-3">
+                        <span className="text-sm font-medium text-muted-foreground">Subtotal</span>
+                        <span className="font-bold text-primary">₹{getTotalAmount()}</span>
+                      </div>
+                      <Link
+                        to="/cart"
+                        onClick={() => setShowMiniCart(false)}
+                        className="block w-full text-center py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
+                      >
+                        View Cart & Checkout
+                      </Link>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
+            </div>
 
             {/* Desktop Auth */}
             {isAuthenticated ? (
@@ -106,6 +176,13 @@ const Navbar = () => {
                     <User className="h-3.5 w-3.5" />
                   </div>
                   <span className="max-w-[100px] truncate">{user?.name?.split(' ')[0] || 'Account'}</span>
+                </Link>
+                <Link
+                  to="/profile"
+                  className="p-2.5 rounded-xl text-muted-foreground hover:text-foreground hover:bg-secondary/80 transition-all"
+                  title="Settings"
+                >
+                  <Settings className="h-4 w-4" />
                 </Link>
                 <button
                   onClick={logout}
@@ -194,6 +271,19 @@ const Navbar = () => {
                       <ChevronRight className="w-4 h-4 text-muted-foreground" />
                     </Link>
                   ))}
+                  {isAuthenticated && (
+                    <Link
+                      to="/profile"
+                      className={`flex items-center justify-between px-4 py-3.5 rounded-xl font-medium transition-all ${
+                        isActive('/profile')
+                          ? 'bg-primary/10 text-primary'
+                          : 'text-foreground/80 hover:bg-secondary/80'
+                      }`}
+                    >
+                      Profile & Settings
+                      <ChevronRight className="w-4 h-4 text-muted-foreground" />
+                    </Link>
+                  )}
                 </div>
               </div>
 

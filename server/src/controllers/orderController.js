@@ -3,13 +3,13 @@ const Pizza = require('../models/Pizza');
 const Ingredient = require('../models/Ingredient');
 const Razorpay = require('razorpay');
 const crypto = require('crypto');
+const { getIO } = require('../utils/socket');
+const mongoose = require('mongoose');
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID,
   key_secret: process.env.RAZORPAY_KEY_SECRET,
 });
-
-const mongoose = require('mongoose');
 
 exports.createOrder = async (req, res, next) => {
   try {
@@ -110,6 +110,11 @@ exports.createOrder = async (req, res, next) => {
       
       order.razorpayOrderId = razorpayOrder.id;
       await order.save();
+      
+      try {
+        const orderPopulated = await Order.findById(order._id).populate('user', 'name email');
+        getIO().to('admin_room').emit('new_order', orderPopulated);
+      } catch(err) { console.error('Socket error emitting new_order', err) }
 
       return res.status(201).json({
         success: true,
@@ -120,6 +125,12 @@ exports.createOrder = async (req, res, next) => {
 
     // Cash on Delivery
     await order.save();
+    
+    try {
+      const orderPopulated = await Order.findById(order._id).populate('user', 'name email');
+      getIO().to('admin_room').emit('new_order', orderPopulated);
+    } catch(err) { console.error('Socket error emitting new_order', err) }
+    
     res.status(201).json({
       success: true,
       data: order,

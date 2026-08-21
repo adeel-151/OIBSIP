@@ -1,6 +1,7 @@
 const Order = require('../models/Order');
 const Pizza = require('../models/Pizza');
 const Ingredient = require('../models/Ingredient');
+const { getIO } = require('../utils/socket');
 
 // --- ORDERS ---
 exports.getAllOrders = async (req, res, next) => {
@@ -31,6 +32,17 @@ exports.updateOrderStatus = async (req, res, next) => {
     
     if (!order) {
       return res.status(404).json({ success: false, message: 'Order not found' });
+    }
+    
+    // Emit real-time events
+    try {
+      const io = getIO();
+      // Notify the specific user
+      io.to(`user_${order.user.toString()}`).emit('order_status_updated', order);
+      // Notify all admins to update their dashboard
+      io.to('admin_room').emit('order_updated', order);
+    } catch (socketError) {
+      console.error('Socket error in updateOrderStatus:', socketError);
     }
     
     res.status(200).json({ success: true, data: order });

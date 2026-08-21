@@ -1,50 +1,21 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import api from '../../services/api';
+import { socket } from '../../services/socket';
 import { toast } from 'sonner';
 import { 
-  Package, Clock, CheckCircle2, ChevronRight, 
-  MapPin, Bell, User, History, ArrowRight
+  Package, Clock, CheckCircle2, MapPin, Bell, User, History, ArrowRight, Truck, Utensils
 } from 'lucide-react';
 import SEO from '../../components/SEO';
 import Button from '../../components/ui/Button';
 
-// Mock active order if backend has no active orders
-const MOCK_ACTIVE_ORDER = {
-  _id: 'PZ-20260820-00124',
-  createdAt: new Date().toISOString(),
-  status: 'IN_KITCHEN',
-  totalAmount: 1299,
-  items: [
-    { name: 'Custom Classic Margherita', quantity: 1 }
-  ]
-};
-
-// Mock past orders
-const MOCK_PAST_ORDERS = [
-  {
-    _id: 'PZ-20260815-00089',
-    createdAt: new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString(),
-    status: 'DELIVERED',
-    totalAmount: 850,
-    items: [{ name: 'Spicy Pepperoni', quantity: 1 }]
-  },
-  {
-    _id: 'PZ-20260802-00042',
-    createdAt: new Date(Date.now() - 18 * 24 * 60 * 60 * 1000).toISOString(),
-    status: 'DELIVERED',
-    totalAmount: 1450,
-    items: [{ name: 'Garden Supreme', quantity: 1 }, { name: 'BBQ Chicken', quantity: 1 }]
-  }
-];
-
 const ORDER_STATUSES = [
-  { id: 'ORDER_RECEIVED', label: 'Received' },
-  { id: 'IN_KITCHEN', label: 'In Kitchen' },
-  { id: 'SENT_TO_DELIVERY', label: 'Out for Delivery' },
-  { id: 'DELIVERED', label: 'Delivered' }
+  { id: 'RECEIVED', label: 'Received', icon: Package },
+  { id: 'PREPARING', label: 'Preparing', icon: Utensils },
+  { id: 'OUT_FOR_DELIVERY', label: 'Out for Delivery', icon: Truck },
+  { id: 'DELIVERED', label: 'Delivered', icon: CheckCircle2 }
 ];
 
 const Dashboard = () => {
@@ -56,28 +27,48 @@ const Dashboard = () => {
   useEffect(() => {
     const fetchOrders = async () => {
       try {
-        const response = await api.get('/orders');
-        const orders = response.data;
+        const response = await api.get('/orders/my-orders');
+        const orders = response.data.data || [];
         
-        const active = orders.find(o => o.status !== 'DELIVERED' && o.status !== 'CANCELLED');
-        const past = orders.filter(o => o.status === 'DELIVERED' || o.status === 'CANCELLED');
+        const active = orders.find(o => o.orderStatus !== 'DELIVERED' && o.orderStatus !== 'CANCELLED');
+        const past = orders.filter(o => o.orderStatus === 'DELIVERED' || o.orderStatus === 'CANCELLED');
         
-        setActiveOrder(active || MOCK_ACTIVE_ORDER); // Mock fallback for presentation
-        setPastOrders(past.length > 0 ? past : MOCK_PAST_ORDERS);
+        setActiveOrder(active || null);
+        setPastOrders(past);
       } catch (error) {
-        // Fallback to mocks
-        setActiveOrder(MOCK_ACTIVE_ORDER);
-        setPastOrders(MOCK_PAST_ORDERS);
+        toast.error('Failed to load orders.');
       } finally {
         setIsLoading(false);
       }
     };
 
     fetchOrders();
-  }, []);
+
+    // Socket.io Real-Time Updates
+    if (user?._id) {
+      socket.connect();
+      socket.emit('join_user_room', user._id);
+
+      socket.on('order_status_updated', (updatedOrder) => {
+        if (updatedOrder.orderStatus === 'DELIVERED' || updatedOrder.orderStatus === 'CANCELLED') {
+          setActiveOrder(null);
+          setPastOrders(prev => [updatedOrder, ...prev.filter(o => o._id !== updatedOrder._id)]);
+          toast.success(`Order ${updatedOrder.orderStatus.toLowerCase()}`);
+        } else {
+          setActiveOrder(updatedOrder);
+          toast.info(`Your order status is now: ${updatedOrder.orderStatus.replace(/_/g, ' ')}`);
+        }
+      });
+    }
+
+    return () => {
+      socket.off('order_status_updated');
+      socket.disconnect();
+    };
+  }, [user]);
 
   const getStatusIndex = (status) => {
-    return ORDER_STATUSES.findIndex(s => s.id === status);
+    return ORDER_STATUSES.findIndex(s => s.id === status) !== -1 ? ORDER_STATUSES.findIndex(s => s.id === status) : 0;
   };
 
   if (isLoading) {
@@ -89,170 +80,202 @@ const Dashboard = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background py-8">
-      <SEO title="Dashboard" />
+    <div className="min-h-[calc(100vh-64px)] bg-background py-8 lg:py-12 relative overflow-hidden">
+      <SEO title="My Dashboard" />
       
-      <div className="container mx-auto px-4 max-w-6xl">
+      {/* Background decorations */}
+      <div className="absolute top-0 right-0 w-[500px] h-[500px] bg-primary/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/3 pointer-events-none" />
+      <div className="absolute bottom-0 left-0 w-[400px] h-[400px] bg-accent/5 rounded-full blur-3xl translate-y-1/3 -translate-x-1/3 pointer-events-none" />
+      
+      <div className="container mx-auto px-4 max-w-6xl relative z-10">
         
         {/* Header Section */}
-        <div className="flex flex-col md:flex-row justify-between items-start md:items-center mb-10 gap-4">
-          <div className="flex items-center gap-4">
-            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border-2 border-primary/20">
-              <User className="w-8 h-8 text-primary" />
+        <motion.div 
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="flex flex-col md:flex-row justify-between items-start md:items-center mb-12 gap-6"
+        >
+          <div className="flex items-center gap-5">
+            <div className="relative">
+              <div className="w-20 h-20 bg-gradient-to-br from-primary to-rose-600 rounded-2xl flex items-center justify-center text-white shadow-lg shadow-primary/30 rotate-3">
+                <User className="w-10 h-10 -rotate-3" />
+              </div>
+              <div className="absolute -bottom-2 -right-2 w-6 h-6 bg-green-500 rounded-full border-4 border-background" />
             </div>
             <div>
-              <h1 className="text-3xl font-bold font-heading">Welcome back, {user?.name?.split(' ')[0] || 'Guest'}!</h1>
-              <p className="text-muted-foreground flex items-center gap-1 mt-1">
-                <MapPin className="w-4 h-4" /> Mumbai, MH (Default Address)
+              <h1 className="text-3xl lg:text-4xl font-black font-heading tracking-tight">Welcome, {user?.name?.split(' ')[0] || 'Pizza Lover'}!</h1>
+              <p className="text-muted-foreground flex items-center gap-1.5 mt-2 font-medium">
+                <MapPin className="w-4 h-4 text-primary" /> Delivery ready to {user?.email}
               </p>
             </div>
           </div>
           
-          <div className="flex gap-3">
-            <button className="w-12 h-12 rounded-full bg-card border border-border flex items-center justify-center hover:bg-secondary transition-colors relative">
-              <Bell className="w-5 h-5 text-foreground" />
-              <span className="absolute top-3 right-3 w-2 h-2 bg-primary rounded-full"></span>
+          <div className="flex gap-4">
+            <button className="w-12 h-12 rounded-xl bg-card border border-border shadow-sm flex items-center justify-center hover:border-primary/50 transition-all relative group">
+              <Bell className="w-5 h-5 text-foreground group-hover:text-primary transition-colors" />
+              <span className="absolute top-3 right-3 w-2.5 h-2.5 bg-primary rounded-full animate-pulse border-2 border-card"></span>
             </button>
             <Link to="/build">
-              <Button variant="premium" className="rounded-full shadow-lg shadow-primary/20 h-12 px-6">
+              <Button variant="premium" className="rounded-xl shadow-lg shadow-primary/20 h-12 px-8 text-base">
                 New Order
               </Button>
             </Link>
           </div>
-        </div>
+        </motion.div>
 
-        {/* Active Order Card */}
-        {activeOrder && (
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            className="mb-12"
-          >
-            <h2 className="text-xl font-bold font-heading mb-4 flex items-center gap-2">
-              <Clock className="w-5 h-5 text-primary" /> Current Order Track
-            </h2>
-            
-            <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-              <div className="p-6 bg-secondary/30 border-b border-border flex flex-wrap justify-between items-center gap-4">
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Order Number</p>
-                  <p className="font-bold font-mono">{activeOrder._id}</p>
+        {/* Active Order Tracker */}
+        <AnimatePresence mode="wait">
+          {activeOrder && (
+            <motion.div 
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.9 }}
+              className="mb-16 relative"
+            >
+              <div className="absolute -inset-1 bg-gradient-to-r from-primary via-rose-500 to-accent rounded-[32px] blur opacity-20 animate-pulse"></div>
+              <div className="relative bg-card/80 backdrop-blur-xl rounded-[28px] border border-border/50 shadow-xl overflow-hidden">
+                
+                {/* Header */}
+                <div className="p-6 md:p-8 border-b border-border/50 flex flex-wrap justify-between items-center gap-6 bg-gradient-to-r from-secondary/50 to-transparent">
+                  <div className="flex items-center gap-4">
+                    <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
+                      <Clock className="w-6 h-6 text-primary animate-[spin_3s_linear_infinite]" />
+                    </div>
+                    <div>
+                      <h2 className="text-xl font-bold font-heading">Order in Progress</h2>
+                      <p className="text-sm text-muted-foreground font-mono">#{activeOrder._id.substring(0, 10)}</p>
+                    </div>
+                  </div>
+                  <div className="text-right">
+                    <p className="text-sm text-muted-foreground mb-1">Estimated Arrival</p>
+                    <p className="text-2xl font-black text-foreground">
+                      {activeOrder.deliveryMode === 'pickup' ? '15-20' : '25-35'} <span className="text-sm font-medium text-muted-foreground">mins</span>
+                    </p>
+                  </div>
                 </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Estimated Delivery</p>
-                  <p className="font-bold">25-30 mins</p>
-                </div>
-                <div>
-                  <p className="text-sm text-muted-foreground mb-1">Total Amount</p>
-                  <p className="font-bold text-primary">Rs.{activeOrder.totalAmount}</p>
-                </div>
-                <Button variant="outline" size="sm">View Details</Button>
-              </div>
-              
-              <div className="p-8">
-                {/* Progress Timeline */}
-                <div className="relative">
-                  <div className="absolute top-1/2 left-0 right-0 h-1 bg-secondary -translate-y-1/2 z-0" />
-                  
-                  {/* Dynamic Progress Fill */}
-                  <div 
-                    className="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 z-0 transition-all duration-1000" 
-                    style={{ width: `${(getStatusIndex(activeOrder.status) / (ORDER_STATUSES.length - 1)) * 100}%` }}
-                  />
-
-                  <div className="flex justify-between relative z-10">
-                    {ORDER_STATUSES.map((status, index) => {
-                      const isActive = index === getStatusIndex(activeOrder.status);
-                      const isCompleted = index < getStatusIndex(activeOrder.status);
-                      
-                      return (
-                        <div key={status.id} className="flex flex-col items-center">
-                          <div className={`w-10 h-10 rounded-full flex items-center justify-center transition-all duration-500 shadow-sm ${
-                            isActive ? 'bg-primary text-primary-foreground scale-110 shadow-primary/30 ring-4 ring-primary/20' : 
-                            isCompleted ? 'bg-primary text-primary-foreground' : 
-                            'bg-card text-muted-foreground border-2 border-border'
-                          }`}>
-                            {isCompleted ? <CheckCircle2 className="w-5 h-5" /> : <Package className="w-4 h-4" />}
+                
+                {/* Progress Tracker */}
+                <div className="p-8 md:p-12">
+                  <div className="relative max-w-4xl mx-auto">
+                    {/* Track Line */}
+                    <div className="absolute top-8 left-[10%] right-[10%] h-1.5 bg-secondary rounded-full overflow-hidden">
+                      <motion.div 
+                        className="absolute top-0 left-0 bottom-0 bg-primary rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${(getStatusIndex(activeOrder.orderStatus) / (ORDER_STATUSES.length - 1)) * 100}%` }}
+                        transition={{ duration: 0.8, ease: "easeOut" }}
+                      />
+                    </div>
+                    
+                    {/* Steps */}
+                    <div className="flex justify-between relative z-10">
+                      {ORDER_STATUSES.map((status, index) => {
+                        const currentIndex = getStatusIndex(activeOrder.orderStatus);
+                        const isActive = index === currentIndex;
+                        const isCompleted = index < currentIndex;
+                        const Icon = status.icon;
+                        
+                        return (
+                          <div key={status.id} className="flex flex-col items-center w-1/4">
+                            <motion.div 
+                              initial={false}
+                              animate={{ 
+                                scale: isActive ? 1.2 : 1,
+                                backgroundColor: isActive || isCompleted ? 'var(--color-primary)' : 'var(--color-secondary)'
+                              }}
+                              className={`w-16 h-16 rounded-2xl flex items-center justify-center mb-4 transition-colors shadow-lg
+                                ${isActive ? 'shadow-primary/40 text-primary-foreground' : 
+                                  isCompleted ? 'text-primary-foreground' : 'text-muted-foreground border-2 border-border shadow-none'}`}
+                            >
+                              <Icon className={`w-7 h-7 ${isActive ? 'animate-bounce' : ''}`} />
+                            </motion.div>
+                            <span className={`text-sm md:text-base text-center transition-colors
+                              ${isActive ? 'font-bold text-primary' : 
+                                isCompleted ? 'font-semibold text-foreground' : 'font-medium text-muted-foreground'}`}>
+                              {status.label}
+                            </span>
                           </div>
-                          <span className={`mt-3 text-sm font-medium hidden sm:block ${
-                            isActive ? 'text-primary font-bold' : 
-                            isCompleted ? 'text-foreground' : 'text-muted-foreground'
-                          }`}>
-                            {status.label}
-                          </span>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
-          </motion.div>
-        )}
+            </motion.div>
+          )}
+        </AnimatePresence>
 
-        {/* Previous Orders Table */}
+        {/* Order History */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
         >
-          <div className="flex justify-between items-center mb-4">
-            <h2 className="text-xl font-bold font-heading flex items-center gap-2">
-              <History className="w-5 h-5 text-foreground" /> Order History
-            </h2>
-            <Link to="/menu" className="text-sm font-medium text-primary hover:underline flex items-center">
-              Reorder favorites <ArrowRight className="w-4 h-4 ml-1" />
+          <div className="flex justify-between items-end mb-8">
+            <div>
+              <h2 className="text-2xl font-black font-heading flex items-center gap-3">
+                <History className="w-6 h-6 text-primary" /> Past Orders
+              </h2>
+              <p className="text-muted-foreground mt-1">Review and reorder your favorites.</p>
+            </div>
+            <Link to="/menu" className="hidden sm:flex text-sm font-bold text-primary hover:text-primary/80 items-center transition-colors">
+              Browse Menu <ArrowRight className="w-4 h-4 ml-1" />
             </Link>
           </div>
           
-          <div className="bg-card rounded-2xl border border-border shadow-sm overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left border-collapse">
-                <thead>
-                  <tr className="bg-secondary/50 text-muted-foreground text-sm">
-                    <th className="p-4 font-medium">Date</th>
-                    <th className="p-4 font-medium">Order ID</th>
-                    <th className="p-4 font-medium">Items</th>
-                    <th className="p-4 font-medium">Total</th>
-                    <th className="p-4 font-medium">Status</th>
-                    <th className="p-4 font-medium">Action</th>
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-border">
-                  {pastOrders.map((order) => (
-                    <tr key={order._id} className="hover:bg-secondary/20 transition-colors group">
-                      <td className="p-4 whitespace-nowrap text-sm">
-                        {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}
-                      </td>
-                      <td className="p-4 font-mono text-sm text-muted-foreground">{order._id.substring(0, 12)}...</td>
-                      <td className="p-4 text-sm">
-                        {order.items.map(i => `${i.quantity}x ${i.name}`).join(', ')}
-                      </td>
-                      <td className="p-4 font-bold">Rs.{order.totalAmount}</td>
-                      <td className="p-4">
-                        <span className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400">
-                          {order.status}
-                        </span>
-                      </td>
-                      <td className="p-4">
-                        <Button variant="outline" size="sm" className="h-8 text-xs group-hover:border-primary group-hover:text-primary transition-colors">
-                          Reorder
-                        </Button>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+          {pastOrders.length > 0 ? (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {pastOrders.map((order) => (
+                <motion.div 
+                  key={order._id} 
+                  whileHover={{ y: -5 }}
+                  className="bg-card rounded-2xl border border-border shadow-sm hover:shadow-xl transition-all overflow-hidden flex flex-col"
+                >
+                  <div className="p-5 border-b border-border bg-secondary/20 flex justify-between items-center">
+                    <span className="text-xs font-mono font-bold text-muted-foreground">
+                      {new Date(order.createdAt).toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}
+                    </span>
+                    <span className={`px-3 py-1 rounded-full text-xs font-bold tracking-wide
+                      ${order.orderStatus === 'DELIVERED' ? 'bg-green-500/10 text-green-500' : 'bg-red-500/10 text-red-500'}
+                    `}>
+                      {order.orderStatus}
+                    </span>
+                  </div>
+                  
+                  <div className="p-6 flex-grow flex flex-col justify-between">
+                    <div className="mb-6">
+                      <p className="text-sm font-medium text-foreground line-clamp-2 leading-relaxed">
+                        {order.items.map(i => `${i.quantity}x ${i.name || 'Pizza'}`).join(', ')}
+                      </p>
+                    </div>
+                    
+                    <div className="flex items-center justify-between mt-auto">
+                      <span className="text-xl font-black text-primary">Rs.{order.totalAmount}</span>
+                      <Button variant="outline" size="sm" className="rounded-lg font-bold border-2 hover:bg-primary hover:text-primary-foreground hover:border-primary transition-all">
+                        Reorder
+                      </Button>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
-            
-            {pastOrders.length === 0 && (
-              <div className="p-8 text-center text-muted-foreground">
-                No past orders found. Time to change that!
+          ) : (
+            <div className="bg-card rounded-3xl border border-dashed border-border p-12 text-center">
+              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6">
+                <Utensils className="w-10 h-10 text-muted-foreground" />
               </div>
-            )}
-          </div>
+              <h3 className="text-xl font-bold font-heading mb-2">No past orders yet</h3>
+              <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+                Looks like you haven't ordered anything yet. Let's change that and get some delicious pizza to your door!
+              </p>
+              <Link to="/menu">
+                <Button variant="premium" className="rounded-full shadow-lg h-12 px-8">
+                  Explore Menu
+                </Button>
+              </Link>
+            </div>
+          )}
         </motion.div>
-
       </div>
     </div>
   );

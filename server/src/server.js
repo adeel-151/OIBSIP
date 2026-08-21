@@ -13,6 +13,26 @@ const startServer = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
     
+    // Initialize Socket.io
+    const io = require('./utils/socket').init(server);
+    io.on('connection', (socket) => {
+      console.log('Client connected to Socket.io:', socket.id);
+      
+      socket.on('join_user_room', (userId) => {
+        socket.join(`user_${userId}`);
+        console.log(`Socket ${socket.id} joined room user_${userId}`);
+      });
+      
+      socket.on('join_admin_room', () => {
+        socket.join('admin_room');
+        console.log(`Socket ${socket.id} joined admin_room`);
+      });
+      
+      socket.on('disconnect', () => {
+        console.log('Client disconnected:', socket.id);
+      });
+    });
+    
     server.listen(PORT, () => {
       console.log(`Server running on port ${PORT}`);
       

@@ -157,7 +157,7 @@ const Home = () => {
         {/* Decorative Glow */}
         <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] z-0" />
         
-        <div className="container relative z-20 mx-auto px-4 -mt-12 md:-mt-24">
+        <div className="container relative z-20 mx-auto px-4">
           <motion.div 
             initial={{ opacity: 0, y: 40 }}
             animate={{ opacity: 1, y: 0 }}
@@ -196,22 +196,28 @@ const Home = () => {
               </Link>
             </div>
 
-            {/* Stats Bar */}
-            <motion.div 
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ delay: 0.6 }}
-              className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6"
-            >
-              {stats.map((stat, i) => (
-                <div key={i} className="glass rounded-2xl px-5 py-4 text-center">
-                  <p className="text-2xl md:text-3xl font-extrabold font-heading text-foreground">
-                    {stat.value}{stat.icon}
-                  </p>
-                  <p className="text-xs md:text-sm text-muted-foreground mt-1">{stat.label}</p>
-                </div>
-              ))}
-            </motion.div>
+          </motion.div>
+        </div>
+      </section>
+
+      {/* ─── STATS SECTION ─── */}
+      <section className="py-12 md:py-16 bg-card border-y border-border/50 relative z-30 shadow-sm">
+        <div className="container mx-auto px-4">
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.6 }}
+            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 divide-x divide-border/50"
+          >
+            {stats.map((stat, i) => (
+              <div key={i} className="flex flex-col items-center justify-center p-2 text-center group">
+                <p className="text-4xl md:text-5xl font-black font-heading text-foreground mb-2 group-hover:text-primary transition-colors duration-300 flex items-center justify-center">
+                  {stat.value}{stat.icon}
+                </p>
+                <p className="text-xs md:text-sm font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</p>
+              </div>
+            ))}
           </motion.div>
         </div>
       </section>

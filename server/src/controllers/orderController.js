@@ -45,7 +45,7 @@ exports.createOrder = async (req, res, next) => {
     if (paymentMethod === 'ONLINE') {
       // Create Razorpay order
       const options = {
-        amount: totalAmount * 100, // amount in smallest currency unit (paise for INR)
+        amount: calculatedTotal * 100, // amount in smallest currency unit (paise for INR)
         currency: 'INR',
         receipt: `receipt_order_${Date.now()}`,
       };

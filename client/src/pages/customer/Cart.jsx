@@ -106,19 +106,32 @@ const Cart = () => {
       }
 
       const orderPayload = {
-        items: items.map(item => ({
-          pizzaId: item.pizzaId,
-          isCustom: item.isCustom || false,
-          customIngredients: item.customIngredients || null,
-          quantity: item.quantity,
-          price: item.price
-        })),
-        shippingAddress: deliveryMode === 'delivery' ? address : null,
+        items: items.map(item => {
+          const formattedItem = {
+            isCustom: item.isCustom || false,
+            quantity: item.quantity,
+            price: item.price
+          };
+          
+          if (item.isCustom) {
+            formattedItem.customIngredients = {
+              base: item.customIngredients?.base?._id || item.customIngredients?.base,
+              sauce: item.customIngredients?.sauce?._id || item.customIngredients?.sauce,
+              cheese: item.customIngredients?.cheese?._id || item.customIngredients?.cheese,
+              vegetables: item.customIngredients?.vegetables?.map(v => v._id || v) || []
+            };
+          } else {
+            formattedItem.pizza = item.pizzaId;
+          }
+          
+          return formattedItem;
+        }),
+        deliveryAddress: deliveryMode === 'delivery' ? address : null,
         deliveryMode,
         specialInstructions,
         deliveryTimeSlot: selectedTimeSlot,
         couponCode: couponApplied ? couponCode : null,
-        paymentMethod: 'RAZORPAY'
+        paymentMethod: 'ONLINE' // Backend enum expects 'ONLINE'
       };
 
       const orderRes = await createOrder(orderPayload);
@@ -506,7 +519,7 @@ const Cart = () => {
                 onClick={handleCheckout}
                 isLoading={isProcessing}
               >
-                {!isProcessing && <><ShoppingCart className="w-5 h-5 mr-2" /> Pay Rs.{totalAmount}</>}
+                {!isProcessing ? <><ShoppingCart className="w-5 h-5 mr-2" /> Pay Rs.{totalAmount}</> : "Processing..."}
               </Button>
               
               {!isAuthenticated && (

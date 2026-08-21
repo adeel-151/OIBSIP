@@ -31,7 +31,7 @@ const Button = ({
       <ShadcnButton
         variant={shadcnVariant}
         size={shadcnSize}
-        className={`${fullWidth ? 'w-full' : ''} ${variant === 'premium' ? 'bg-accent text-accent-foreground hover:bg-accent/90' : ''} ${className}`}
+        className={`${fullWidth ? 'w-full' : ''} ${variant === 'premium' ? 'bg-gradient-to-r from-primary to-rose-600 text-white hover:from-primary/90 hover:to-rose-600/90 shadow-xl shadow-primary/30' : ''} ${className}`}
         disabled={isLoading || props.disabled}
         {...props}
       >

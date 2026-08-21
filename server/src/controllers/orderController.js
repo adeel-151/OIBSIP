@@ -106,7 +106,7 @@ exports.verifyPayment = async (req, res, next) => {
 
 exports.getUserOrders = async (req, res, next) => {
   try {
-    const orders = await Order.find({ user: req.user.userId })
+    const orders = await Order.find({ user: req.user._id })
       .populate('items.pizza')
       .populate('items.customIngredients.base')
       .populate('items.customIngredients.sauce')

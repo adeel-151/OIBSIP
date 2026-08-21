@@ -1,11 +1,12 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChefHat, Truck, Clock, Leaf, ArrowRight, CheckCircle2, ShoppingCart, Settings2, Star, Sparkles, Flame, Shield } from 'lucide-react';
 import SEO from '../../components/SEO';
 import Button from '../../components/ui/Button';
 import useCartStore from '../../store/cartStore';
 import { toast } from 'sonner';
+import PizzaCard from '../../components/pizza/PizzaCard';
 
 const featuredPizzas = [
   {
@@ -122,6 +123,7 @@ const itemVariants = {
 
 const Home = () => {
   const { addToCart } = useCartStore();
+  const navigate = useNavigate();
 
   const handleQuickAdd = (pizza) => {
     addToCart({
@@ -287,56 +289,12 @@ const Home = () => {
             className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
           >
             {featuredPizzas.map((pizza) => (
-              <motion.div 
-                key={pizza._id} 
-                variants={itemVariants}
-                className="group relative bg-card rounded-3xl overflow-hidden border border-border hover:border-primary/40 transition-all duration-500 hover:shadow-2xl hover:shadow-primary/5"
-              >
-                <div className="relative h-64 overflow-hidden">
-                  <img 
-                    src={pizza.image} 
-                    alt={pizza.name} 
-                    className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                  />
-                  <div className="absolute inset-0 bg-gradient-to-t from-card via-transparent to-transparent opacity-60" />
-                  <div className="absolute top-4 left-4 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-bold flex items-center gap-1 shadow-md">
-                    <Flame className="w-3 h-3" /> {pizza.tag}
-                  </div>
-                  <div className="absolute top-4 right-4 bg-background/80 backdrop-blur-md px-2.5 py-1 rounded-full text-xs font-bold flex items-center gap-1">
-                    <Star className="w-3 h-3 text-accent fill-accent" /> {pizza.rating}
-                  </div>
-                </div>
-                <div className="p-6">
-                  <div className="flex justify-between items-start mb-3 gap-2">
-                    <h3 className="text-xl font-bold font-heading leading-tight">{pizza.name}</h3>
-                    <span className="text-xl font-extrabold text-primary whitespace-nowrap">${pizza.price}</span>
-                  </div>
-                  <p className="text-muted-foreground text-sm mb-6 line-clamp-2 leading-relaxed">{pizza.description}</p>
-                  
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-medium text-muted-foreground bg-secondary/80 px-3 py-1.5 rounded-lg">
-                      🔥 {pizza.calories} kcal
-                    </span>
-                    <div className="flex items-center gap-2">
-                      <Button 
-                        variant="default" 
-                        size="sm" 
-                        className="rounded-full shadow-md shadow-primary/20 hover:shadow-lg hover:shadow-primary/30 transition-all text-xs px-3"
-                        onClick={(e) => {
-                          e.preventDefault();
-                          handleQuickAdd(pizza);
-                        }}
-                      >
-                        <ShoppingCart className="w-3.5 h-3.5 mr-1" /> Add
-                      </Button>
-                      <Link to={`/build?pizza=${pizza._id}`}>
-                        <Button variant="premium" size="sm" className="rounded-full shadow-md shadow-accent/20 hover:shadow-lg hover:shadow-accent/30 transition-all text-xs px-3">
-                          Customize <ArrowRight className="w-3.5 h-3.5 ml-1" />
-                        </Button>
-                      </Link>
-                    </div>
-                  </div>
-                </div>
+              <motion.div key={pizza._id} variants={itemVariants} className="h-full">
+                <PizzaCard 
+                  pizza={pizza} 
+                  onQuickAdd={handleQuickAdd} 
+                  onCustomize={(p) => navigate(`/build?pizza=${p._id}`)} 
+                />
               </motion.div>
             ))}
           </motion.div>

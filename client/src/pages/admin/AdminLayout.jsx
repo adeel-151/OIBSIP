@@ -2,7 +2,7 @@ import React from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
 import styles from './Admin.module.css';
-import { LayoutDashboard, ShoppingBag, Pizza, LogOut } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Pizza, LogOut, Package } from 'lucide-react';
 
 const AdminLayout = () => {
   const { user, logout } = useAuthStore();
@@ -50,7 +50,14 @@ const AdminLayout = () => {
             className={`${styles.navItem} ${location.pathname === '/admin/menu' ? styles.active : ''}`}
           >
             <Pizza size={20} />
-            <span>Menu & Inventory</span>
+            <span>Menu</span>
+          </Link>
+          <Link 
+            to="/admin/inventory" 
+            className={`${styles.navItem} ${location.pathname === '/admin/inventory' ? styles.active : ''}`}
+          >
+            <Package size={20} />
+            <span>Inventory</span>
           </Link>
         </nav>
         <div className={styles.sidebarFooter}>

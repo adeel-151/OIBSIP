@@ -24,6 +24,7 @@ const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
 const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
 const AdminOrders = lazy(() => import('./pages/admin/Orders'));
 const AdminMenu = lazy(() => import('./pages/admin/MenuManagement'));
+const AdminInventory = lazy(() => import('./pages/admin/Inventory'));
 
 // A wrapper for customer pages to include Navbar and Footer
 const CustomerLayout = ({ children }) => (
@@ -83,6 +84,7 @@ function App() {
             <Route path="dashboard" element={<AdminDashboard />} />
             <Route path="orders" element={<AdminOrders />} />
             <Route path="menu" element={<AdminMenu />} />
+            <Route path="inventory" element={<AdminInventory />} />
           </Route>
 
           {/* 404 Catch-All */}

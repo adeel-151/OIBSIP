@@ -3,6 +3,7 @@ const http = require('http');
 const app = require('./app');
 const mongoose = require('mongoose');
 const https = require('https');
+const inventoryJobs = require('./jobs/inventoryJobs');
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
@@ -12,6 +13,9 @@ const startServer = async () => {
   try {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
+    
+    // Initialize Scheduled Jobs
+    inventoryJobs.initJobs();
     
     // Initialize Socket.io
     const io = require('./utils/socket').init(server);

@@ -19,8 +19,11 @@ const Home = () => {
       {/* 1. HERO SECTION (Dark) */}
       <section className="relative w-full bg-[#1C1A1A] pt-28 pb-32 text-white overflow-hidden">
         {/* Subtle background decoration */}
-        <div className="absolute top-10 right-20 opacity-30">
-          <img src="https://cdn-icons-png.flaticon.com/512/5338/5338018.png" alt="leaf" className="w-24 h-24 object-contain filter drop-shadow-md" />
+        <div className="absolute top-10 right-20 opacity-30 text-[#FFC700]">
+          <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="transform -rotate-45">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 1 8.3C19.2 15.3 14.7 20 11 20Z"/>
+            <path d="M11 20c2.2 0 4-1.8 4-4L9.5 9.5"/>
+          </svg>
         </div>
         <div className="absolute top-40 right-1/2 opacity-20">
           <div className="w-16 h-16 bg-[#FFC700] rounded-full blur-xl"></div>
@@ -108,8 +111,8 @@ const Home = () => {
           {/* Left: Image */}
           <div className="md:w-1/2 relative flex justify-center">
             {/* Decorative items */}
-            <div className="absolute -top-10 -left-10 w-20 h-20 opacity-40">
-               <img src="https://cdn-icons-png.flaticon.com/512/517/517032.png" alt="tomato" />
+            <div className="absolute -top-10 -left-10 w-20 h-20 opacity-30 text-red-500">
+               <svg viewBox="0 0 24 24" fill="currentColor" stroke="none"><circle cx="12" cy="12" r="10"/></svg>
             </div>
             <img 
               src={FEATURED_PIZZA} 
@@ -141,6 +144,43 @@ const Home = () => {
                 </button>
               </Link>
             </div>
+          </div>
+          
+        </div>
+      </section>
+
+      {/* 3.5 FRESH INGREDIENTS SECTION (Light Cream) */}
+      <section className="bg-[#FFF6EA] pb-24 w-full relative">
+        <div className="container mx-auto px-6 lg:px-12 flex flex-col md:flex-row items-center gap-16">
+          
+          {/* Left: Text */}
+          <div className="md:w-1/2 space-y-6">
+            <p className="text-red-500 font-['Chewy'] tracking-wide text-2xl uppercase">
+              Farm to Table
+            </p>
+            <h2 className="font-['Chewy'] text-5xl md:text-6xl text-[#1C1A1A] leading-tight tracking-wide">
+              Locally Sourced, <br/> Crafted with Love
+            </h2>
+            <p className="text-gray-600 text-lg leading-relaxed max-w-md pt-2">
+              Every morning, we source the freshest basil, ripest tomatoes, and the highest quality mozzarella from local farms. It's the secret behind that perfect Pizzaro bite.
+            </p>
+            <div className="pt-4">
+              <Link to="/about">
+                <button className="bg-transparent border-2 border-red-500 hover:bg-red-500 hover:text-white text-red-500 font-bold text-lg px-8 py-3 rounded-full transition-colors">
+                  Learn More
+                </button>
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: Image */}
+          <div className="md:w-1/2 relative flex justify-center">
+            <div className="absolute inset-0 bg-red-500 rounded-[3rem] blur-3xl opacity-10 scale-90 translate-x-4"></div>
+            <img 
+              src="https://images.unsplash.com/photo-1541592106381-b31e9677c0e5?q=80&w=1200&auto=format&fit=crop" 
+              alt="Fresh Ingredients" 
+              className="relative z-10 w-full max-w-[500px] h-[400px] object-cover rounded-[3rem] shadow-xl"
+            />
           </div>
           
         </div>

@@ -71,7 +71,7 @@ const Navbar = () => {
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-rose-600 rounded-xl flex items-center justify-center shadow-lg shadow-primary/20 group-hover:scale-105 transition-transform">
                 <Pizza className="h-5 w-5 text-white" />
               </div>
-              <span className="text-2xl font-extrabold font-heading tracking-tight">PIZZARO</span>
+              <span className="text-3xl font-['Chewy'] tracking-wide mt-1">PIZZARO</span>
             </Link>
 
           {/* Desktop Navigation */}
@@ -80,7 +80,7 @@ const Navbar = () => {
               <Link
                 key={link.path}
                 to={link.path}
-                className={`relative px-4 py-2.5 text-[15px] font-bold font-heading rounded-full transition-all duration-300 ${
+                className={`relative px-4 py-2.5 text-xl font-['Chewy'] rounded-full transition-all duration-300 ${
                   isActive(link.path)
                     ? 'text-primary bg-primary/10'
                     : 'text-foreground/80 hover:text-foreground hover:bg-secondary/80'
@@ -188,7 +188,7 @@ const Navbar = () => {
                     setShowProfileMenu(!showProfileMenu);
                     setShowMiniCart(false);
                   }}
-                  className="flex items-center gap-2 px-3 py-1.5 text-sm font-bold font-heading text-foreground/80 hover:text-foreground hover:bg-secondary/80 rounded-full transition-all border border-transparent hover:border-border"
+                  className="flex items-center gap-2 px-3 py-1.5 text-lg font-['Chewy'] text-foreground/80 hover:text-foreground hover:bg-secondary/80 rounded-full transition-all border border-transparent hover:border-border"
                 >
                   <div className="w-8 h-8 rounded-full bg-gradient-to-br from-primary/20 to-accent/20 flex items-center justify-center text-primary border border-primary/20">
                     <User className="h-4 w-4" />
@@ -242,13 +242,13 @@ const Navbar = () => {
               <div className="hidden md:flex items-center gap-3 pl-3 border-l border-border/50">
                 <Link
                   to="/login"
-                  className="flex items-center text-sm font-bold font-heading text-foreground/80 hover:text-foreground px-5 py-2.5 rounded-full border border-border/50 hover:bg-secondary/80 hover:border-border transition-all"
+                  className="flex items-center text-lg font-['Chewy'] text-foreground/80 hover:text-foreground px-5 py-2.5 rounded-full border border-border/50 hover:bg-secondary/80 hover:border-border transition-all"
                 >
                   Log In
                 </Link>
                 <Link
                   to="/register"
-                  className="flex items-center gap-1.5 text-sm font-bold font-heading bg-gradient-to-r from-primary to-rose-600 text-white hover:shadow-lg hover:shadow-primary/25 px-6 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95"
+                  className="flex items-center gap-1.5 text-lg font-['Chewy'] bg-gradient-to-r from-primary to-rose-600 text-white hover:shadow-lg hover:shadow-primary/25 px-6 py-2.5 rounded-full transition-all hover:scale-105 active:scale-95"
                 >
                   <UserPlus className="w-4 h-4" /> Sign Up
                 </Link>
@@ -292,7 +292,7 @@ const Navbar = () => {
                   <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                     <Pizza className="h-4 w-4 text-primary-foreground" />
                   </div>
-                  <span className="text-lg font-bold font-heading">PIZZARO</span>
+                  <span className="text-2xl font-['Chewy'] mt-1">PIZZARO</span>
                 </Link>
                 <button
                   onClick={() => setMobileOpen(false)}
@@ -308,7 +308,7 @@ const Navbar = () => {
                     <Link
                       key={link.path}
                       to={link.path}
-                      className={`flex items-center justify-between px-4 py-3.5 rounded-2xl font-bold font-heading transition-all ${
+                      className={`flex items-center justify-between px-4 py-3.5 rounded-2xl text-xl font-['Chewy'] transition-all ${
                         isActive(link.path)
                           ? 'bg-gradient-to-r from-primary/10 to-transparent text-primary border-l-4 border-primary'
                           : 'text-foreground/80 hover:bg-secondary/80 border-l-4 border-transparent'
@@ -357,13 +357,13 @@ const Navbar = () => {
                   <>
                     <Link
                       to="/login"
-                      className="flex items-center justify-center px-4 py-3.5 rounded-2xl text-sm font-bold font-heading border-2 border-border hover:bg-secondary/80 transition-all"
+                      className="flex items-center justify-center px-4 py-3.5 rounded-2xl text-xl font-['Chewy'] border-2 border-border hover:bg-secondary/80 transition-all"
                     >
                       Log In
                     </Link>
                     <Link
                       to="/register"
-                      className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl text-sm font-bold font-heading bg-gradient-to-r from-primary to-rose-600 text-white hover:shadow-lg transition-all"
+                      className="flex items-center justify-center gap-2 px-4 py-3.5 rounded-2xl text-xl font-['Chewy'] bg-gradient-to-r from-primary to-rose-600 text-white hover:shadow-lg transition-all"
                     >
                       <UserPlus className="w-4 h-4" /> Sign Up Free
                     </Link>

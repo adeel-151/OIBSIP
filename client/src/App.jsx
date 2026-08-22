@@ -6,6 +6,7 @@ import Footer from './components/layout/Footer';
 import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import PageLoader from './components/PageLoader';
+import { ThemeProvider } from './contexts/ThemeContext';
 
 
 // Lazy-loaded pages for code splitting
@@ -39,59 +40,61 @@ const CustomerLayout = ({ children }) => (
 
 function App() {
   return (
-    <ErrorBoundary>
-      <Toaster position="top-center" />
-      <Suspense fallback={<PageLoader />}>
-        <Routes>
-          {/* Public Customer Routes */}
-          <Route path="/" element={<CustomerLayout><Home /></CustomerLayout>} />
-          <Route path="/menu" element={<CustomerLayout><Menu /></CustomerLayout>} />
-          <Route path="/build" element={<CustomerLayout><PizzaBuilder /></CustomerLayout>} />
-          
-          {/* Protected Customer Routes */}
-          <Route path="/cart" element={
-            <CustomerLayout>
-              <ProtectedRoute>
-                <Cart />
+    <ThemeProvider>
+      <ErrorBoundary>
+        <Toaster position="top-center" />
+        <Suspense fallback={<PageLoader />}>
+          <Routes>
+            {/* Public Customer Routes */}
+            <Route path="/" element={<CustomerLayout><Home /></CustomerLayout>} />
+            <Route path="/menu" element={<CustomerLayout><Menu /></CustomerLayout>} />
+            <Route path="/build" element={<CustomerLayout><PizzaBuilder /></CustomerLayout>} />
+            
+            {/* Protected Customer Routes */}
+            <Route path="/cart" element={
+              <CustomerLayout>
+                <ProtectedRoute>
+                  <Cart />
+                </ProtectedRoute>
+              </CustomerLayout>
+            } />
+            <Route path="/dashboard" element={
+              <CustomerLayout>
+                <ProtectedRoute>
+                  <Dashboard />
+                </ProtectedRoute>
+              </CustomerLayout>
+            } />
+            <Route path="/profile" element={
+              <CustomerLayout>
+                <ProtectedRoute>
+                  <Profile />
+                </ProtectedRoute>
+              </CustomerLayout>
+            } />
+            
+            {/* Auth Routes */}
+            <Route path="/login" element={<Login />} />
+            <Route path="/register" element={<Register />} />
+            
+            {/* Admin Routes (Role-protected) */}
+            <Route path="/admin" element={
+              <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
+                <AdminLayout />
               </ProtectedRoute>
-            </CustomerLayout>
-          } />
-          <Route path="/dashboard" element={
-            <CustomerLayout>
-              <ProtectedRoute>
-                <Dashboard />
-              </ProtectedRoute>
-            </CustomerLayout>
-          } />
-          <Route path="/profile" element={
-            <CustomerLayout>
-              <ProtectedRoute>
-                <Profile />
-              </ProtectedRoute>
-            </CustomerLayout>
-          } />
-          
-          {/* Auth Routes */}
-          <Route path="/login" element={<Login />} />
-          <Route path="/register" element={<Register />} />
-          
-          {/* Admin Routes (Role-protected) */}
-          <Route path="/admin" element={
-            <ProtectedRoute allowedRoles={['SUPER_ADMIN', 'ADMIN']}>
-              <AdminLayout />
-            </ProtectedRoute>
-          }>
-            <Route path="dashboard" element={<AdminDashboard />} />
-            <Route path="orders" element={<AdminOrders />} />
-            <Route path="menu" element={<AdminMenu />} />
-            <Route path="inventory" element={<AdminInventory />} />
-          </Route>
+            }>
+              <Route path="dashboard" element={<AdminDashboard />} />
+              <Route path="orders" element={<AdminOrders />} />
+              <Route path="menu" element={<AdminMenu />} />
+              <Route path="inventory" element={<AdminInventory />} />
+            </Route>
 
-          {/* 404 Catch-All */}
-          <Route path="*" element={<NotFound />} />
-        </Routes>
-      </Suspense>
-    </ErrorBoundary>
+            {/* 404 Catch-All */}
+            <Route path="*" element={<NotFound />} />
+          </Routes>
+        </Suspense>
+      </ErrorBoundary>
+    </ThemeProvider>
   );
 }
 

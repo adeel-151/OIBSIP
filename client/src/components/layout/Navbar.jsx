@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'framer-motion';
-import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, ChevronDown, Trash2, Settings, UserPlus, Info, Phone } from 'lucide-react';
+import { ShoppingCart, User, LogOut, Pizza, Menu as MenuIcon, X, ChevronRight, ChevronDown, Trash2, Settings, UserPlus, Info, Phone, Sun, Moon } from 'lucide-react';
 import useAuthStore from '../../store/authStore';
 import useCartStore from '../../store/cartStore';
+import { useTheme } from '../../contexts/ThemeContext';
 
 const Navbar = () => {
   const { user, isAuthenticated, logout } = useAuthStore();
   const { items, removeFromCart, updateQuantity, getTotalAmount } = useCartStore();
+  const { theme, toggleTheme } = useTheme();
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
   const [scrolled, setScrolled] = useState(false);
@@ -100,6 +102,16 @@ const Navbar = () => {
 
           {/* Right Actions */}
           <div className="flex items-center gap-2">
+            
+            {/* Theme Toggle */}
+            <button
+              onClick={toggleTheme}
+              className="p-2.5 rounded-xl text-foreground/70 hover:text-foreground hover:bg-secondary/80 transition-all duration-200"
+              aria-label="Toggle Theme"
+            >
+              {theme === 'dark' ? <Sun className="h-5 w-5" /> : <Moon className="h-5 w-5" />}
+            </button>
+
             {/* Cart with Mini Preview */}
             <div className="relative" ref={miniCartRef}>
               <button

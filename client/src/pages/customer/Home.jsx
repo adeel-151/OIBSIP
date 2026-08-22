@@ -1,442 +1,247 @@
-import React, { useRef, useEffect } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
-import { motion } from 'framer-motion';
-import { ChefHat, Truck, Clock, Leaf, ArrowRight, CheckCircle2, ShoppingCart, Settings2, Star, Sparkles, Flame, Shield } from 'lucide-react';
-import gsap from 'gsap';
-import Hero3DScene from '../../components/pizza/Hero3DScene';
-import SEO from '../../components/SEO';
+import React from 'react';
+import { Link } from 'react-router-dom';
+import { ShoppingCart } from 'lucide-react';
 import Button from '../../components/ui/Button';
-import useCartStore from '../../store/cartStore';
-import { toast } from 'sonner';
-import PizzaCard from '../../components/pizza/PizzaCard';
 
-const featuredPizzas = [
-  {
-    _id: '1',
-    name: 'Classic Margherita',
-    description: 'Fresh mozzarella, San Marzano tomato sauce, and fragrant basil leaves.',
-    price: 999,
-    rating: 4.8,
-    calories: 850,
-    tag: 'Best Seller',
-    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    _id: '2',
-    name: 'Spicy Pepperoni',
-    description: 'Double pepperoni, jalapeños, and three-cheese blend on hand-tossed dough.',
-    price: 1499,
-    rating: 4.9,
-    calories: 1100,
-    tag: 'Most Popular',
-    image: 'https://images.unsplash.com/photo-1628840042765-356cda07504e?auto=format&fit=crop&q=80&w=800'
-  },
-  {
-    _id: '3',
-    name: 'Truffle Mushroom',
-    description: 'Wild mushrooms, truffle oil, ricotta, and fresh thyme on thin crust.',
-    price: 1199,
-    rating: 4.9,
-    calories: 800,
-    tag: 'Chef\'s Pick',
-    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800'
-  }
-];
-
-const features = [
-  {
-    icon: <Leaf className="w-7 h-7" />,
-    title: 'Farm Fresh',
-    description: 'Locally sourced ingredients, prepared daily for maximum flavor.',
-    gradient: 'from-green-500/20 to-emerald-500/20',
-    iconColor: 'text-green-400'
-  },
-  {
-    icon: <ChefHat className="w-7 h-7" />,
-    title: 'Custom Recipes',
-    description: 'Build your own with our advanced step-by-step pizza configurator.',
-    gradient: 'from-amber-500/20 to-yellow-500/20',
-    iconColor: 'text-amber-400'
-  },
-  {
-    icon: <Truck className="w-7 h-7" />,
-    title: 'Lightning Fast',
-    description: 'Average delivery under 25 minutes. Hot, fresh, guaranteed.',
-    gradient: 'from-primary/20 to-rose-500/20',
-    iconColor: 'text-primary'
-  },
-  {
-    icon: <Shield className="w-7 h-7" />,
-    title: 'Track & Trace',
-    description: 'Real-time order tracking from kitchen to your doorstep.',
-    gradient: 'from-blue-500/20 to-indigo-500/20',
-    iconColor: 'text-blue-400'
-  }
-];
-
-const processSteps = [
-  { icon: <CheckCircle2 />, title: 'Choose', desc: 'Pick your base & style', num: '01' },
-  { icon: <Settings2 />, title: 'Customize', desc: 'Add premium toppings', num: '02' },
-  { icon: <ShoppingCart />, title: 'Order', desc: 'Secure Razorpay checkout', num: '03' },
-  { icon: <Truck />, title: 'Track', desc: 'Live delivery updates', num: '04' },
-  { icon: <ChefHat />, title: 'Enjoy', desc: 'Hot & fresh at your door', num: '05' }
-];
-
-const stats = [
-  { value: '15K+', label: 'Happy Customers' },
-  { value: '50+', label: 'Premium Toppings' },
-  { value: '25m', label: 'Avg. Delivery' },
-  { value: '4.9', label: 'App Rating', icon: <Star className="w-4 h-4 text-accent inline ml-1" /> }
-];
-
-const testimonials = [
-  {
-    name: 'Sarah Ahmed',
-    role: 'Food Blogger',
-    text: 'Pizzaro\'s build-your-own feature is unmatched. The truffle mushroom with extra cheese is divine!',
-    avatar: 'SA',
-    rating: 5
-  },
-  {
-    name: 'Usman Khan',
-    role: 'Regular Customer',
-    text: 'Fastest delivery I\'ve ever experienced. The pizza arrives piping hot every single time.',
-    avatar: 'UK',
-    rating: 5
-  },
-  {
-    name: 'Ayesha Malik',
-    role: 'Pizza Enthusiast',
-    text: 'The real-time tracking is so satisfying. I can literally watch my pizza being prepared!',
-    avatar: 'AM',
-    rating: 5
-  }
-];
-
-const containerVariants = {
-  hidden: { opacity: 0 },
-  visible: { opacity: 1, transition: { staggerChildren: 0.12 } }
-};
-
-const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
-  visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.22, 1, 0.36, 1] } }
-};
+// Unsplash Images
+const HERO_PIZZA = 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=1200&auto=format&fit=crop';
+const FEATURED_PIZZA = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop';
+const MENU_PIZZA = 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=500&auto=format&fit=crop';
+const MENU_PASTA = 'https://images.unsplash.com/photo-1621996316585-8837db1fe278?q=80&w=500&auto=format&fit=crop';
+const MENU_BURGER = 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop';
+const MENU_SANDWICH = 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=500&auto=format&fit=crop';
+const COOKIES = 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=500&auto=format&fit=crop';
 
 const Home = () => {
-  const { addToCart } = useCartStore();
-  const navigate = useNavigate();
-  const heroRef = useRef(null);
-  const badgeRef = useRef(null);
-  const textRef1 = useRef(null);
-  const textRef2 = useRef(null);
-  const pRef = useRef(null);
-  const btnRef = useRef(null);
-
-  useEffect(() => {
-    const ctx = gsap.context(() => {
-      const tl = gsap.timeline({ delay: 0.2 });
-      
-      tl.fromTo(badgeRef.current, 
-        { opacity: 0, y: 20 }, 
-        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
-      )
-      .fromTo([textRef1.current, textRef2.current], 
-        { opacity: 0, y: 50, rotationX: -15, transformOrigin: "0% 50% -50" }, 
-        { opacity: 1, y: 0, rotationX: 0, duration: 1, stagger: 0.2, ease: "power4.out" },
-        "-=0.6"
-      )
-      .fromTo(pRef.current, 
-        { opacity: 0, y: 20 }, 
-        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
-        "-=0.6"
-      )
-      .fromTo(btnRef.current, 
-        { opacity: 0, y: 20 }, 
-        { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" },
-        "-=0.4"
-      );
-    }, heroRef);
-
-    return () => ctx.revert();
-  }, []);
-
-  const handleQuickAdd = (pizza) => {
-    addToCart({
-      name: pizza.name,
-      image: pizza.image,
-      pizzaId: pizza._id,
-      isCustom: false,
-      quantity: 1,
-      price: pizza.basePrice || pizza.price,
-    });
-    toast.success(`${pizza.name} added to cart!`);
-  };
-
   return (
-    <div className="flex flex-col bg-background text-foreground overflow-hidden">
-      <SEO title="Home" />
+    <div className="min-h-screen font-sans">
       
-      {/* ─── HERO ─── */}
-      <section ref={heroRef} className="relative min-h-[100dvh] pt-24 pb-12 md:pt-32 flex flex-col justify-center overflow-hidden" style={{ perspective: '1000px' }}>
-        {/* 3D Background */}
-        <Hero3DScene />
-        
-        {/* Decorative Glow */}
-        <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] z-0 pointer-events-none" />
-        
-        <div className="container relative z-20 mx-auto px-4">
-          <div className="max-w-2xl pointer-events-none">
-            <div 
-              ref={badgeRef}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium mb-6 opacity-0"
-            >
-              <Sparkles className="w-4 h-4 text-accent" />
-              <span className="text-foreground/80">Now with Real-Time Order Tracking</span>
-            </div>
+      {/* 1. HERO SECTION (Dark) */}
+      <section className="relative w-full bg-[#1C1A1A] pt-28 pb-32 text-white overflow-hidden">
+        {/* Subtle background decoration */}
+        <div className="absolute top-10 right-20 opacity-30">
+          <img src="https://cdn-icons-png.flaticon.com/512/5338/5338018.png" alt="leaf" className="w-24 h-24 object-contain filter drop-shadow-md" />
+        </div>
+        <div className="absolute top-40 right-1/2 opacity-20">
+          <div className="w-16 h-16 bg-[#FFC700] rounded-full blur-xl"></div>
+        </div>
 
-            <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-heading mb-6 leading-[0.95] tracking-tight">
-              <div ref={textRef1} className="opacity-0">Your Pizza.</div>
-              <div ref={textRef2} className="text-gradient opacity-0">Your Rules.</div>
+        <div className="container mx-auto px-6 lg:px-12 relative z-10 flex flex-col md:flex-row items-center justify-between">
+          
+          {/* Left Text */}
+          <div className="md:w-1/2 space-y-6 z-10">
+            <p className="text-[#FFC700] font-['Chewy'] tracking-wide text-2xl uppercase">
+              Taste The Best
+            </p>
+            <h1 className="font-['Chewy'] text-6xl md:text-8xl leading-none text-white drop-shadow-lg tracking-wide">
+              PIZZARO
+              <br />
+              ORIGINALS
             </h1>
-            
-            <p ref={pRef} className="text-lg md:text-xl text-foreground/60 mb-8 max-w-lg leading-relaxed opacity-0">
-              Build your perfect pizza from 50+ premium ingredients and track every step from our kitchen to your doorstep.
+            <p className="text-gray-300 max-w-md text-lg leading-relaxed pt-4">
+              Experience the authentic taste of Italy with our hand-crafted, wood-fired pizzas. 
+              Fresh ingredients, secret recipes, and a whole lot of love in every slice.
             </p>
-            
-            <div ref={btnRef} className="flex flex-wrap gap-4 mb-10 md:mb-12 opacity-0 pointer-events-auto">
-              <Link to="/build">
-                <Button variant="default" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary bg-primary text-primary-foreground hover:bg-primary/90">
-                  <Flame className="w-5 h-5 mr-2" /> Build Your Pizza
-                </Button>
-              </Link>
+            <div className="pt-6">
               <Link to="/menu">
-                <Button variant="default" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary bg-primary text-primary-foreground hover:bg-primary/90">
-                  Explore Menu
-                </Button>
+                <button className="bg-[#FFC700] hover:bg-[#EBB336] text-black font-bold text-lg px-8 py-4 rounded-full transition-transform hover:scale-105 shadow-xl shadow-[#FFC700]/20">
+                  ORDER NOW
+                </button>
               </Link>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ─── STATS SECTION ─── */}
-      <section className="py-12 md:py-16 bg-card border-y border-border/50 relative z-30 shadow-sm">
-        <div className="container mx-auto px-4">
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="grid grid-cols-2 md:grid-cols-4 gap-6 md:gap-8 divide-x divide-border/50"
-          >
-            {stats.map((stat, i) => (
-              <div key={i} className="flex flex-col items-center justify-center p-2 text-center group">
-                <p className="text-4xl md:text-5xl font-black font-heading text-foreground mb-2 group-hover:text-primary transition-colors duration-300 flex items-center justify-center">
-                  {stat.value}{stat.icon}
-                </p>
-                <p className="text-xs md:text-sm font-bold text-muted-foreground uppercase tracking-widest">{stat.label}</p>
-              </div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── HOW IT WORKS ─── */}
-      <section className="py-28 bg-secondary/50 relative overflow-hidden">
-        <div className="absolute top-0 left-1/2 w-[600px] h-[300px] bg-accent/5 rounded-full blur-[100px] -translate-x-1/2" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-20">
-            <motion.p
-              initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
-              viewport={{ once: true }}
-              className="text-sm font-bold tracking-widest uppercase text-accent mb-3"
-            >
-              Simple Process
-            </motion.p>
-            <motion.h2
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              className="text-3xl md:text-5xl font-extrabold font-heading"
-            >
-              How It Works
-            </motion.h2>
+          {/* Right Image */}
+          <div className="md:w-1/2 mt-12 md:mt-0 relative flex justify-center">
+             <div className="absolute inset-0 bg-[#FFC700] rounded-full blur-3xl opacity-10 scale-75"></div>
+             <img 
+               src={HERO_PIZZA} 
+               alt="Wood-fired Pizza" 
+               className="relative z-10 w-[90%] max-w-[600px] object-cover rounded-full shadow-2xl ring-8 ring-[#2A2828] transform rotate-3"
+             />
           </div>
-          
-          <div className="flex flex-col md:flex-row justify-center items-start gap-6 md:gap-0 relative max-w-5xl mx-auto">
-            <div className="hidden md:block absolute top-10 left-[10%] right-[10%] h-px bg-gradient-to-r from-transparent via-border to-transparent z-0" />
+        </div>
+      </section>
+
+      {/* 2. OVERLAPPING INFO CARDS */}
+      <section className="relative z-20 -mt-16 bg-gradient-to-b from-[#1C1A1A] 50% to-[#FFF6EA] 50%">
+        <div className="container mx-auto px-6">
+          <div className="flex flex-col md:flex-row shadow-2xl">
             
-            {processSteps.map((step, idx) => (
-              <motion.div 
-                key={idx}
-                initial={{ opacity: 0, y: 30 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.5, delay: idx * 0.1 }}
-                className="relative z-10 flex flex-col items-center flex-1 group"
-              >
-                <div className="relative">
-                  <div className="w-20 h-20 rounded-2xl bg-card border border-border flex items-center justify-center mb-5 shadow-lg group-hover:border-primary/50 group-hover:glow-primary transition-all duration-300">
-                    {React.cloneElement(step.icon, { className: 'w-7 h-7 text-primary' })}
-                  </div>
-                  <span className="absolute -top-2 -right-2 w-7 h-7 rounded-lg bg-accent text-accent-foreground text-xs font-bold flex items-center justify-center shadow-md">
-                    {step.num}
-                  </span>
-                </div>
-                <h3 className="font-bold text-lg mb-1 font-heading">{step.title}</h3>
-                <p className="text-sm text-muted-foreground text-center max-w-[140px]">{step.desc}</p>
-              </motion.div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ─── FEATURED PIZZAS ─── */}
-      <section className="py-28 bg-background relative">
-        <div className="absolute bottom-0 right-0 w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="flex flex-col md:flex-row justify-between items-start md:items-end mb-14 gap-4">
-            <div>
-              <p className="text-sm font-bold tracking-widest uppercase text-primary mb-3">Curated Selection</p>
-              <h2 className="text-3xl md:text-5xl font-extrabold font-heading">Featured Pizzas</h2>
+            {/* Card 1: Mauve/Purple Split */}
+            <div className="flex-1 flex text-white">
+              <div className="bg-[#947883] p-8 w-1/2">
+                <h3 className="font-['Chewy'] text-3xl mb-4 text-[#FFF6EA] tracking-wide">Our Story</h3>
+                <p className="text-sm opacity-90 leading-relaxed">
+                  Authentic recipes passed down through generations.
+                </p>
+              </div>
+              <div className="bg-[#AF8795] p-8 w-1/2">
+                <h3 className="font-['Chewy'] text-3xl mb-4 text-[#FFF6EA] tracking-wide">Quality</h3>
+                <p className="text-sm opacity-90 leading-relaxed">
+                  We use only the freshest, locally sourced ingredients.
+                </p>
+              </div>
             </div>
-            <Link to="/menu" className="hidden md:flex items-center text-primary hover:text-primary/80 font-semibold transition-colors group">
-              View full menu <ArrowRight className="ml-2 w-4 h-4 group-hover:translate-x-1 transition-transform" />
-            </Link>
-          </div>
-          
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-          >
-            {featuredPizzas.map((pizza) => (
-              <motion.div key={pizza._id} variants={itemVariants} className="h-full">
-                <PizzaCard 
-                  pizza={pizza} 
-                  onQuickAdd={handleQuickAdd} 
-                  onCustomize={(p) => navigate(`/build?pizza=${p._id}`)} 
-                />
-              </motion.div>
-            ))}
-          </motion.div>
-          
-          <div className="mt-12 text-center md:hidden">
-            <Link to="/menu">
-              <Button variant="outline" className="w-full rounded-xl">View full menu</Button>
-            </Link>
+
+            {/* Card 2: Light Yellow */}
+            <div className="flex-1 bg-[#FDD05B] p-8 text-black flex flex-col justify-center">
+              <h3 className="font-['Chewy'] text-4xl mb-3 tracking-wide">Fast Delivery</h3>
+              <p className="text-sm font-medium opacity-80 leading-relaxed">
+                Hot and fresh to your door in under 30 minutes, guaranteed.
+              </p>
+            </div>
+
+            {/* Card 3: Gold */}
+            <div className="w-32 bg-[#EBB336] p-6 text-black flex items-center justify-center">
+               <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+            </div>
+
           </div>
         </div>
       </section>
 
-      {/* ─── WHY PIZZARO ─── */}
-      <section className="py-28 bg-card/50 border-t border-border/50 relative">
-        <div className="absolute top-1/2 left-0 w-[300px] h-[300px] bg-accent/5 rounded-full blur-[100px]" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-20">
-            <p className="text-sm font-bold tracking-widest uppercase text-accent mb-3">Why Choose Us</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold font-heading mb-5">The Pizzaro Difference</h2>
-            <p className="text-muted-foreground max-w-xl mx-auto leading-relaxed">
-              We obsess over every detail so you get the perfect pizza, every single time.
+      {/* 3. FEATURED SECTION (Light Cream) */}
+      <section className="bg-[#FFF6EA] py-24 w-full relative">
+        <div className="container mx-auto px-6 lg:px-12 flex flex-col-reverse md:flex-row items-center gap-16">
+          
+          {/* Left: Image */}
+          <div className="md:w-1/2 relative flex justify-center">
+            {/* Decorative items */}
+            <div className="absolute -top-10 -left-10 w-20 h-20 opacity-40">
+               <img src="https://cdn-icons-png.flaticon.com/512/517/517032.png" alt="tomato" />
+            </div>
+            <img 
+              src={FEATURED_PIZZA} 
+              alt="Specialty Pizza" 
+              className="w-[85%] max-w-[550px] object-cover rounded-full shadow-xl ring-8 ring-white transform -rotate-6"
+            />
+          </div>
+
+          {/* Right: Text */}
+          <div className="md:w-1/2 space-y-6">
+            <p className="text-[#EBB336] font-['Chewy'] tracking-wide text-2xl uppercase">
+              Delicious
             </p>
-          </div>
-          
-          <motion.div 
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true, margin: "-100px" }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6"
-          >
-            {features.map((feature, idx) => (
-              <motion.div 
-                key={idx}
-                variants={itemVariants}
-                className="group bg-background p-8 rounded-3xl border border-border text-center hover:border-primary/30 transition-all duration-300 hover:shadow-xl hover:shadow-primary/5"
-              >
-                <div className={`w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br ${feature.gradient} flex items-center justify-center mb-6 group-hover:scale-110 transition-transform duration-300`}>
-                  <div className={feature.iconColor}>{feature.icon}</div>
-                </div>
-                <h3 className="text-lg font-bold mb-3 font-heading">{feature.title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{feature.description}</p>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-
-      {/* ─── TESTIMONIALS ─── */}
-      <section className="py-28 bg-background relative overflow-hidden">
-        <div className="absolute bottom-0 left-1/2 w-[500px] h-[300px] bg-primary/5 rounded-full blur-[120px] -translate-x-1/2" />
-        <div className="container mx-auto px-4 relative z-10">
-          <div className="text-center mb-20">
-            <p className="text-sm font-bold tracking-widest uppercase text-primary mb-3">Testimonials</p>
-            <h2 className="text-3xl md:text-5xl font-extrabold font-heading">Loved by Pizza Fans</h2>
-          </div>
-          
-          <motion.div
-            variants={containerVariants}
-            initial="hidden"
-            whileInView="visible"
-            viewport={{ once: true }}
-            className="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-5xl mx-auto"
-          >
-            {testimonials.map((t, i) => (
-              <motion.div
-                key={i}
-                variants={itemVariants}
-                className="glass rounded-3xl p-8 hover:border-primary/30 transition-all duration-300"
-              >
-                <div className="flex gap-1 mb-5">
-                  {Array.from({ length: t.rating }).map((_, si) => (
-                    <Star key={si} className="w-4 h-4 text-accent fill-accent" />
-                  ))}
-                </div>
-                <p className="text-foreground/80 leading-relaxed mb-8 text-sm">"{t.text}"</p>
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded-full bg-primary/15 flex items-center justify-center text-primary text-sm font-bold">
-                    {t.avatar}
-                  </div>
-                  <div>
-                    <p className="font-bold text-sm">{t.name}</p>
-                    <p className="text-xs text-muted-foreground">{t.role}</p>
-                  </div>
-                </div>
-              </motion.div>
-            ))}
-          </motion.div>
-        </div>
-      </section>
-      
-      {/* ─── CTA ─── */}
-      <section className="py-24 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-rose-700 z-0" />
-        <div className="absolute inset-0 opacity-[0.07] z-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
-        
-        <div className="container relative z-10 mx-auto px-4 text-center">
-          <motion.div
-            initial={{ opacity: 0, y: 30 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-          >
-            <h2 className="text-3xl md:text-6xl font-extrabold font-heading mb-6 text-primary-foreground leading-tight">
-              Ready to create<br />your masterpiece?
+            <h2 className="font-['Chewy'] text-6xl md:text-7xl text-[#1C1A1A] leading-tight tracking-wide">
+              Slow-baked <br/> Specialties
             </h2>
-            <p className="text-primary-foreground/70 mb-12 max-w-xl mx-auto text-lg leading-relaxed">
-              Join 15,000+ pizza lovers who have already discovered the Pizzaro difference. Your perfect pizza is just 5 taps away.
+            <p className="text-gray-600 text-lg leading-relaxed max-w-md pt-2">
+              Our signature dough is fermented for 48 hours to ensure a light, airy, and easily digestible crust that crisps perfectly in our wood-fired oven.
             </p>
-            <Link to="/build">
-              <Button size="lg" className="bg-background text-primary hover:bg-background/90 text-lg px-12 py-7 rounded-full shadow-2xl font-bold">
-                Start Building Now <ArrowRight className="w-5 h-5 ml-2" />
-              </Button>
-            </Link>
-          </motion.div>
+            <div className="pt-6 flex gap-4">
+              <Link to="/menu">
+                <button className="bg-[#FFC700] hover:bg-[#EBB336] text-black font-bold text-lg px-8 py-3 rounded-full transition-transform hover:scale-105 shadow-md">
+                  Order Now
+                </button>
+              </Link>
+              <Link to="/build">
+                <button className="bg-transparent border-2 border-[#1C1A1A] hover:bg-[#1C1A1A] hover:text-white text-[#1C1A1A] font-bold text-lg px-8 py-3 rounded-full transition-colors">
+                  Build Your Own
+                </button>
+              </Link>
+            </div>
+          </div>
+          
         </div>
       </section>
+
+      {/* 4. PRODUCT GRID (Light Cream) */}
+      <section className="bg-[#FFF6EA] pb-32">
+        <div className="container mx-auto px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+            
+            {/* Product 1 */}
+            <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group">
+              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
+                <div className="absolute top-2 left-2 bg-[#1C1A1A] text-white font-['Chewy'] px-3 py-1 rounded-full text-sm z-10">Popular</div>
+                <img src={MENU_PIZZA} alt="Margherita" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <h3 className="font-['Chewy'] text-3xl text-[#1C1A1A]">Margherita</h3>
+              <p className="text-gray-500 text-sm mt-2 mb-6 flex-grow">Classic tomato sauce, fresh mozzarella, and basil.</p>
+              <div className="flex justify-between items-center mt-auto">
+                <span className="font-bold text-xl">$14.00</span>
+                <button className="bg-[#FFC700] p-2 rounded-xl hover:bg-[#EBB336] transition-colors shadow-sm">
+                   <ShoppingCart size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Product 2 */}
+            <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group">
+              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
+                <div className="absolute top-2 left-2 bg-[#EBB336] text-black font-['Chewy'] px-3 py-1 rounded-full text-sm z-10">New</div>
+                <img src={MENU_PASTA} alt="Pasta" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <h3 className="font-['Chewy'] text-3xl text-[#1C1A1A]">Penne Arrabiata</h3>
+              <p className="text-gray-500 text-sm mt-2 mb-6 flex-grow">Spicy tomato sauce with garlic and fresh herbs.</p>
+              <div className="flex justify-between items-center mt-auto">
+                <span className="font-bold text-xl">$12.50</span>
+                <button className="bg-[#FFC700] p-2 rounded-xl hover:bg-[#EBB336] transition-colors shadow-sm">
+                   <ShoppingCart size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Product 3 */}
+            <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group">
+              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
+                <div className="absolute top-2 left-2 bg-red-500 text-white font-['Chewy'] px-3 py-1 rounded-full text-sm z-10">Spicy</div>
+                <img src={MENU_BURGER} alt="Burger" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <h3 className="font-['Chewy'] text-3xl text-[#1C1A1A]">Pizzaro Burger</h3>
+              <p className="text-gray-500 text-sm mt-2 mb-6 flex-grow">Beef patty with melted pizza cheese and pepperoni.</p>
+              <div className="flex justify-between items-center mt-auto">
+                <span className="font-bold text-xl">$11.00</span>
+                <button className="bg-[#FFC700] p-2 rounded-xl hover:bg-[#EBB336] transition-colors shadow-sm">
+                   <ShoppingCart size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Product 4 */}
+            <div className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group">
+              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
+                <img src={MENU_SANDWICH} alt="Sandwich" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
+              </div>
+              <h3 className="font-['Chewy'] text-3xl text-[#1C1A1A]">Italian Sub</h3>
+              <p className="text-gray-500 text-sm mt-2 mb-6 flex-grow">Salami, prosciutto, fresh greens, and vinaigrette.</p>
+              <div className="flex justify-between items-center mt-auto">
+                <span className="font-bold text-xl">$9.50</span>
+                <button className="bg-[#FFC700] p-2 rounded-xl hover:bg-[#EBB336] transition-colors shadow-sm">
+                   <ShoppingCart size={20} />
+                </button>
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </section>
+
+      {/* 5. FOOTER OVERLAP SECTION */}
+      <section className="bg-[#1C1A1A] pt-24 pb-12 relative text-white">
+        {/* Floating Card */}
+        <div className="absolute left-1/2 -translate-x-1/2 -top-12 w-[90%] max-w-2xl bg-[#FFF2DD] rounded-2xl p-6 shadow-xl flex items-center justify-between text-[#1C1A1A]">
+          <div className="flex items-center gap-4">
+            <img src={COOKIES} alt="Cookie" className="w-16 h-16 rounded-full object-cover ring-4 ring-white shadow-md" />
+            <div>
+              <h4 className="font-['Chewy'] text-2xl">Sweet Tooth?</h4>
+              <p className="text-sm font-medium">Add fresh baked cookies to your order!</p>
+            </div>
+          </div>
+          <button className="bg-[#1C1A1A] hover:bg-[#333] text-white px-6 py-2 rounded-full font-bold text-sm transition-colors">
+            View Desserts
+          </button>
+        </div>
+
+        <div className="container mx-auto px-6 text-center pt-8">
+           <h2 className="font-['Chewy'] text-5xl mb-4 text-[#FFC700]">Pizzaro</h2>
+           <p className="text-gray-400 max-w-md mx-auto">
+             Delivering happiness, one slice at a time. Thank you for choosing the best pizza in town!
+           </p>
+        </div>
+      </section>
+
     </div>
   );
 };

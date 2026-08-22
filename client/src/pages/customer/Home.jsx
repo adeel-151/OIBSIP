@@ -1,7 +1,9 @@
-import React from 'react';
+import React, { useRef, useEffect } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { ChefHat, Truck, Clock, Leaf, ArrowRight, CheckCircle2, ShoppingCart, Settings2, Star, Sparkles, Flame, Shield } from 'lucide-react';
+import gsap from 'gsap';
+import Hero3DScene from '../../components/pizza/Hero3DScene';
 import SEO from '../../components/SEO';
 import Button from '../../components/ui/Button';
 import useCartStore from '../../store/cartStore';
@@ -124,6 +126,40 @@ const itemVariants = {
 const Home = () => {
   const { addToCart } = useCartStore();
   const navigate = useNavigate();
+  const heroRef = useRef(null);
+  const badgeRef = useRef(null);
+  const textRef1 = useRef(null);
+  const textRef2 = useRef(null);
+  const pRef = useRef(null);
+  const btnRef = useRef(null);
+
+  useEffect(() => {
+    const ctx = gsap.context(() => {
+      const tl = gsap.timeline({ delay: 0.2 });
+      
+      tl.fromTo(badgeRef.current, 
+        { opacity: 0, y: 20 }, 
+        { opacity: 1, y: 0, duration: 0.8, ease: "power3.out" }
+      )
+      .fromTo([textRef1.current, textRef2.current], 
+        { opacity: 0, y: 50, rotationX: -15, transformOrigin: "0% 50% -50" }, 
+        { opacity: 1, y: 0, rotationX: 0, duration: 1, stagger: 0.2, ease: "power4.out" },
+        "-=0.6"
+      )
+      .fromTo(pRef.current, 
+        { opacity: 0, y: 20 }, 
+        { opacity: 1, y: 0, duration: 0.8, ease: "power2.out" },
+        "-=0.6"
+      )
+      .fromTo(btnRef.current, 
+        { opacity: 0, y: 20 }, 
+        { opacity: 1, y: 0, duration: 0.5, ease: "back.out(1.5)" },
+        "-=0.4"
+      );
+    }, heroRef);
+
+    return () => ctx.revert();
+  }, []);
 
   const handleQuickAdd = (pizza) => {
     addToCart({
@@ -142,48 +178,33 @@ const Home = () => {
       <SEO title="Home" />
       
       {/* ─── HERO ─── */}
-      <section className="relative min-h-[100dvh] pt-24 pb-12 md:pt-32 flex flex-col justify-center overflow-hidden">
-        {/* Background */}
-        <div className="absolute inset-0 z-0">
-          <div className="absolute inset-0 bg-gradient-to-r from-background via-background/95 to-background/40 z-10" />
-          <div className="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent z-10" />
-          <img 
-            src="https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&q=80&w=2000" 
-            alt="Premium Pizza" 
-            className="w-full h-full object-cover scale-105"
-          />
-        </div>
+      <section ref={heroRef} className="relative min-h-[100dvh] pt-24 pb-12 md:pt-32 flex flex-col justify-center overflow-hidden" style={{ perspective: '1000px' }}>
+        {/* 3D Background */}
+        <Hero3DScene />
         
         {/* Decorative Glow */}
-        <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] z-0" />
+        <div className="absolute top-1/2 left-1/4 w-[500px] h-[500px] bg-primary/10 rounded-full blur-[120px] z-0 pointer-events-none" />
         
         <div className="container relative z-20 mx-auto px-4">
-          <motion.div 
-            initial={{ opacity: 0, y: 40 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 1, ease: [0.22, 1, 0.36, 1] }}
-            className="max-w-2xl"
-          >
-            <motion.div 
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ delay: 0.3 }}
-              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium mb-6"
+          <div className="max-w-2xl pointer-events-none">
+            <div 
+              ref={badgeRef}
+              className="inline-flex items-center gap-2 px-4 py-2 rounded-full glass text-sm font-medium mb-6 opacity-0"
             >
               <Sparkles className="w-4 h-4 text-accent" />
               <span className="text-foreground/80">Now with Real-Time Order Tracking</span>
-            </motion.div>
+            </div>
 
             <h1 className="text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-extrabold font-heading mb-6 leading-[0.95] tracking-tight">
-              Your Pizza.<br />
-              <span className="text-gradient">Your Rules.</span>
+              <div ref={textRef1} className="opacity-0">Your Pizza.</div>
+              <div ref={textRef2} className="text-gradient opacity-0">Your Rules.</div>
             </h1>
             
-            <p className="text-lg md:text-xl text-foreground/60 mb-8 max-w-lg leading-relaxed">
+            <p ref={pRef} className="text-lg md:text-xl text-foreground/60 mb-8 max-w-lg leading-relaxed opacity-0">
               Build your perfect pizza from 50+ premium ingredients and track every step from our kitchen to your doorstep.
             </p>
             
-            <div className="flex flex-wrap gap-4 mb-10 md:mb-12">
+            <div ref={btnRef} className="flex flex-wrap gap-4 mb-10 md:mb-12 opacity-0 pointer-events-auto">
               <Link to="/build">
                 <Button variant="default" size="lg" className="text-base md:text-lg px-8 md:px-10 py-6 rounded-full shadow-xl shadow-primary/30 glow-primary bg-primary text-primary-foreground hover:bg-primary/90">
                   <Flame className="w-5 h-5 mr-2" /> Build Your Pizza
@@ -195,8 +216,7 @@ const Home = () => {
                 </Button>
               </Link>
             </div>
-
-          </motion.div>
+          </div>
         </div>
       </section>
 

@@ -19,6 +19,7 @@ const Navbar = () => {
   const profileMenuRef = useRef(null);
 
   const navLinks = [
+    { label: 'Home', path: '/' },
     { label: 'Menu', path: '/menu' },
     { label: 'Build Pizza', path: '/build' },
     { label: 'Track Order', path: user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/track-order' },

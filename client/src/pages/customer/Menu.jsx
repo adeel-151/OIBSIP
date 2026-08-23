@@ -57,6 +57,30 @@ const MOCK_PIZZAS = [
     price: 429, basePrice: 429, rating: 4.7, calories: 920, tag: 'New', isVeg: true,
     image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&q=80&w=800'
   },
+  {
+    _id: 'm9', name: 'Buffalo Ranch',
+    description: 'Crispy chicken coated in spicy buffalo sauce with a ranch drizzle.',
+    price: 479, basePrice: 479, rating: 4.8, calories: 1050, tag: 'Spicy', isVeg: false,
+    image: 'https://images.unsplash.com/photo-1590947132387-155cc02f3212?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    _id: 'm10', name: 'Spinach & Feta',
+    description: 'Fresh spinach, crumbled feta, garlic oil, and mozzarella.',
+    price: 389, basePrice: 389, rating: 4.6, calories: 750, isVeg: true,
+    image: 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    _id: 'm11', name: 'Pesto Chicken',
+    description: 'Grilled chicken, fresh pesto sauce, roasted tomatoes, and parmesan.',
+    price: 529, basePrice: 529, rating: 4.9, calories: 980, tag: 'Must Try', isVeg: false,
+    image: 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?auto=format&fit=crop&q=80&w=800'
+  },
+  {
+    _id: 'm12', name: 'Margarita Extra',
+    description: 'Double fresh mozzarella, cherry tomatoes, and extra basil leaves.',
+    price: 349, basePrice: 349, rating: 4.7, calories: 880, isVeg: true,
+    image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=800'
+  },
 ];
 
 const CATEGORIES = [

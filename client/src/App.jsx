@@ -16,6 +16,7 @@ const Register = lazy(() => import('./pages/auth/Register'));
 const Menu = lazy(() => import('./pages/customer/Menu'));
 const PizzaBuilder = lazy(() => import('./pages/customer/PizzaBuilder'));
 const Cart = lazy(() => import('./pages/customer/Cart'));
+const About = lazy(() => import('./pages/customer/About'));
 const Dashboard = lazy(() => import('./pages/customer/Dashboard'));
 const Profile = lazy(() => import('./pages/customer/Profile'));
 const NotFound = lazy(() => import('./pages/NotFound'));
@@ -49,6 +50,7 @@ function App() {
             <Route path="/" element={<CustomerLayout><Home /></CustomerLayout>} />
             <Route path="/menu" element={<CustomerLayout><Menu /></CustomerLayout>} />
             <Route path="/build" element={<CustomerLayout><PizzaBuilder /></CustomerLayout>} />
+            <Route path="/about" element={<CustomerLayout><About /></CustomerLayout>} />
             
             {/* Protected Customer Routes */}
             <Route path="/cart" element={

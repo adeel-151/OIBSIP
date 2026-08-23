@@ -7,7 +7,6 @@ import { getPizzaById } from '../../services/pizzaService';
 import { getAllIngredients } from '../../services/ingredientService';
 import PizzaPreview from '../../components/pizza/PizzaPreview';
 import IngredientCard from '../../components/pizza/IngredientCard';
-import Button from '../../components/ui/Button';
 import { toast } from 'sonner';
 import { ArrowLeft, ArrowRight, ShoppingCart, Check, Ruler, Flame, Leaf } from 'lucide-react';
 import SEO from '../../components/SEO';
@@ -159,31 +158,33 @@ const PizzaBuilder = () => {
     // SIZE step
     if (currentStep.id === 'SIZE') {
       return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
           {SIZES.map(size => (
             <motion.div
               key={size.id}
               whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
+              whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedSize(size)}
-              className={`relative cursor-pointer rounded-2xl border-2 p-6 text-center transition-all duration-300 ${
+              className={`relative cursor-pointer rounded-3xl border-4 p-6 text-center transition-all duration-300 ${
                 selectedSize.id === size.id
-                  ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10'
-                  : 'border-border bg-card hover:border-primary/40'
+                  ? 'border-foreground bg-primary shadow-[6px_6px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                  : 'border-foreground bg-card hover:bg-background hover:-translate-y-1 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
               }`}
             >
               {selectedSize.id === size.id && (
-                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute top-2 right-2 bg-primary rounded-full p-1">
-                  <Check size={12} className="text-primary-foreground" />
+                <motion.div initial={{ scale: 0 }} animate={{ scale: 1 }} className="absolute top-2 right-2 bg-foreground rounded-full p-1">
+                  <Check size={16} className="text-background font-bold" />
                 </motion.div>
               )}
-              <div className="text-3xl mb-3">{size.icon}</div>
-              <h4 className="font-bold text-lg font-heading">{size.name}</h4>
-              <p className="text-sm text-muted-foreground">{size.size}</p>
-              <p className="text-xs text-muted-foreground mt-1">{size.serves}</p>
-              <p className="text-sm font-bold text-primary mt-3">
-                {size.multiplier === 1 ? 'Base price' : `${size.multiplier}x`}
-              </p>
+              <div className="text-4xl mb-3">{size.icon}</div>
+              <h4 className={`font-bold text-2xl font-['Chewy'] tracking-wide ${selectedSize.id === size.id ? 'text-foreground' : 'text-foreground'}`}>{size.name}</h4>
+              <p className={`text-sm font-bold ${selectedSize.id === size.id ? 'text-foreground/80' : 'text-muted-foreground'}`}>{size.size}</p>
+              <p className={`text-xs mt-1 font-bold ${selectedSize.id === size.id ? 'text-foreground/80' : 'text-muted-foreground'}`}>{size.serves}</p>
+              <div className="mt-4 pt-3 border-t-2 border-foreground/10">
+                 <p className={`text-sm font-bold ${selectedSize.id === size.id ? 'text-foreground' : 'text-primary'}`}>
+                   {size.multiplier === 1 ? 'Base price' : `${size.multiplier}x price`}
+                 </p>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -193,63 +194,63 @@ const PizzaBuilder = () => {
     // REVIEW step
     if (currentStep.id === 'REVIEW') {
       return (
-        <div className="bg-card border border-border rounded-2xl p-8 shadow-sm">
-          <h3 className="text-2xl font-bold font-heading mb-6 border-b border-border pb-4">Your Masterpiece</h3>
-          <ul className="space-y-4 mb-8 text-foreground/90">
-            <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
+        <div className="bg-card border-4 border-foreground rounded-[2rem] p-8 shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
+          <h3 className="text-4xl font-['Chewy'] text-foreground mb-6 border-b-4 border-foreground pb-4 tracking-wide">Your Masterpiece</h3>
+          <ul className="space-y-4 mb-8 text-foreground/90 font-bold">
+            <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
-                <span className="font-bold block">Size</span>
+                <span className="block text-lg">Size</span>
                 <span className="text-sm text-muted-foreground">{selectedSize.name} ({selectedSize.size})</span>
               </div>
-              <span className="font-medium">{selectedSize.multiplier}x</span>
+              <span className="text-lg bg-primary px-3 py-1 rounded-lg border-2 border-foreground">{selectedSize.multiplier}x</span>
             </li>
-            <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
+            <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
-                <span className="font-bold block">Base</span>
+                <span className="block text-lg">Base</span>
                 <span className="text-sm text-muted-foreground">{selectedBase?.name}</span>
               </div>
-              <span className="font-medium">+Rs.{selectedBase?.price}</span>
+              <span className="text-lg">+Rs.{selectedBase?.price}</span>
             </li>
-            <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
+            <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
-                <span className="font-bold block">Sauce</span>
+                <span className="block text-lg">Sauce</span>
                 <span className="text-sm text-muted-foreground">{selectedSauce?.name || 'None'}</span>
               </div>
-              <span className="font-medium">+Rs.{selectedSauce?.price || 0}</span>
+              <span className="text-lg">+Rs.{selectedSauce?.price || 0}</span>
             </li>
-            <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
+            <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
-                <span className="font-bold block">Cheese</span>
+                <span className="block text-lg">Cheese</span>
                 <span className="text-sm text-muted-foreground">{selectedCheese?.name || 'None'}</span>
               </div>
-              <span className="font-medium">+Rs.{selectedCheese?.price || 0}</span>
+              <span className="text-lg">+Rs.{selectedCheese?.price || 0}</span>
             </li>
-            <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
+            <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
-                <span className="font-bold block">Vegetables</span>
+                <span className="block text-lg">Vegetables</span>
                 <span className="text-sm text-muted-foreground">
                   {selectedVegetables.length > 0 ? selectedVegetables.map(v => v.name).join(', ') : 'None'}
                 </span>
               </div>
-              <span className="font-medium">
+              <span className="text-lg">
                 +Rs.{selectedVegetables.reduce((acc, curr) => acc + curr.price, 0)}
               </span>
             </li>
-            <li className="flex justify-between items-center bg-secondary/50 p-4 rounded-lg">
+            <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
-                <span className="font-bold block">Meats</span>
+                <span className="block text-lg">Meats</span>
                 <span className="text-sm text-muted-foreground">
                   {selectedMeats.length > 0 ? selectedMeats.map(m => m.name).join(', ') : 'None'}
                 </span>
               </div>
-              <span className="font-medium">
+              <span className="text-lg">
                 +Rs.{meatTotal}
               </span>
             </li>
           </ul>
-          <div className="border-t border-border pt-4 flex justify-between items-center">
-            <span className="text-lg font-bold">Grand Total</span>
-            <span className="text-3xl font-extrabold text-primary font-heading">Rs.{finalPrice}</span>
+          <div className="border-t-4 border-foreground pt-6 flex justify-between items-center bg-primary p-6 rounded-2xl border-4 mt-6 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+            <span className="text-2xl font-bold font-['Chewy'] tracking-wide">Grand Total</span>
+            <span className="text-4xl font-extrabold font-['Chewy'] text-foreground tracking-wide">Rs.{finalPrice}</span>
           </div>
         </div>
       );
@@ -261,15 +262,15 @@ const PizzaBuilder = () => {
 
     if (availableIngredients.length === 0) {
       return (
-        <div className="text-center py-12 text-muted-foreground">
-          <p className="text-lg mb-2">No {currentStep.title.toLowerCase()} available</p>
-          <p className="text-sm">Skip this step or check back later.</p>
+        <div className="text-center py-12 text-muted-foreground border-4 border-dashed border-foreground/30 rounded-[2rem]">
+          <p className="text-2xl font-['Chewy'] mb-2 text-foreground">No {currentStep.title.toLowerCase()} available</p>
+          <p className="font-bold">Skip this step or check back later.</p>
         </div>
       );
     }
 
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
         {availableIngredients.map(ingredient => {
           let isSelected = false;
           let onClick = () => {};
@@ -307,7 +308,7 @@ const PizzaBuilder = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-[60vh]">
-        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary"></div>
+        <div className="animate-spin rounded-full h-16 w-16 border-t-8 border-b-8 border-primary"></div>
       </div>
     );
   }
@@ -323,17 +324,24 @@ const PizzaBuilder = () => {
   };
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background py-8">
-      <SEO title="Pizza Builder" description="Build your perfect custom pizza with 50+ premium ingredients." />
-      <div className="container mx-auto px-4 max-w-6xl">
+    <div className="min-h-screen bg-background pt-32 pb-24">
+      <SEO title="Pizza Builder | Pizzaro" description="Build your perfect custom pizza with premium ingredients." />
+      
+      <div className="container mx-auto px-6 max-w-7xl">
         
+        {/* Page Header */}
+        <div className="text-center mb-16">
+          <h1 className="font-['Chewy'] text-6xl md:text-7xl text-foreground tracking-wide mb-4">Build Your Pizza</h1>
+          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-bold">Craft the perfect pie with our fresh, artisanal ingredients. The oven is hot and waiting!</p>
+        </div>
+
         {/* Step Indicator */}
-        <div className="mb-12 hidden md:flex justify-between relative">
-          <div className="absolute top-1/2 left-0 right-0 h-1 bg-border -translate-y-1/2 z-0" />
+        <div className="mb-16 hidden md:flex justify-between relative px-8">
+          <div className="absolute top-1/2 left-8 right-8 h-2 bg-foreground/10 -translate-y-1/2 z-0 rounded-full" />
           {/* Progress fill */}
           <div 
-            className="absolute top-1/2 left-0 h-1 bg-primary -translate-y-1/2 z-0 transition-all duration-500"
-            style={{ width: `${(currentStepIndex / (STEPS.length - 1)) * 100}%` }}
+            className="absolute top-1/2 left-8 h-2 bg-primary -translate-y-1/2 z-0 transition-all duration-500 rounded-full"
+            style={{ width: `calc(${(currentStepIndex / (STEPS.length - 1)) * 100}% - 4rem)` }}
           />
           {STEPS.map((step, index) => {
             const isActive = index === currentStepIndex;
@@ -344,16 +352,16 @@ const PizzaBuilder = () => {
                 className="relative z-10 flex flex-col items-center cursor-pointer group"
                 onClick={() => index < currentStepIndex && setCurrentStepIndex(index)}
               >
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm transition-all duration-300 ${
-                  isActive ? 'bg-primary text-primary-foreground scale-110 shadow-lg shadow-primary/20' : 
-                  isCompleted ? 'bg-accent text-accent-foreground' : 
-                  'bg-card text-muted-foreground border-2 border-border group-hover:border-primary/50'
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] ${
+                  isActive ? 'bg-primary text-foreground scale-110 shadow-[6px_6px_0px_0px_hsl(var(--foreground))] -translate-y-1' : 
+                  isCompleted ? 'bg-foreground text-background' : 
+                  'bg-card text-muted-foreground group-hover:bg-background'
                 }`}>
-                  {isCompleted ? <Check className="w-5 h-5" /> : `0${index + 1}`}
+                  {isCompleted ? <Check className="w-6 h-6" /> : `0${index + 1}`}
                 </div>
-                <span className={`mt-2 text-sm font-medium transition-colors ${
+                <span className={`mt-4 text-lg font-['Chewy'] tracking-wide transition-colors ${
                   isActive ? 'text-primary' : 
-                  isCompleted ? 'text-accent' : 'text-muted-foreground'
+                  isCompleted ? 'text-foreground' : 'text-muted-foreground'
                 }`}>
                   {step.title}
                 </span>
@@ -364,80 +372,84 @@ const PizzaBuilder = () => {
 
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Left: Interactive Preview */}
-          <div className="w-full lg:w-1/3">
-            <div className="sticky top-24 bg-card border border-border rounded-3xl p-6 shadow-sm flex flex-col items-center">
-              <PizzaPreview 
-                base={selectedBase} 
-                sauce={selectedSauce} 
-                cheese={selectedCheese} 
-                vegetables={selectedVegetables} 
-              />
+          <div className="w-full lg:w-[35%]">
+            <div className="sticky top-32 bg-card border-4 border-foreground rounded-[2.5rem] p-8 shadow-[12px_12px_0px_0px_hsl(var(--foreground))] flex flex-col items-center">
+              
+              <div className="w-full aspect-square relative mb-6 bg-background rounded-full border-4 border-foreground shadow-inner flex items-center justify-center p-4">
+                 <PizzaPreview 
+                   base={selectedBase} 
+                   sauce={selectedSauce} 
+                   cheese={selectedCheese} 
+                   vegetables={selectedVegetables} 
+                 />
+              </div>
               
               {/* Size Badge */}
-              <div className="mb-4 px-4 py-2 bg-secondary/50 rounded-full text-sm font-medium text-muted-foreground">
+              <div className="mb-6 px-6 py-2 bg-primary border-4 border-foreground rounded-full text-lg font-bold text-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
                 {selectedSize.icon} {selectedSize.name} ({selectedSize.size})
               </div>
               
-              <div className="mt-4 w-full border-t border-border pt-6 flex justify-between items-center">
+              <div className="w-full border-t-4 border-foreground pt-6 mt-2 flex justify-between items-center">
                 <div>
-                  <span className="text-muted-foreground text-sm font-medium uppercase tracking-wider">Total Amount</span>
-                  <h2 className="text-3xl font-bold font-heading text-primary">Rs.{finalPrice}</h2>
+                  <span className="text-muted-foreground text-sm font-bold uppercase tracking-widest">Total Amount</span>
+                  <h2 className="text-4xl font-bold font-['Chewy'] text-foreground tracking-wide mt-1">Rs.{finalPrice}</h2>
                 </div>
-                <div className="text-right text-xs text-muted-foreground">
+                <div className="text-right text-xs font-bold text-muted-foreground bg-background border-2 border-foreground p-2 rounded-lg">
                   {selectedSize.multiplier !== 1 && (
-                    <span className="block text-accent font-semibold">{selectedSize.multiplier}x size multiplier</span>
+                    <span className="block text-primary text-sm mb-1">{selectedSize.multiplier}x size mult</span>
                   )}
-                  Dynamic Pricing
+                  Dynamic Price
                 </div>
               </div>
             </div>
           </div>
 
           {/* Right: Selection Area */}
-          <div className="w-full lg:w-2/3">
+          <div className="w-full lg:w-[65%]">
             {/* Mobile Step Indicator */}
-            <div className="md:hidden mb-6 flex justify-between items-center bg-card p-4 rounded-xl border border-border">
-              <span className="font-bold text-primary">Step {currentStepIndex + 1} of {STEPS.length}</span>
-              <span className="font-medium">{currentStep.title}</span>
+            <div className="md:hidden mb-8 flex justify-between items-center bg-card p-5 rounded-2xl border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+              <span className="font-['Chewy'] text-xl text-primary">Step {currentStepIndex + 1} of {STEPS.length}</span>
+              <span className="font-bold text-lg">{currentStep.title}</span>
             </div>
 
-            <div className="bg-background min-h-[400px]">
+            <div className="bg-transparent min-h-[400px]">
               <AnimatePresence mode="wait">
                 <motion.div
                   key={currentStep.id}
-                  initial={{ opacity: 0, x: 20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -20 }}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  exit={{ opacity: 0, y: -20 }}
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
-                  <div className="mb-8">
-                    <h2 className="text-3xl font-bold font-heading mb-2">
+                  <div className="mb-10 flex flex-col items-start bg-card border-4 border-foreground p-6 rounded-[2rem] shadow-[6px_6px_0px_0px_hsl(var(--foreground))]">
+                    <h2 className="text-4xl font-['Chewy'] text-foreground tracking-wide mb-2">
                       {currentStep.id === 'REVIEW' ? 'Review Order' : `Choose your ${currentStep.title.toLowerCase()}`}
                     </h2>
-                    <p className="text-muted-foreground">{stepDescriptions[currentStep.id]}</p>
+                    <p className="text-muted-foreground font-bold text-lg">{stepDescriptions[currentStep.id]}</p>
                   </div>
+                  
                   {renderStepContent()}
                 </motion.div>
               </AnimatePresence>
             </div>
 
             {/* Navigation Buttons */}
-            <div className="mt-12 flex justify-between items-center border-t border-border pt-8">
+            <div className="mt-16 flex justify-between items-center">
               <button 
                 onClick={handlePrev} 
                 disabled={currentStepIndex === 0}
-                className={`w-[120px] flex items-center justify-center gap-2 px-6 py-3.5 rounded-full font-bold font-heading border-2 border-border transition-all duration-300 ${currentStepIndex === 0 ? 'opacity-50 cursor-not-allowed bg-secondary/30' : 'bg-background hover:bg-secondary/80 hover:border-foreground/20 text-foreground active:scale-95'}`}
+                className={`w-[140px] flex items-center justify-center gap-2 px-6 py-4 rounded-full font-['Chewy'] text-2xl tracking-wide border-4 transition-all duration-300 ${currentStepIndex === 0 ? 'opacity-50 cursor-not-allowed bg-background border-foreground text-foreground' : 'bg-background hover:bg-foreground hover:text-background text-foreground border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1'}`}
               >
-                <ArrowLeft className="w-4 h-4" /> Back
+                <ArrowLeft className="w-5 h-5" /> Back
               </button>
               <button 
                 onClick={handleNext}
-                className={`min-w-[160px] flex items-center justify-center gap-2 px-8 py-3.5 rounded-full font-bold font-heading shadow-xl transition-all duration-300 active:scale-95 ${currentStepIndex === STEPS.length - 1 ? 'bg-gradient-to-r from-primary to-rose-600 text-white shadow-primary/30 hover:shadow-2xl hover:shadow-primary/40' : 'bg-foreground text-background hover:bg-foreground/90 shadow-foreground/20'}`}
+                className={`min-w-[180px] flex items-center justify-center gap-3 px-10 py-4 rounded-full font-['Chewy'] text-2xl tracking-wide border-4 transition-all duration-300 ${currentStepIndex === STEPS.length - 1 ? 'bg-primary text-foreground border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:bg-primary/80 hover:shadow-none hover:translate-y-1' : 'bg-foreground text-background border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1'}`}
               >
                 {currentStepIndex === STEPS.length - 1 ? (
-                  <><ShoppingCart className="w-4 h-4 mr-2" /> Add to Cart — Rs.{finalPrice}</>
+                  <><ShoppingCart className="w-6 h-6 mr-1" /> Add to Cart</>
                 ) : (
-                  <>Next <ArrowRight className="w-4 h-4 ml-2" /></>
+                  <>Next Step <ArrowRight className="w-5 h-5 ml-1" /></>
                 )}
               </button>
             </div>

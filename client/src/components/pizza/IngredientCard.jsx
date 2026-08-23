@@ -5,16 +5,16 @@ import { Check } from 'lucide-react';
 const IngredientCard = ({ ingredient, isSelected, onClick }) => {
   return (
     <motion.div 
-      className={`relative cursor-pointer rounded-2xl overflow-hidden border-2 transition-all duration-300 ${
+      className={`relative cursor-pointer rounded-3xl overflow-hidden border-4 transition-all duration-300 ${
         isSelected 
-          ? 'border-primary bg-primary/5 shadow-lg shadow-primary/10' 
-          : 'border-border bg-card hover:border-primary/40 hover:bg-secondary/50'
+          ? 'border-foreground bg-primary shadow-[6px_6px_0px_0px_hsl(var(--foreground))] -translate-y-1' 
+          : 'border-foreground bg-card hover:bg-background hover:-translate-y-1 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
       }`}
       onClick={onClick}
       whileHover={{ scale: 1.02 }}
-      whileTap={{ scale: 0.98 }}
+      whileTap={{ scale: 0.95 }}
     >
-      <div className="h-32 w-full overflow-hidden bg-secondary flex items-center justify-center">
+      <div className="h-32 w-full overflow-hidden bg-secondary flex items-center justify-center border-b-4 border-foreground">
         {ingredient.image ? (
           <img 
             src={ingredient.image} 
@@ -23,7 +23,7 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
             onError={(e) => { e.target.src = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=200&h=200' }}
           />
         ) : (
-          <div className="text-4xl font-heading text-muted-foreground opacity-20">
+          <div className="text-4xl font-['Chewy'] text-muted-foreground opacity-20">
              {ingredient.category.charAt(0)}
           </div>
         )}
@@ -31,18 +31,20 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
       
       <div className="p-4">
         <div className="flex justify-between items-start gap-2 mb-1">
-          <h4 className="font-bold font-heading text-foreground leading-tight">{ingredient.name}</h4>
+          <h4 className={`font-['Chewy'] text-xl leading-tight tracking-wide ${isSelected ? 'text-foreground' : 'text-foreground'}`}>
+            {ingredient.name}
+          </h4>
           {isSelected && (
             <motion.div 
               initial={{ scale: 0 }} 
               animate={{ scale: 1 }} 
-              className="bg-primary rounded-full p-1 flex-shrink-0"
+              className="bg-foreground rounded-full p-1 flex-shrink-0"
             >
-              <Check size={12} className="text-primary-foreground font-bold" />
+              <Check size={14} className="text-background font-bold" />
             </motion.div>
           )}
         </div>
-        <p className="text-sm font-medium text-muted-foreground">
+        <p className={`text-sm font-bold ${isSelected ? 'text-foreground/80' : 'text-muted-foreground'}`}>
           {ingredient.price === 0 ? 'Included' : `+ Rs.${ingredient.price}`}
         </p>
       </div>

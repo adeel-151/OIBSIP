@@ -45,7 +45,7 @@ const Home = () => {
               Experience the authentic taste of Italy with our hand-crafted, wood-fired pizzas. 
               Fresh ingredients, secret recipes, and a whole lot of love in every slice.
             </p>
-            <div className="pt-6">
+            <div className="pt-2">
               <Link to="/menu">
                 <button className="bg-primary hover:bg-primary/90 text-foreground font-bold text-lg px-8 py-4 rounded-full transition-transform hover:scale-105 shadow-xl shadow-primary/20">
                   ORDER NOW

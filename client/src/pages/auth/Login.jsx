@@ -8,13 +8,15 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { toast } from 'sonner';
 import useAuthStore from '../../store/authStore';
-import { Pizza, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import SEO from '../../components/SEO';
 
 const loginSchema = z.object({
   email: z.string().email('Please enter a valid email address'),
   password: z.string().min(1, 'Password is required'),
 });
+
+const HERO_PIZZA = 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=1200&auto=format&fit=crop';
 
 const Login = () => {
   const login = useAuthStore((state) => state.login);
@@ -38,74 +40,101 @@ const Login = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-background">
-      <SEO title="Login" />
+    <div className="min-h-screen flex font-sans bg-[#FFF6EA]">
+      <SEO title="Login | Pizzaro" />
       
       {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-rose-700 z-0" />
-        <div className="absolute inset-0 opacity-10 z-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
-        <div className="relative z-10 flex flex-col justify-center items-start p-16 max-w-lg">
-          <Link to="/" className="flex items-center gap-2 mb-12">
-            <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
-              <Pizza className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-2xl font-bold font-heading text-white tracking-tight">PIZZARO</span>
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#1C1A1A] items-center justify-center">
+        {/* Background decorations */}
+        <div className="absolute top-10 right-20 opacity-30 text-[#FFC700]">
+          <svg width="96" height="96" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round" className="transform -rotate-45">
+            <path d="M11 20A7 7 0 0 1 9.8 6.1C15.5 5 17 4.48 19 2c1 2 2 4.18 1 8.3C19.2 15.3 14.7 20 11 20Z"/>
+            <path d="M11 20c2.2 0 4-1.8 4-4L9.5 9.5"/>
+          </svg>
+        </div>
+        <div className="absolute top-40 right-1/2 opacity-20">
+          <div className="w-16 h-16 bg-[#FFC700] rounded-full blur-xl"></div>
+        </div>
+        
+        <div className="absolute inset-0 bg-[#FFC700] rounded-full blur-3xl opacity-10 scale-75"></div>
+        
+        <div className="relative z-10 flex flex-col items-center text-center p-12">
+          <Link to="/" className="mb-8">
+            <h1 className="font-['Chewy'] text-5xl md:text-6xl text-[#FFC700] tracking-wide drop-shadow-md hover:scale-105 transition-transform">
+              PIZZARO
+            </h1>
           </Link>
-          <h1 className="text-4xl font-extrabold font-heading text-white mb-6 leading-tight">
-            Welcome back, pizza lover!
-          </h1>
-          <p className="text-white/70 text-lg leading-relaxed">
-            Log in to your account to continue building delicious custom pizzas and tracking your orders.
+          <img 
+            src={HERO_PIZZA} 
+            alt="Wood-fired Pizza" 
+            className="w-[80%] max-w-[450px] object-cover rounded-full shadow-2xl ring-8 ring-[#2A2828] transform -rotate-3 mb-8"
+          />
+          <h2 className="text-3xl font-['Chewy'] text-white tracking-wide mb-4">
+            Welcome Back!
+          </h2>
+          <p className="text-gray-300 max-w-md text-lg leading-relaxed">
+            Log in to continue your delicious journey. Build custom pizzas, track your orders, and enjoy exclusive deals.
           </p>
         </div>
       </div>
 
       {/* Right Panel - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12">
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-[#FFF6EA]">
         <motion.div 
-          className="w-full max-w-md"
+          className="w-full max-w-md bg-white p-8 md:p-10 rounded-[2rem] shadow-xl border border-orange-100"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors lg:hidden">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to home
           </Link>
 
-          <div className="mb-10">
-            <h2 className="text-3xl font-extrabold font-heading mb-2">Sign in</h2>
-            <p className="text-muted-foreground">Enter your credentials to access your account</p>
+          <div className="mb-8">
+            <h2 className="text-4xl font-['Chewy'] text-[#1C1A1A] mb-2 tracking-wide">Sign In</h2>
+            <p className="text-gray-500">Enter your credentials to access your account</p>
           </div>
 
-          <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
-            <Input 
-              id="email"
-              label="Email Address"
-              type="email"
-              placeholder="john@example.com"
-              {...register('email')}
-              error={errors.email?.message}
-            />
+          <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+            <div className="space-y-1 text-[#1C1A1A]">
+              <Input 
+                id="email"
+                label="Email Address"
+                type="email"
+                placeholder="pizza.lover@example.com"
+                className="bg-gray-50 border-gray-200 focus-visible:ring-[#FFC700] focus-visible:border-[#FFC700]"
+                {...register('email')}
+                error={errors.email?.message}
+              />
+            </div>
             
-            <Input 
-              id="password"
-              label="Password"
-              type="password"
-              placeholder="••••••••"
-              {...register('password')}
-              error={errors.password?.message}
-            />
-
+            <div className="space-y-1 text-[#1C1A1A]">
+              <Input 
+                id="password"
+                label="Password"
+                type="password"
+                placeholder="••••••••"
+                className="bg-gray-50 border-gray-200 focus-visible:ring-[#FFC700] focus-visible:border-[#FFC700]"
+                {...register('password')}
+                error={errors.password?.message}
+              />
+            </div>
             
-            <Button type="submit" fullWidth isLoading={isLoading} className="h-12 rounded-xl text-base shadow-lg shadow-primary/20">
-              Sign In
-            </Button>
+            <div className="pt-4">
+              <Button 
+                type="submit" 
+                fullWidth 
+                isLoading={isLoading} 
+                className="h-14 rounded-full text-lg font-bold bg-[#FFC700] hover:bg-[#EBB336] text-[#1C1A1A] shadow-lg shadow-[#FFC700]/30 border-none transition-transform hover:scale-[1.02]"
+              >
+                Sign In
+              </Button>
+            </div>
           </form>
           
-          <p className="text-center mt-8 text-sm text-muted-foreground">
+          <p className="text-center mt-8 text-gray-500">
             Don't have an account?{' '}
-            <Link to="/register" className="text-primary font-semibold hover:text-primary/80 transition-colors">
+            <Link to="/register" className="text-[#e53935] font-bold hover:text-red-700 transition-colors">
               Sign up free
             </Link>
           </p>

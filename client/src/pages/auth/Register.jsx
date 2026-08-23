@@ -8,7 +8,7 @@ import Input from '../../components/ui/Input';
 import Button from '../../components/ui/Button';
 import { toast } from 'sonner';
 import useAuthStore from '../../store/authStore';
-import { Pizza, ArrowLeft } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import SEO from '../../components/SEO';
 
 const registerSchema = z.object({
@@ -20,6 +20,8 @@ const registerSchema = z.object({
   message: "Passwords don't match",
   path: ["confirmPassword"],
 });
+
+const FEATURED_PIZZA = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop';
 
 const Register = () => {
   const registerAction = useAuthStore((state) => state.register);
@@ -42,97 +44,123 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-screen flex bg-background">
-      <SEO title="Register" />
+    <div className="min-h-screen flex font-sans bg-[#FFF6EA]">
+      <SEO title="Register | Pizzaro" />
       
-      {/* Left Panel - Branding */}
-      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary via-primary to-rose-700 z-0" />
-        <div className="absolute inset-0 opacity-10 z-0" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg width=\'60\' height=\'60\' viewBox=\'0 0 60 60\' xmlns=\'http://www.w3.org/2000/svg\'%3E%3Cg fill=\'none\' fill-rule=\'evenodd\'%3E%3Cg fill=\'%23ffffff\' fill-opacity=\'1\'%3E%3Cpath d=\'M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z\'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")' }} />
-        <div className="relative z-10 flex flex-col justify-center items-start p-16 max-w-lg">
-          <Link to="/" className="flex items-center gap-2 mb-12">
-            <div className="w-10 h-10 bg-white/20 backdrop-blur rounded-xl flex items-center justify-center">
-              <Pizza className="h-5 w-5 text-white" />
-            </div>
-            <span className="text-2xl font-bold font-heading text-white tracking-tight">PIZZARO</span>
-          </Link>
-          <h1 className="text-4xl font-extrabold font-heading text-white mb-6 leading-tight">
-            Join the pizza revolution
-          </h1>
-          <p className="text-white/70 text-lg leading-relaxed">
-            Create your account today and unlock the full power of the Pizzaro pizza builder, exclusive deals, and real-time tracking.
-          </p>
-        </div>
-      </div>
-
-      {/* Right Panel - Form */}
-      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12">
+      {/* Left Panel - Form */}
+      <div className="w-full lg:w-1/2 flex items-center justify-center px-6 py-12 bg-[#FFF6EA] order-2 lg:order-1">
         <motion.div 
-          className="w-full max-w-md"
+          className="w-full max-w-md bg-white p-8 md:p-10 rounded-[2rem] shadow-xl border border-orange-100"
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
-          <Link to="/" className="inline-flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground mb-10 transition-colors lg:hidden">
+          <Link to="/" className="inline-flex items-center gap-2 text-sm text-gray-500 hover:text-black mb-8 transition-colors">
             <ArrowLeft className="w-4 h-4" /> Back to home
           </Link>
 
-          <div className="mb-10">
-            <h2 className="text-3xl font-extrabold font-heading mb-2">Create account</h2>
-            <p className="text-muted-foreground">Join Pizzaro and start crafting your perfect pizza</p>
+          <div className="mb-8">
+            <h2 className="text-4xl font-['Chewy'] text-[#1C1A1A] mb-2 tracking-wide">Create Account</h2>
+            <p className="text-gray-500">Join Pizzaro and start crafting your perfect pizza</p>
           </div>
 
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-1">
-            <Input 
-              id="name"
-              label="Full Name"
-              type="text"
-              placeholder="John Doe"
-              {...register('name')}
-              error={errors.name?.message}
-            />
+            <div className="text-[#1C1A1A]">
+              <Input 
+                id="name"
+                label="Full Name"
+                type="text"
+                placeholder="John Doe"
+                className="bg-gray-50 border-gray-200 focus-visible:ring-[#FFC700] focus-visible:border-[#FFC700]"
+                {...register('name')}
+                error={errors.name?.message}
+              />
+            </div>
             
-            <Input 
-              id="email"
-              label="Email Address"
-              type="email"
-              placeholder="john@example.com"
-              {...register('email')}
-              error={errors.email?.message}
-            />
+            <div className="text-[#1C1A1A]">
+              <Input 
+                id="email"
+                label="Email Address"
+                type="email"
+                placeholder="pizza.lover@example.com"
+                className="bg-gray-50 border-gray-200 focus-visible:ring-[#FFC700] focus-visible:border-[#FFC700]"
+                {...register('email')}
+                error={errors.email?.message}
+              />
+            </div>
             
-            <Input 
-              id="password"
-              label="Password"
-              type="password"
-              placeholder="••••••••"
-              {...register('password')}
-              error={errors.password?.message}
-            />
+            <div className="text-[#1C1A1A]">
+              <Input 
+                id="password"
+                label="Password"
+                type="password"
+                placeholder="••••••••"
+                className="bg-gray-50 border-gray-200 focus-visible:ring-[#FFC700] focus-visible:border-[#FFC700]"
+                {...register('password')}
+                error={errors.password?.message}
+              />
+            </div>
             
-            <Input 
-              id="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              placeholder="••••••••"
-              {...register('confirmPassword')}
-              error={errors.confirmPassword?.message}
-            />
+            <div className="text-[#1C1A1A]">
+              <Input 
+                id="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                placeholder="••••••••"
+                className="bg-gray-50 border-gray-200 focus-visible:ring-[#FFC700] focus-visible:border-[#FFC700]"
+                {...register('confirmPassword')}
+                error={errors.confirmPassword?.message}
+              />
+            </div>
             
-            <div className="pt-2">
-              <Button type="submit" fullWidth isLoading={isLoading} className="h-12 rounded-xl text-base shadow-lg shadow-primary/20">
+            <div className="pt-6">
+              <Button 
+                type="submit" 
+                fullWidth 
+                isLoading={isLoading} 
+                className="h-14 rounded-full text-lg font-bold bg-[#FFC700] hover:bg-[#EBB336] text-[#1C1A1A] shadow-lg shadow-[#FFC700]/30 border-none transition-transform hover:scale-[1.02]"
+              >
                 Create Account
               </Button>
             </div>
           </form>
           
-          <p className="text-center mt-8 text-sm text-muted-foreground">
+          <p className="text-center mt-8 text-gray-500">
             Already have an account?{' '}
-            <Link to="/login" className="text-primary font-semibold hover:text-primary/80 transition-colors">
+            <Link to="/login" className="text-[#e53935] font-bold hover:text-red-700 transition-colors">
               Sign in
             </Link>
           </p>
         </motion.div>
+      </div>
+
+      {/* Right Panel - Branding */}
+      <div className="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-[#1C1A1A] items-center justify-center order-1 lg:order-2">
+        {/* Background decorations */}
+        <div className="absolute top-20 left-10 opacity-30 text-[#e53935]">
+           <svg viewBox="0 0 24 24" fill="currentColor" stroke="none" className="w-20 h-20"><circle cx="12" cy="12" r="10"/></svg>
+        </div>
+        
+        <div className="absolute inset-0 bg-[#e53935] rounded-full blur-3xl opacity-10 scale-90 translate-x-1/4"></div>
+        
+        <div className="relative z-10 flex flex-col items-center text-center p-12">
+          <Link to="/" className="mb-8">
+            <h1 className="font-['Chewy'] text-5xl md:text-6xl text-[#FFC700] tracking-wide drop-shadow-md hover:scale-105 transition-transform">
+              PIZZARO
+            </h1>
+          </Link>
+          <img 
+            src={FEATURED_PIZZA} 
+            alt="Delicious Pizza" 
+            className="w-[80%] max-w-[450px] object-cover rounded-[3rem] shadow-2xl ring-8 ring-white transform rotate-3 mb-8"
+          />
+          <h2 className="text-3xl font-['Chewy'] text-white tracking-wide mb-4">
+            Join the Pizza Revolution
+          </h2>
+          <p className="text-gray-300 max-w-md text-lg leading-relaxed">
+            Create your account today and unlock the full power of the Pizzaro pizza builder, exclusive deals, and fast delivery.
+          </p>
+        </div>
       </div>
     </div>
   );

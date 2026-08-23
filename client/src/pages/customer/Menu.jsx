@@ -75,20 +75,20 @@ const SORT_OPTIONS = [
 ];
 
 const SkeletonCard = () => (
-  <div className="bg-card rounded-2xl overflow-hidden border border-border shadow-sm flex flex-col h-full animate-pulse">
-    <div className="h-48 md:h-56 bg-secondary w-full" />
-    <div className="p-5 flex flex-col flex-grow">
+  <div className="bg-card rounded-[2rem] overflow-hidden border-4 border-foreground shadow-[8px_8px_0px_0px_hsl(var(--foreground))] flex flex-col h-full animate-pulse">
+    <div className="h-48 md:h-64 bg-foreground/10 w-full border-b-4 border-foreground" />
+    <div className="p-6 flex flex-col flex-grow">
       <div className="flex justify-between items-start mb-4 gap-2">
-        <div className="h-6 bg-secondary rounded w-2/3" />
-        <div className="h-6 bg-secondary rounded w-1/4" />
+        <div className="h-8 bg-foreground/20 rounded-xl w-2/3" />
+        <div className="h-8 bg-foreground/20 rounded-xl w-1/4" />
       </div>
-      <div className="space-y-2 mb-6">
-        <div className="h-4 bg-secondary rounded w-full" />
-        <div className="h-4 bg-secondary rounded w-5/6" />
+      <div className="space-y-3 mb-8">
+        <div className="h-4 bg-foreground/10 rounded-lg w-full" />
+        <div className="h-4 bg-foreground/10 rounded-lg w-5/6" />
       </div>
-      <div className="flex items-center justify-between mt-auto pt-4 border-t border-border/50">
-        <div className="h-6 bg-secondary rounded w-16" />
-        <div className="h-8 bg-secondary rounded w-24 rounded-full" />
+      <div className="flex items-center justify-between mt-auto pt-5 border-t-4 border-foreground/10">
+        <div className="h-10 bg-foreground/20 rounded-xl w-20" />
+        <div className="h-12 bg-foreground/20 rounded-xl w-28" />
       </div>
     </div>
   </div>
@@ -176,16 +176,16 @@ const Menu = () => {
   }, [pizzas, searchQuery, activeCategory, sortBy]);
 
   return (
-    <div className="min-h-screen bg-background pt-32 pb-20">
-      <SEO title="Menu" description="Explore our premium pizza menu. Fresh ingredients, perfectly baked." />
-      <div className="container mx-auto px-4 max-w-7xl">
+    <div className="min-h-screen bg-background pt-32 pb-24">
+      <SEO title="Menu | Pizzaro" description="Explore our premium pizza menu. Fresh ingredients, perfectly baked." />
+      <div className="container mx-auto px-6 max-w-7xl">
         
         {/* Header */}
-        <div className="text-center mb-12 max-w-2xl mx-auto">
+        <div className="text-center mb-16 max-w-3xl mx-auto">
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-4xl md:text-5xl font-bold font-heading mb-4 leading-tight"
+            className="text-6xl md:text-7xl font-['Chewy'] mb-6 tracking-wide text-foreground"
           >
             Explore Our <span className="text-primary">Menu</span>
           </motion.h1>
@@ -193,16 +193,10 @@ const Menu = () => {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.2 }}
-            className="text-muted-foreground text-lg"
+            className="text-muted-foreground text-xl font-bold"
           >
             Discover your next favorite pizza. Fresh ingredients, perfectly baked.
           </motion.p>
-          <motion.div 
-            initial={{ opacity: 0, scale: 0 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.3 }}
-            className="h-1 w-20 bg-accent mx-auto rounded-full mt-6" 
-          />
         </div>
 
         {/* Search & Filter Bar */}
@@ -210,75 +204,75 @@ const Menu = () => {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.3 }}
-          className="mb-8"
+          className="mb-12"
         >
           {/* Search Input */}
-          <div className="relative max-w-lg mx-auto mb-6">
-            <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
+          <div className="relative max-w-2xl mx-auto mb-8">
+            <Search className="absolute left-6 top-1/2 -translate-y-1/2 w-6 h-6 text-foreground font-bold" />
             <input
               type="text"
               placeholder="Search pizzas..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
-              className="w-full pl-12 pr-12 py-3.5 bg-card border border-border rounded-2xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all shadow-sm"
+              className="w-full pl-16 pr-14 py-4 bg-background border-4 border-foreground rounded-full text-lg font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] transition-all"
             />
             {searchQuery && (
               <button
                 onClick={() => setSearchQuery('')}
-                className="absolute right-4 top-1/2 -translate-y-1/2 p-1 hover:bg-secondary rounded-full transition-colors"
+                className="absolute right-5 top-1/2 -translate-y-1/2 p-2 bg-foreground text-background hover:scale-110 rounded-full transition-transform"
               >
-                <X className="w-4 h-4 text-muted-foreground" />
+                <X className="w-5 h-5 font-bold" />
               </button>
             )}
           </div>
 
           {/* Category Tabs & Sort */}
-          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4">
+          <div className="flex flex-col md:flex-row justify-between items-center gap-6 bg-card border-4 border-foreground p-4 rounded-3xl shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
             {/* Category Pills */}
-            <div className="flex gap-2 overflow-x-auto pb-2 sm:pb-0 w-full sm:w-auto">
+            <div className="flex gap-3 overflow-x-auto pb-2 md:pb-0 w-full md:w-auto scrollbar-hide">
               {CATEGORIES.map(cat => (
                 <button
                   key={cat.id}
                   onClick={() => setActiveCategory(cat.id)}
-                  className={`flex items-center gap-1.5 px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-all ${
+                  className={`flex items-center gap-2 px-6 py-3 rounded-2xl text-lg font-['Chewy'] tracking-wide border-4 transition-all whitespace-nowrap ${
                     activeCategory === cat.id
-                      ? 'bg-primary text-primary-foreground shadow-md shadow-primary/20'
-                      : 'bg-card border border-border text-muted-foreground hover:text-foreground hover:border-primary/40'
+                      ? 'bg-primary text-foreground border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                      : 'bg-background border-transparent text-muted-foreground hover:border-foreground/30 hover:bg-secondary'
                   }`}
                 >
-                  {cat.icon && <cat.icon className="w-3.5 h-3.5" />}
+                  {cat.icon && <cat.icon className="w-5 h-5" />}
                   {cat.label}
                 </button>
               ))}
             </div>
 
             {/* Sort Dropdown */}
-            <div className="relative">
+            <div className="relative w-full md:w-auto">
               <button
                 onClick={() => setShowSortDropdown(!showSortDropdown)}
-                className="flex items-center gap-2 px-4 py-2 bg-card border border-border rounded-xl text-sm font-medium text-muted-foreground hover:text-foreground transition-all"
+                className="w-full md:w-auto flex items-center justify-between md:justify-start gap-3 px-6 py-3 bg-background border-4 border-foreground rounded-2xl text-lg font-['Chewy'] tracking-wide text-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:-translate-y-1 transition-all"
               >
-                <SlidersHorizontal className="w-4 h-4" />
+                <SlidersHorizontal className="w-5 h-5" />
                 {SORT_OPTIONS.find(s => s.id === sortBy)?.label}
-                <ChevronDown className={`w-3.5 h-3.5 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
+                <ChevronDown className={`w-5 h-5 transition-transform ${showSortDropdown ? 'rotate-180' : ''}`} />
               </button>
 
               <AnimatePresence>
                 {showSortDropdown && (
                   <motion.div
-                    initial={{ opacity: 0, y: -5 }}
+                    initial={{ opacity: 0, y: -10 }}
                     animate={{ opacity: 1, y: 0 }}
-                    exit={{ opacity: 0, y: -5 }}
-                    className="absolute right-0 top-full mt-2 w-48 bg-card border border-border rounded-xl shadow-xl z-20 overflow-hidden"
+                    exit={{ opacity: 0, y: -10 }}
+                    className="absolute right-0 top-full mt-3 w-full md:w-56 bg-background border-4 border-foreground rounded-2xl shadow-[8px_8px_0px_0px_hsl(var(--foreground))] z-30 overflow-hidden"
                   >
                     {SORT_OPTIONS.map(option => (
                       <button
                         key={option.id}
                         onClick={() => { setSortBy(option.id); setShowSortDropdown(false); }}
-                        className={`w-full text-left px-4 py-2.5 text-sm transition-colors ${
+                        className={`w-full text-left px-5 py-4 text-lg font-['Chewy'] tracking-wide border-b-4 border-foreground/10 last:border-0 transition-colors ${
                           sortBy === option.id
-                            ? 'bg-primary/10 text-primary font-semibold'
-                            : 'text-foreground/80 hover:bg-secondary'
+                            ? 'bg-primary text-foreground'
+                            : 'text-muted-foreground hover:bg-foreground hover:text-background'
                         }`}
                       >
                         {option.label}
@@ -293,8 +287,8 @@ const Menu = () => {
 
         {/* Results Count */}
         {!isLoading && (
-          <p className="text-sm text-muted-foreground mb-6">
-            Showing <span className="font-semibold text-foreground">{filteredPizzas.length}</span> pizza{filteredPizzas.length !== 1 ? 's' : ''}
+          <p className="text-lg font-bold text-muted-foreground mb-8 text-center md:text-left">
+            Showing <span className="font-black text-foreground">{filteredPizzas.length}</span> pizza{filteredPizzas.length !== 1 ? 's' : ''}
             {searchQuery && <> for "<span className="text-primary">{searchQuery}</span>"</>}
           </p>
         )}
@@ -304,23 +298,30 @@ const Menu = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.4 }}
-          className="mb-10 bg-gradient-to-r from-primary to-rose-600 rounded-3xl p-8 md:p-10 text-white flex flex-col md:flex-row items-center justify-between gap-6 shadow-2xl shadow-primary/20 overflow-hidden relative"
+          className="mb-16 bg-primary border-4 border-foreground rounded-[3rem] p-10 md:p-14 text-foreground flex flex-col md:flex-row items-center justify-between gap-8 shadow-[12px_12px_0px_0px_hsl(var(--foreground))] overflow-hidden relative"
         >
-          <div className="absolute top-0 right-0 w-64 h-64 bg-white/10 rounded-full blur-3xl -translate-y-1/2 translate-x-1/4" />
+          {/* Fun background graphics */}
+          <div className="absolute top-10 right-10 text-foreground/10 rotate-12 pointer-events-none">
+             <Star size={100} fill="currentColor" />
+          </div>
+          <div className="absolute -bottom-10 -left-10 text-background/30 -rotate-12 pointer-events-none">
+             <Flame size={150} fill="currentColor" />
+          </div>
+
           <div className="relative z-10 max-w-xl text-center md:text-left">
-            <h2 className="text-3xl font-black font-heading mb-2">Can't find what you're craving?</h2>
-            <p className="text-white/80 font-medium text-lg">Be the chef! Build your perfect pizza from scratch with our 50+ premium ingredients.</p>
+            <h2 className="text-5xl md:text-6xl font-['Chewy'] tracking-wide mb-4 text-foreground drop-shadow-sm">Can't find what you're craving?</h2>
+            <p className="text-foreground/80 font-bold text-xl">Be the chef! Build your perfect pizza from scratch with our 50+ premium ingredients.</p>
           </div>
           <button 
             onClick={() => navigate('/build')}
-            className="relative z-10 shrink-0 bg-white text-primary hover:bg-white/90 px-8 py-4 rounded-full font-black text-lg shadow-xl hover:shadow-2xl transition-all hover:scale-105 active:scale-95"
+            className="relative z-10 shrink-0 bg-foreground text-background hover:bg-background hover:text-foreground border-4 border-foreground px-10 py-5 rounded-full font-['Chewy'] text-3xl tracking-wide shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 transition-all duration-300"
           >
             Build Your Own
           </button>
         </motion.div>
 
         {/* Pizza Grid */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-10">
           {isLoading ? (
             Array.from({ length: 8 }).map((_, i) => <SkeletonCard key={i} />)
           ) : filteredPizzas.length > 0 ? (
@@ -338,18 +339,18 @@ const Menu = () => {
             <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
-              className="col-span-full text-center py-16"
+              className="col-span-full text-center py-24 bg-card border-4 border-foreground border-dashed rounded-[3rem]"
             >
-              <div className="w-20 h-20 bg-secondary rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-10 h-10 text-muted-foreground" />
+              <div className="w-24 h-24 bg-background border-4 border-foreground rounded-full flex items-center justify-center mx-auto mb-6 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+                <Search className="w-12 h-12 text-foreground font-bold" />
               </div>
-              <h3 className="text-xl font-bold font-heading mb-2">No pizzas found</h3>
-              <p className="text-muted-foreground text-sm mb-6">
+              <h3 className="text-4xl font-['Chewy'] text-foreground tracking-wide mb-3">No pizzas found</h3>
+              <p className="text-muted-foreground font-bold text-lg mb-8 max-w-md mx-auto">
                 Try adjusting your search or filter to find what you're looking for.
               </p>
               <button
                 onClick={() => { setSearchQuery(''); setActiveCategory('all'); }}
-                className="text-primary font-semibold text-sm hover:underline"
+                className="bg-primary text-foreground border-4 border-foreground rounded-full px-8 py-3 font-['Chewy'] text-xl tracking-wide shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1 transition-all"
               >
                 Clear all filters
               </button>

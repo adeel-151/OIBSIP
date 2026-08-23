@@ -145,7 +145,7 @@ const Cart = () => {
       if (paymentMethod === 'COD') {
         clearCart();
         toast.success('Order placed successfully!');
-        navigate('/dashboard');
+        navigate('/track-order');
         return;
       }
 
@@ -169,7 +169,7 @@ const Cart = () => {
             
             clearCart();
             toast.success('Payment successful! Order placed.');
-            navigate('/dashboard');
+            navigate('/track-order');
           } catch (error) {
             toast.error('Payment verification failed.');
           }

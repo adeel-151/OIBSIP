@@ -67,7 +67,7 @@ const Profile = () => {
       <div className="container mx-auto px-4 max-w-4xl">
         {/* Header */}
         <div className="flex items-center gap-4 mb-8">
-          <Link to="/dashboard" className="p-2 rounded-lg hover:bg-secondary transition-colors">
+          <Link to="/track-order" className="p-2 rounded-lg hover:bg-secondary transition-colors">
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>

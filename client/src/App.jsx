@@ -17,7 +17,7 @@ const Menu = lazy(() => import('./pages/customer/Menu'));
 const PizzaBuilder = lazy(() => import('./pages/customer/PizzaBuilder'));
 const Cart = lazy(() => import('./pages/customer/Cart'));
 const About = lazy(() => import('./pages/customer/About'));
-const Dashboard = lazy(() => import('./pages/customer/Dashboard'));
+const TrackOrder = lazy(() => import('./pages/customer/TrackOrder'));
 const Profile = lazy(() => import('./pages/customer/Profile'));
 const NotFound = lazy(() => import('./pages/NotFound'));
 
@@ -60,10 +60,10 @@ function App() {
                 </ProtectedRoute>
               </CustomerLayout>
             } />
-            <Route path="/dashboard" element={
+            <Route path="/track-order" element={
               <CustomerLayout>
                 <ProtectedRoute>
-                  <Dashboard />
+                  <TrackOrder />
                 </ProtectedRoute>
               </CustomerLayout>
             } />

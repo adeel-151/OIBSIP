@@ -4,33 +4,33 @@
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 0 0% 10%;
+    --background: 36 100% 96%; /* #FFF6EA */
+    --foreground: 0 4% 11%; /* #1C1A1A */
     
-    --card: 0 0% 98%;
-    --card-foreground: 0 0% 10%;
+    --card: 0 0% 100%; /* White */
+    --card-foreground: 0 4% 11%;
     
-    --popover: 0 0% 98%;
-    --popover-foreground: 0 0% 10%;
+    --popover: 36 100% 96%;
+    --popover-foreground: 0 4% 11%;
     
-    --primary: 348 83% 47%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 47 100% 50%; /* #FFC700 */
+    --primary-foreground: 0 4% 11%;
     
     --secondary: 0 0% 92%;
-    --secondary-foreground: 0 0% 10%;
+    --secondary-foreground: 0 4% 11%;
     
     --muted: 0 0% 92%;
     --muted-foreground: 0 0% 40%;
     
-    --accent: 43 96% 56%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 47 100% 50%;
+    --accent-foreground: 0 4% 11%;
     
     --destructive: 0 84.2% 60.2%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 88%;
+    --border: 0 4% 11%; /* Dark borders for the solid style */
     --input: 0 0% 88%;
-    --ring: 348 83% 47%;
+    --ring: 47 100% 50%;
     
     --radius: 0.75rem;
 
@@ -41,33 +41,33 @@
   }
 
   .dark {
-    --background: 0 0% 6%;
-    --foreground: 0 0% 96%;
+    --background: 0 4% 11%; /* #1C1A1A */
+    --foreground: 36 100% 96%; /* #FFF6EA */
     
-    --card: 0 0% 10%;
-    --card-foreground: 0 0% 96%;
+    --card: 0 0% 15%;
+    --card-foreground: 36 100% 96%;
     
-    --popover: 0 0% 10%;
-    --popover-foreground: 0 0% 96%;
+    --popover: 0 0% 15%;
+    --popover-foreground: 36 100% 96%;
     
-    --primary: 348 83% 47%;
-    --primary-foreground: 0 0% 98%;
+    --primary: 47 100% 50%; /* #FFC700 */
+    --primary-foreground: 0 4% 11%;
     
-    --secondary: 0 0% 13%;
-    --secondary-foreground: 0 0% 96%;
+    --secondary: 0 0% 20%;
+    --secondary-foreground: 36 100% 96%;
     
-    --muted: 0 0% 16%;
-    --muted-foreground: 0 0% 55%;
+    --muted: 0 0% 20%;
+    --muted-foreground: 0 0% 65%;
     
-    --accent: 43 96% 56%;
-    --accent-foreground: 0 0% 9%;
+    --accent: 47 100% 50%;
+    --accent-foreground: 0 4% 11%;
     
     --destructive: 0 62.8% 30.6%;
     --destructive-foreground: 0 0% 98%;
 
-    --border: 0 0% 16%;
-    --input: 0 0% 18%;
-    --ring: 348 83% 47%;
+    --border: 36 100% 96%; /* Light borders for the solid style in dark mode */
+    --input: 0 0% 25%;
+    --ring: 47 100% 50%;
     
     /* Semantic Status Colors */
     --success: 142 71% 45%;

@@ -196,24 +196,24 @@ const Cart = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-[calc(100vh-64px)] bg-background flex flex-col items-center justify-center p-4">
-        <SEO title="Cart" />
+      <div className="min-h-screen bg-background flex flex-col items-center justify-center p-4">
+        <SEO title="Cart | Pizzaro" />
         <motion.div 
           initial={{ opacity: 0, scale: 0.9 }}
           animate={{ opacity: 1, scale: 1 }}
-          className="text-center"
+          className="text-center bg-card p-12 rounded-[3rem] border-4 border-foreground shadow-[12px_12px_0px_0px_hsl(var(--foreground))] max-w-xl w-full"
         >
-          <div className="w-24 h-24 bg-secondary rounded-full flex items-center justify-center mx-auto mb-6 text-muted-foreground">
-            <ShoppingBag className="w-12 h-12" />
+          <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto mb-8 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] text-foreground">
+            <ShoppingBag className="w-16 h-16" />
           </div>
-          <h2 className="text-3xl font-bold font-heading mb-4">Your cart is empty</h2>
-          <p className="text-muted-foreground mb-8 max-w-md mx-auto">
+          <h2 className="text-5xl font-['Chewy'] mb-4 text-foreground tracking-wide">Your cart is empty</h2>
+          <p className="text-muted-foreground mb-8 text-lg font-bold">
             Looks like you haven't added anything to your cart yet. Discover our premium menu or build your own masterpiece.
           </p>
           <Link to="/menu">
-            <Button size="lg" variant="premium" className="rounded-full shadow-lg shadow-primary/20 px-8">
+            <button className="bg-foreground text-background font-['Chewy'] text-2xl px-10 py-4 rounded-full border-4 border-foreground hover:bg-background hover:text-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1 transition-all duration-300">
               Explore Pizzas
-            </Button>
+            </button>
           </Link>
         </motion.div>
       </div>
@@ -221,27 +221,27 @@ const Cart = () => {
   }
 
   return (
-    <div className="min-h-[calc(100vh-64px)] bg-background py-12">
-      <SEO title="Cart" />
-      <div className="container mx-auto px-4 max-w-6xl">
-        <h1 className="text-3xl md:text-4xl font-bold font-heading mb-8">Your Cart</h1>
+    <div className="min-h-screen bg-background py-20">
+      <SEO title="Cart | Pizzaro" />
+      <div className="container mx-auto px-6 max-w-7xl">
+        <h1 className="text-5xl md:text-6xl font-['Chewy'] mb-12 text-foreground tracking-wide">Your Cart</h1>
         
-        <div className="flex flex-col lg:flex-row gap-8">
+        <div className="flex flex-col lg:flex-row gap-12">
           {/* Left Column */}
-          <div className="w-full lg:w-2/3 space-y-6">
+          <div className="w-full lg:w-[65%] space-y-8">
             {/* Cart Items */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden shadow-sm">
-              <div className="p-6 border-b border-border bg-secondary/30 flex justify-between items-center">
-                <h2 className="font-bold text-lg">Order Items ({items.length})</h2>
+            <div className="bg-card rounded-[2rem] border-4 border-foreground overflow-hidden shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
+              <div className="p-6 border-b-4 border-foreground bg-primary flex justify-between items-center">
+                <h2 className="font-['Chewy'] text-3xl tracking-wide text-foreground">Order Items ({items.length})</h2>
                 <button 
                   onClick={clearCart}
-                  className="text-sm text-destructive hover:underline font-medium"
+                  className="text-lg text-foreground hover:text-background font-['Chewy'] tracking-wide border-2 border-transparent hover:border-foreground px-3 py-1 rounded-xl transition-all"
                 >
                   Clear Cart
                 </button>
               </div>
               
-              <div className="divide-y divide-border">
+              <div className="divide-y-4 divide-foreground/10 bg-background">
                 <AnimatePresence>
                   {items.map((item) => (
                     <motion.div 
@@ -250,9 +250,9 @@ const Cart = () => {
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 1 }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="p-6 flex flex-col sm:flex-row gap-6"
+                      className="p-6 flex flex-col sm:flex-row gap-6 hover:bg-card transition-colors"
                     >
-                      <div className="w-24 h-24 sm:w-28 sm:h-28 bg-secondary rounded-xl overflow-hidden flex-shrink-0">
+                      <div className="w-24 h-24 sm:w-32 sm:h-32 bg-secondary rounded-2xl overflow-hidden flex-shrink-0 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
                         <img 
                           src={item.image || 'https://images.unsplash.com/photo-1513104890138-7c749659a591?auto=format&fit=crop&q=80&w=300'} 
                           alt={item.name} 
@@ -264,44 +264,44 @@ const Cart = () => {
                       <div className="flex flex-col flex-grow justify-between">
                         <div className="flex justify-between items-start mb-2">
                           <div>
-                            <h3 className="text-lg font-bold font-heading">{item.name}</h3>
+                            <h3 className="text-3xl font-['Chewy'] tracking-wide text-foreground">{item.name}</h3>
                             {item.isCustom ? (
-                              <p className="text-sm text-muted-foreground mt-1">
+                              <p className="text-sm font-bold text-muted-foreground mt-1">
                                 {item.customIngredients?.size?.name && `${item.customIngredients.size.name} • `}
                                 {item.customIngredients.base?.name}, {item.customIngredients.sauce?.name || 'No sauce'}
                                 {item.customIngredients?.meats?.length > 0 && ` + ${item.customIngredients.meats.length} meat(s)`}
                               </p>
                             ) : (
-                              <p className="text-sm text-muted-foreground mt-1">Classic Menu Item</p>
+                              <p className="text-sm font-bold text-muted-foreground mt-1">Classic Menu Item</p>
                             )}
                           </div>
-                          <span className="text-lg font-bold text-primary whitespace-nowrap">Rs.{item.price * item.quantity}</span>
+                          <span className="text-2xl font-bold font-['Chewy'] text-primary whitespace-nowrap drop-shadow-sm">Rs.{item.price * item.quantity}</span>
                         </div>
 
                         <div className="flex justify-between items-center mt-4 sm:mt-0">
-                          <div className="flex items-center bg-secondary rounded-full border border-border p-1">
+                          <div className="flex items-center bg-card rounded-full border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] p-1">
                             <button 
                               onClick={() => updateQuantity(item.cartItemId, item.quantity - 1)}
-                              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-background transition-colors disabled:opacity-50"
+                              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-background text-foreground transition-colors disabled:opacity-50"
                               disabled={item.quantity <= 1}
                             >
-                              <Minus className="w-4 h-4" />
+                              <Minus className="w-5 h-5 font-bold" />
                             </button>
-                            <span className="w-10 text-center font-bold">{item.quantity}</span>
+                            <span className="w-12 text-center font-bold text-xl">{item.quantity}</span>
                             <button 
                               onClick={() => updateQuantity(item.cartItemId, item.quantity + 1)}
-                              className="w-8 h-8 flex items-center justify-center rounded-full hover:bg-background transition-colors"
+                              className="w-10 h-10 flex items-center justify-center rounded-full hover:bg-background text-foreground transition-colors"
                             >
-                              <Plus className="w-4 h-4" />
+                              <Plus className="w-5 h-5 font-bold" />
                             </button>
                           </div>
                           
                           <button 
                             onClick={() => removeFromCart(item.cartItemId)}
-                            className="p-2 text-muted-foreground hover:text-destructive hover:bg-destructive/10 rounded-full transition-colors"
+                            className="p-3 text-muted-foreground hover:text-white hover:bg-red-500 rounded-full border-2 border-transparent hover:border-foreground transition-colors"
                             title="Remove item"
                           >
-                            <Trash2 className="w-5 h-5" />
+                            <Trash2 className="w-6 h-6" />
                           </button>
                         </div>
                       </div>
@@ -312,35 +312,35 @@ const Cart = () => {
             </div>
 
             {/* Delivery Mode Toggle */}
-            <div className="bg-card rounded-2xl border border-border p-5">
-              <h3 className="font-bold text-sm mb-4 uppercase tracking-wider text-muted-foreground">Delivery Method</h3>
-              <div className="grid grid-cols-2 gap-3">
+            <div className="bg-card rounded-[2rem] border-4 border-foreground p-6 shadow-[6px_6px_0px_0px_hsl(var(--foreground))]">
+              <h3 className="font-['Chewy'] text-2xl mb-4 tracking-wide text-foreground">Delivery Method</h3>
+              <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setDeliveryMode('delivery')}
-                  className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
+                  className={`flex items-center gap-4 p-5 rounded-2xl border-4 transition-all ${
                     deliveryMode === 'delivery'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/40'
+                      ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                      : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
                   }`}
                 >
-                  <Truck className={`w-5 h-5 ${deliveryMode === 'delivery' ? 'text-primary' : 'text-muted-foreground'}`} />
+                  <Truck className={`w-8 h-8 ${deliveryMode === 'delivery' ? 'text-foreground' : 'text-muted-foreground'}`} />
                   <div className="text-left">
-                    <p className="font-bold text-sm">Delivery</p>
-                    <p className="text-xs text-muted-foreground">To your door • Rs.50</p>
+                    <p className={`font-bold text-xl font-['Chewy'] ${deliveryMode === 'delivery' ? 'text-foreground' : 'text-muted-foreground'}`}>Delivery</p>
+                    <p className={`text-sm font-bold ${deliveryMode === 'delivery' ? 'text-foreground/80' : 'text-muted-foreground'}`}>To your door • Rs.50</p>
                   </div>
                 </button>
                 <button
                   onClick={() => setDeliveryMode('pickup')}
-                  className={`flex items-center gap-3 p-4 rounded-xl border-2 transition-all ${
+                  className={`flex items-center gap-4 p-5 rounded-2xl border-4 transition-all ${
                     deliveryMode === 'pickup'
-                      ? 'border-primary bg-primary/5'
-                      : 'border-border hover:border-primary/40'
+                      ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                      : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
                   }`}
                 >
-                  <Store className={`w-5 h-5 ${deliveryMode === 'pickup' ? 'text-primary' : 'text-muted-foreground'}`} />
+                  <Store className={`w-8 h-8 ${deliveryMode === 'pickup' ? 'text-foreground' : 'text-muted-foreground'}`} />
                   <div className="text-left">
-                    <p className="font-bold text-sm">Pickup</p>
-                    <p className="text-xs text-muted-foreground">From nearest store • Free</p>
+                    <p className={`font-bold text-xl font-['Chewy'] ${deliveryMode === 'pickup' ? 'text-foreground' : 'text-muted-foreground'}`}>Pickup</p>
+                    <p className={`text-sm font-bold ${deliveryMode === 'pickup' ? 'text-foreground/80' : 'text-muted-foreground'}`}>From nearest store • Free</p>
                   </div>
                 </button>
               </div>
@@ -351,10 +351,10 @@ const Cart = () => {
               <motion.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
-                className="bg-card rounded-2xl border border-border p-5"
+                className="bg-card rounded-[2rem] border-4 border-foreground p-6 shadow-[6px_6px_0px_0px_hsl(var(--foreground))]"
               >
-                <h3 className="font-bold text-sm mb-4 uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                  <MapPin className="w-4 h-4" /> Delivery Address
+                <h3 className="font-['Chewy'] text-2xl mb-4 tracking-wide text-foreground flex items-center gap-2">
+                  <MapPin className="w-6 h-6" /> Delivery Address
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                   <div className="sm:col-span-2">
@@ -363,7 +363,7 @@ const Cart = () => {
                       placeholder="Street address, apt, floor..."
                       value={address.street}
                       onChange={(e) => setAddress({ ...address, street: e.target.value })}
-                      className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                      className="w-full px-5 py-4 bg-background border-4 border-foreground/20 rounded-2xl text-lg font-bold placeholder:text-muted-foreground focus:outline-none focus:border-foreground focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
                     />
                   </div>
                   <input
@@ -371,22 +371,22 @@ const Cart = () => {
                     placeholder="City"
                     value={address.city}
                     onChange={(e) => setAddress({ ...address, city: e.target.value })}
-                    className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                    className="w-full px-5 py-4 bg-background border-4 border-foreground/20 rounded-2xl text-lg font-bold placeholder:text-muted-foreground focus:outline-none focus:border-foreground focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
                   />
-                  <div className="flex gap-3">
+                  <div className="flex gap-4">
                     <input
                       type="text"
                       placeholder="State"
                       value={address.state}
                       onChange={(e) => setAddress({ ...address, state: e.target.value })}
-                      className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                      className="w-full px-5 py-4 bg-background border-4 border-foreground/20 rounded-2xl text-lg font-bold placeholder:text-muted-foreground focus:outline-none focus:border-foreground focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
                     />
                     <input
                       type="text"
                       placeholder="ZIP"
                       value={address.zipCode}
                       onChange={(e) => setAddress({ ...address, zipCode: e.target.value })}
-                      className="w-1/2 px-4 py-3 bg-secondary border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                      className="w-1/2 px-5 py-4 bg-background border-4 border-foreground/20 rounded-2xl text-lg font-bold placeholder:text-muted-foreground focus:outline-none focus:border-foreground focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
                     />
                   </div>
                 </div>
@@ -394,38 +394,38 @@ const Cart = () => {
             )}
 
             {/* Time Slot */}
-            <div className="bg-card rounded-2xl border border-border p-5">
-              <h3 className="font-bold text-sm mb-4 uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                <Clock className="w-4 h-4" /> Delivery Time
+            <div className="bg-card rounded-[2rem] border-4 border-foreground p-6 shadow-[6px_6px_0px_0px_hsl(var(--foreground))]">
+              <h3 className="font-['Chewy'] text-2xl mb-4 tracking-wide text-foreground flex items-center gap-2">
+                <Clock className="w-6 h-6" /> Delivery Time
               </h3>
-              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
                 {TIME_SLOTS.map(slot => (
                   <button
                     key={slot.id}
                     onClick={() => setSelectedTimeSlot(slot.id)}
-                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                    className={`p-4 rounded-2xl border-4 text-center transition-all ${
                       selectedTimeSlot === slot.id
-                        ? 'border-primary bg-primary/5'
-                        : 'border-border hover:border-primary/40'
+                        ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                        : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
                     }`}
                   >
-                    <p className="font-bold text-sm">{slot.label}</p>
-                    <p className="text-[10px] text-muted-foreground mt-0.5">{slot.desc}</p>
+                    <p className={`font-['Chewy'] text-xl tracking-wide ${selectedTimeSlot === slot.id ? 'text-foreground' : 'text-muted-foreground'}`}>{slot.label}</p>
+                    <p className={`text-xs font-bold ${selectedTimeSlot === slot.id ? 'text-foreground/80' : 'text-muted-foreground'} mt-1`}>{slot.desc}</p>
                   </button>
                 ))}
               </div>
             </div>
 
             {/* Special Instructions */}
-            <div className="bg-card rounded-2xl border border-border overflow-hidden">
+            <div className="bg-card rounded-[2rem] border-4 border-foreground overflow-hidden shadow-[6px_6px_0px_0px_hsl(var(--foreground))]">
               <button
                 onClick={() => setShowInstructions(!showInstructions)}
-                className="w-full p-5 flex justify-between items-center hover:bg-secondary/30 transition-colors"
+                className="w-full p-6 flex justify-between items-center hover:bg-background transition-colors"
               >
-                <span className="font-bold text-sm uppercase tracking-wider text-muted-foreground flex items-center gap-2">
-                  <MessageSquare className="w-4 h-4" /> Special Instructions
+                <span className="font-['Chewy'] text-2xl tracking-wide text-foreground flex items-center gap-3">
+                  <MessageSquare className="w-6 h-6" /> Special Instructions
                 </span>
-                {showInstructions ? <ChevronUp className="w-4 h-4 text-muted-foreground" /> : <ChevronDown className="w-4 h-4 text-muted-foreground" />}
+                {showInstructions ? <ChevronUp className="w-6 h-6 text-foreground font-bold" /> : <ChevronDown className="w-6 h-6 text-foreground font-bold" />}
               </button>
               <AnimatePresence>
                 {showInstructions && (
@@ -435,13 +435,13 @@ const Cart = () => {
                     exit={{ height: 0 }}
                     className="overflow-hidden"
                   >
-                    <div className="px-5 pb-5">
+                    <div className="px-6 pb-6">
                       <textarea
                         rows={3}
                         placeholder="E.g., Extra spicy, no onions, ring the doorbell..."
                         value={specialInstructions}
                         onChange={(e) => setSpecialInstructions(e.target.value)}
-                        className="w-full px-4 py-3 bg-secondary border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 resize-none"
+                        className="w-full px-5 py-4 bg-background border-4 border-foreground/20 rounded-2xl text-lg font-bold placeholder:text-muted-foreground focus:outline-none focus:border-foreground focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] resize-none transition-all"
                       />
                     </div>
                   </motion.div>
@@ -451,121 +451,119 @@ const Cart = () => {
           </div>
 
           {/* Right Column — Order Summary */}
-          <div className="w-full lg:w-1/3">
-            <div className="bg-card rounded-2xl border border-border shadow-sm p-6 sticky top-24">
-              <h2 className="text-xl font-bold font-heading mb-6 border-b border-border pb-4">Order Summary</h2>
+          <div className="w-full lg:w-[35%]">
+            <div className="bg-card rounded-[2rem] border-4 border-foreground shadow-[12px_12px_0px_0px_hsl(var(--foreground))] p-8 sticky top-32">
+              <h2 className="text-3xl font-['Chewy'] tracking-wide mb-6 border-b-4 border-foreground pb-4 text-foreground">Order Summary</h2>
               
               {/* Coupon Code */}
-              <div className="mb-6">
+              <div className="mb-8">
                 {!couponApplied ? (
-                  <div className="flex gap-2">
+                  <div className="flex gap-3">
                     <div className="relative flex-1">
-                      <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+                      <Tag className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground font-bold" />
                       <input
                         type="text"
                         placeholder="Coupon code"
                         value={couponCode}
                         onChange={(e) => setCouponCode(e.target.value)}
-                        className="w-full pl-10 pr-4 py-2.5 bg-secondary border border-border rounded-xl text-sm placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30"
+                        className="w-full pl-12 pr-4 py-4 bg-background border-4 border-foreground/20 rounded-2xl text-lg font-bold placeholder:text-muted-foreground focus:outline-none focus:border-foreground focus:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
                       />
                     </div>
                     <button
                       onClick={handleApplyCoupon}
-                      className="px-4 py-2.5 bg-accent text-accent-foreground rounded-xl text-sm font-semibold hover:bg-accent/90 transition-all"
+                      className="px-6 py-4 bg-foreground text-background rounded-2xl text-xl font-['Chewy'] tracking-wide border-4 border-transparent hover:border-foreground hover:bg-primary hover:text-foreground hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
                     >
                       Apply
                     </button>
                   </div>
                 ) : (
-                  <div className="flex items-center justify-between bg-green-500/10 border border-green-500/30 rounded-xl px-4 py-3">
-                    <div className="flex items-center gap-2">
-                      <Check className="w-4 h-4 text-green-400" />
-                      <span className="text-sm font-semibold text-green-400">{couponCode.toUpperCase()}</span>
-                      <span className="text-xs text-muted-foreground">(-Rs.{discount})</span>
+                  <div className="flex items-center justify-between bg-green-500 text-white border-4 border-foreground rounded-2xl px-5 py-4 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+                    <div className="flex items-center gap-3">
+                      <Check className="w-6 h-6 font-bold" />
+                      <span className="text-xl font-['Chewy'] tracking-wide">{couponCode.toUpperCase()}</span>
+                      <span className="text-sm font-bold opacity-90">(-Rs.{discount})</span>
                     </div>
-                    <button onClick={handleRemoveCoupon} className="text-xs text-muted-foreground hover:text-foreground">
+                    <button onClick={handleRemoveCoupon} className="text-sm font-bold hover:underline">
                       Remove
                     </button>
                   </div>
                 )}
-                <p className="text-[10px] text-muted-foreground mt-2">Try: PIZZA20, WELCOME50, FLAT100</p>
+                <p className="text-xs font-bold text-muted-foreground mt-3 uppercase tracking-wider">Try: PIZZA20, WELCOME50, FLAT100</p>
               </div>
               
-              <div className="space-y-4 mb-6">
-                <div className="flex justify-between text-foreground/80">
+              <div className="space-y-4 mb-8 font-bold text-lg">
+                <div className="flex justify-between text-foreground">
                   <span>Subtotal</span>
-                  <span className="font-medium">Rs.{subtotal}</span>
+                  <span>Rs.{subtotal}</span>
                 </div>
-                <div className="flex justify-between text-foreground/80">
+                <div className="flex justify-between text-foreground">
                   <span>{deliveryMode === 'delivery' ? 'Delivery Charge' : 'Pickup'}</span>
-                  <span className="font-medium">
-                    {deliveryFee === 0 ? <span className="text-green-400">Free</span> : `Rs.${deliveryFee}`}
+                  <span>
+                    {deliveryFee === 0 ? <span className="text-primary font-bold">Free</span> : `Rs.${deliveryFee}`}
                   </span>
                 </div>
                 {discount > 0 && (
-                  <div className="flex justify-between text-green-400">
+                  <div className="flex justify-between text-green-500">
                     <span>Coupon Discount</span>
-                    <span className="font-medium">-Rs.{discount}</span>
+                    <span>-Rs.{discount}</span>
                   </div>
                 )}
               </div>
               
-              <div className="border-t border-border pt-4 mb-6">
+              <div className="border-t-4 border-foreground pt-6 mb-8 bg-background p-6 rounded-2xl border-4 shadow-inner">
                 <div className="flex justify-between items-center">
-                  <span className="text-lg font-bold">Total</span>
-                  <span className="text-2xl font-bold font-heading text-primary">Rs.{totalAmount}</span>
+                  <span className="text-2xl font-['Chewy'] text-foreground tracking-wide">Total</span>
+                  <span className="text-4xl font-extrabold font-['Chewy'] text-primary tracking-wide drop-shadow-sm">Rs.{totalAmount}</span>
                 </div>
-                <p className="text-xs text-muted-foreground mt-1 text-right">Inclusive of all taxes</p>
+                <p className="text-xs font-bold text-muted-foreground mt-2 text-right">Inclusive of all taxes</p>
               </div>
 
               {/* Estimated Time */}
-              <div className="flex items-center gap-2 bg-secondary/50 rounded-xl px-4 py-3 mb-6">
-                <Clock className="w-4 h-4 text-accent" />
-                <span className="text-sm">
-                  Est. {deliveryMode === 'delivery' ? 'delivery' : 'pickup'}: <span className="font-bold text-foreground">{TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.desc}</span>
+              <div className="flex items-center gap-3 bg-primary rounded-2xl px-5 py-4 mb-8 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+                <Clock className="w-6 h-6 text-foreground" />
+                <span className="text-lg font-['Chewy'] tracking-wide text-foreground">
+                  Est. {deliveryMode === 'delivery' ? 'delivery' : 'pickup'}: <span className="font-bold underline">{TIME_SLOTS.find(s => s.id === selectedTimeSlot)?.desc}</span>
                 </span>
               </div>
               
               {/* Payment Method Toggle */}
-              <div className="bg-secondary/50 rounded-xl p-4 mb-6">
-                <h3 className="font-bold text-sm mb-3 uppercase tracking-wider text-muted-foreground">Payment Method</h3>
-                <div className="grid grid-cols-2 gap-3">
+              <div className="bg-card rounded-2xl mb-8">
+                <h3 className="font-['Chewy'] text-2xl mb-4 tracking-wide text-foreground">Payment Method</h3>
+                <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => setPaymentMethod('COD')}
-                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                    className={`p-4 rounded-2xl border-4 text-center transition-all ${
                       paymentMethod === 'COD'
-                        ? 'border-primary bg-primary/5 font-bold text-primary'
-                        : 'border-border hover:border-primary/40 font-medium'
+                        ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                        : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
                     }`}
                   >
-                    Cash on Delivery
+                    <span className={`font-['Chewy'] text-xl tracking-wide ${paymentMethod === 'COD' ? 'text-foreground' : 'text-muted-foreground'}`}>COD</span>
                   </button>
                   <button
                     onClick={() => setPaymentMethod('ONLINE')}
-                    className={`p-3 rounded-xl border-2 text-center transition-all ${
+                    className={`p-4 rounded-2xl border-4 text-center transition-all ${
                       paymentMethod === 'ONLINE'
-                        ? 'border-primary bg-primary/5 font-bold text-primary'
-                        : 'border-border hover:border-primary/40 font-medium'
+                        ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
+                        : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
                     }`}
                   >
-                    Pay Online
+                    <span className={`font-['Chewy'] text-xl tracking-wide ${paymentMethod === 'ONLINE' ? 'text-foreground' : 'text-muted-foreground'}`}>Pay Online</span>
                   </button>
                 </div>
               </div>
 
-              <Button 
-                variant="premium" 
-                size="lg" 
-                className="w-full rounded-full shadow-lg shadow-primary/20 text-lg h-14"
+              <button 
+                className="w-full flex items-center justify-center gap-3 bg-foreground text-background hover:bg-background hover:text-foreground border-4 border-foreground rounded-full shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 text-2xl font-['Chewy'] tracking-wide py-5 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                 onClick={handleCheckout}
-                isLoading={isProcessing}
+                disabled={isProcessing}
               >
-                {!isProcessing ? <><ShoppingCart className="w-5 h-5 mr-2" /> {paymentMethod === 'COD' ? 'Place Order' : 'Pay'} Rs.{totalAmount}</> : "Processing..."}
-              </Button>
+                {!isProcessing ? <><ShoppingCart className="w-6 h-6 mr-1" /> {paymentMethod === 'COD' ? 'Place Order' : 'Pay'} Rs.{totalAmount}</> : "Processing..."}
+              </button>
               
               {!isAuthenticated && (
-                <p className="text-sm text-center text-muted-foreground mt-4">
-                  You'll be asked to <Link to="/login" className="text-primary hover:underline">login</Link> before checkout.
+                <p className="text-sm font-bold text-center text-muted-foreground mt-6">
+                  You'll be asked to <Link to="/login" className="text-primary hover:underline font-['Chewy'] text-lg tracking-wide">login</Link> before checkout.
                 </p>
               )}
             </div>

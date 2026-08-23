@@ -259,7 +259,7 @@ const Navbar = () => {
                   </Link>
                   <Link
                     to="/register"
-                    className="text-xl font-['Chewy'] bg-primary text-foreground px-6 py-2.5 rounded-full hover:bg-background hover:-translate-y-1 transition-all duration-300 border-2 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:shadow-[6px_6px_0px_0px_hsl(var(--foreground))] tracking-wide"
+                    className="text-lg font-bold bg-primary hover:bg-primary/90 text-foreground px-6 py-2.5 rounded-full hover:scale-105 transition-all duration-300 shadow-xl shadow-primary/20 tracking-wide"
                   >
                     Sign Up
                   </Link>
@@ -321,8 +321,8 @@ const Navbar = () => {
                       to={link.path}
                       className={`flex items-center justify-between px-5 py-4 rounded-2xl text-2xl font-['Chewy'] transition-all border-4 ${
                         isActive(link.path)
-                          ? 'bg-primary text-foreground border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
-                          : 'bg-card text-foreground border-transparent hover:border-foreground hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                          ? 'bg-primary text-foreground shadow-xl shadow-primary/20 scale-105'
+                          : 'bg-card text-foreground hover:scale-105 shadow-md'
                       }`}
                     >
                       {link.label}
@@ -334,8 +334,8 @@ const Navbar = () => {
                       to="/profile"
                       className={`flex items-center justify-between px-5 py-4 rounded-2xl text-2xl font-['Chewy'] transition-all border-4 ${
                         isActive('/profile')
-                          ? 'bg-primary text-foreground border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
-                          : 'bg-card text-foreground border-transparent hover:border-foreground hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                          ? 'bg-primary text-foreground shadow-xl shadow-primary/20 scale-105'
+                          : 'bg-card text-foreground hover:scale-105 shadow-md'
                       }`}
                     >
                       Settings
@@ -359,7 +359,7 @@ const Navbar = () => {
                     </div>
                     <button
                       onClick={() => { logout(); setMobileOpen(false); }}
-                      className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-xl font-['Chewy'] text-white bg-red-500 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:bg-red-600 hover:translate-y-1 hover:shadow-none transition-all tracking-wide"
+                      className="w-full flex items-center justify-center gap-2 px-4 py-4 rounded-full text-xl font-bold text-white bg-red-500 hover:bg-red-600 hover:scale-105 shadow-xl transition-all tracking-wide"
                     >
                       <LogOut className="h-6 w-6" /> Sign Out
                     </button>
@@ -368,13 +368,13 @@ const Navbar = () => {
                   <div className="grid grid-cols-1 gap-4">
                     <Link
                       to="/login"
-                      className="flex items-center justify-center px-4 py-4 rounded-2xl text-2xl font-['Chewy'] text-foreground bg-card border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:bg-background hover:translate-y-1 hover:shadow-none transition-all tracking-wide"
+                      className="flex items-center justify-center px-4 py-4 rounded-full text-xl font-bold text-foreground bg-card border-2 border-foreground shadow-md hover:bg-foreground hover:text-background hover:scale-105 transition-all tracking-wide"
                     >
                       Log In
                     </Link>
                     <Link
                       to="/register"
-                      className="flex items-center justify-center gap-2 px-4 py-4 rounded-2xl text-2xl font-['Chewy'] text-foreground bg-primary border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:bg-primary/80 hover:translate-y-1 hover:shadow-none transition-all tracking-wide"
+                      className="flex items-center justify-center gap-2 px-4 py-4 rounded-full text-xl font-bold text-foreground bg-primary hover:bg-primary/90 shadow-xl shadow-primary/20 hover:scale-105 transition-all tracking-wide"
                     >
                       <UserPlus className="w-6 h-6" /> Sign Up Free
                     </Link>

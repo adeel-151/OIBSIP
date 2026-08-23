@@ -104,7 +104,7 @@ const TrackOrder = () => {
           
           <div className="flex gap-4">
             <Link to="/build">
-              <button className="bg-primary text-foreground font-['Chewy'] text-xl px-8 py-3 rounded-2xl border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1 transition-all">
+              <button className="bg-primary hover:bg-primary/90 text-foreground font-bold text-lg px-8 py-3 rounded-full shadow-xl shadow-primary/20 hover:scale-105 transition-all">
                 New Order
               </button>
             </Link>
@@ -237,7 +237,7 @@ const TrackOrder = () => {
                     
                     <div className="flex items-center justify-between mt-auto">
                       <span className="text-2xl font-['Chewy'] tracking-wide text-primary">Rs.{order.totalAmount}</span>
-                      <button className="px-5 py-2 rounded-xl font-['Chewy'] text-lg border-4 border-foreground bg-foreground text-background hover:bg-primary hover:text-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1 transition-all">
+                      <button className="px-6 py-2 rounded-full font-bold text-lg bg-foreground text-background hover:bg-primary hover:text-foreground shadow-xl hover:scale-105 transition-all">
                         Reorder
                       </button>
                     </div>
@@ -255,7 +255,7 @@ const TrackOrder = () => {
                 Looks like you haven't ordered anything yet. Let's change that and get some delicious pizza to your door!
               </p>
               <Link to="/menu">
-                <button className="bg-primary text-foreground font-['Chewy'] text-2xl px-10 py-4 rounded-full border-4 border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1 transition-all">
+                <button className="bg-primary hover:bg-primary/90 text-foreground font-bold text-xl px-10 py-4 rounded-full shadow-xl shadow-primary/20 hover:scale-105 transition-all">
                   Explore Menu
                 </button>
               </Link>

@@ -71,7 +71,7 @@ const Footer = () => {
                  placeholder="Enter your email" 
                  className="px-4 py-3 rounded-xl bg-background border-4 border-transparent focus:border-primary text-foreground font-bold placeholder:text-muted-foreground outline-none shadow-inner"
                />
-               <button className="bg-primary text-foreground font-['Chewy'] text-xl py-3 rounded-xl border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--background))] hover:shadow-none hover:translate-y-1 transition-all">
+               <button className="bg-primary hover:bg-primary/90 text-foreground font-bold text-lg py-3 px-6 rounded-full shadow-xl shadow-primary/20 hover:scale-105 transition-all">
                  Subscribe
                </button>
             </div>

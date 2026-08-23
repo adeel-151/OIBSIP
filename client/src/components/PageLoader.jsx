@@ -1,7 +1,22 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
 const PageLoader = () => {
+  const [progress, setProgress] = useState(0);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setProgress(old => {
+        if (old >= 100) {
+          clearInterval(timer);
+          return 100;
+        }
+        return old + Math.floor(Math.random() * 15) + 5;
+      });
+    }, 150);
+    return () => clearInterval(timer);
+  }, []);
+
   return (
     <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center">
       <div className="relative flex flex-col items-center">
@@ -66,15 +81,11 @@ const PageLoader = () => {
             />
           </motion.svg>
 
-          {/* Center Icon */}
+          {/* Center Progress */}
           <motion.div
-            animate={{ scale: [0.9, 1.1, 0.9] }}
-            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-            className="text-primary"
+            className="text-primary font-['Chewy'] text-3xl"
           >
-            <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-               <path d="M15 11h.01"/><path d="M11 15h.01"/><path d="M16 16h.01"/><path d="m2 16 20 6-6-20A20 20 0 0 0 2 16"/><path d="M5.71 17.11a17.04 17.04 0 0 1 11.4-11.4"/>
-            </svg>
+            {progress > 100 ? 100 : progress}%
           </motion.div>
         </div>
 

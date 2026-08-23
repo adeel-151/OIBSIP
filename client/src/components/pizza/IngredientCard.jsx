@@ -7,8 +7,8 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
     <motion.div 
       className={`relative cursor-pointer rounded-3xl overflow-hidden border-4 transition-all duration-300 ${
         isSelected 
-          ? 'border-foreground bg-primary shadow-[6px_6px_0px_0px_hsl(var(--foreground))] -translate-y-1' 
-          : 'border-foreground bg-card hover:bg-background hover:-translate-y-1 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+          ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105' 
+          : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
       }`}
       onClick={onClick}
       whileHover={{ scale: 1.02 }}

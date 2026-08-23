@@ -169,12 +169,12 @@ const About = () => {
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-6">
             <Link to="/menu">
-              <button className="w-full sm:w-auto bg-foreground text-background font-['Chewy'] text-3xl px-12 py-5 rounded-full hover:bg-background hover:text-foreground border-4 border-foreground shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 transition-all duration-300">
+              <button className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-foreground font-bold text-2xl px-12 py-5 rounded-full shadow-xl shadow-primary/20 hover:scale-105 transition-all duration-300">
                 Explore Menu
               </button>
             </Link>
             <Link to="/build">
-              <button className="w-full sm:w-auto bg-background text-foreground font-['Chewy'] text-3xl px-12 py-5 rounded-full hover:bg-foreground hover:text-background border-4 border-foreground shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 transition-all duration-300">
+              <button className="w-full sm:w-auto bg-transparent border-2 border-foreground hover:bg-foreground hover:text-background text-foreground font-bold text-2xl px-12 py-5 rounded-full shadow-md hover:scale-105 transition-all duration-300">
                 Build a Pizza
               </button>
             </Link>

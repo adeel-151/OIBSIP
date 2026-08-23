@@ -167,8 +167,8 @@ const PizzaBuilder = () => {
               onClick={() => setSelectedSize(size)}
               className={`relative cursor-pointer rounded-3xl border-4 p-6 text-center transition-all duration-300 ${
                 selectedSize.id === size.id
-                  ? 'border-foreground bg-primary shadow-[6px_6px_0px_0px_hsl(var(--foreground))] -translate-y-1'
-                  : 'border-foreground bg-card hover:bg-background hover:-translate-y-1 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                  ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
+                  : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
               }`}
             >
               {selectedSize.id === size.id && (
@@ -352,8 +352,8 @@ const PizzaBuilder = () => {
                 className="relative z-10 flex flex-col items-center cursor-pointer group"
                 onClick={() => index < currentStepIndex && setCurrentStepIndex(index)}
               >
-                <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] ${
-                  isActive ? 'bg-primary text-foreground scale-110 shadow-[6px_6px_0px_0px_hsl(var(--foreground))] -translate-y-1' : 
+                <div className={`w-14 h-14 rounded-full flex items-center justify-center font-bold text-lg transition-all duration-300 border-2 ${
+                  isActive ? 'bg-primary text-foreground scale-110 shadow-xl shadow-primary/20 border-foreground' : 
                   isCompleted ? 'bg-foreground text-background' : 
                   'bg-card text-muted-foreground group-hover:bg-background'
                 }`}>
@@ -438,13 +438,13 @@ const PizzaBuilder = () => {
               <button 
                 onClick={handlePrev} 
                 disabled={currentStepIndex === 0}
-                className={`w-[140px] flex items-center justify-center gap-2 px-6 py-4 rounded-full font-['Chewy'] text-2xl tracking-wide border-4 transition-all duration-300 ${currentStepIndex === 0 ? 'opacity-50 cursor-not-allowed bg-background border-foreground text-foreground' : 'bg-background hover:bg-foreground hover:text-background text-foreground border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1'}`}
+                className={`w-[140px] flex items-center justify-center gap-2 px-6 py-4 rounded-full font-bold text-xl tracking-wide border-2 transition-all duration-300 ${currentStepIndex === 0 ? 'opacity-50 cursor-not-allowed bg-background border-transparent text-foreground' : 'bg-background hover:bg-foreground hover:text-background text-foreground border-transparent hover:border-foreground shadow-md hover:scale-105'}`}
               >
                 <ArrowLeft className="w-5 h-5" /> Back
               </button>
               <button 
                 onClick={handleNext}
-                className={`min-w-[180px] flex items-center justify-center gap-3 px-10 py-4 rounded-full font-['Chewy'] text-2xl tracking-wide border-4 transition-all duration-300 ${currentStepIndex === STEPS.length - 1 ? 'bg-primary text-foreground border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:bg-primary/80 hover:shadow-none hover:translate-y-1' : 'bg-foreground text-background border-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1'}`}
+                className={`min-w-[180px] flex items-center justify-center gap-3 px-10 py-4 rounded-full font-bold text-xl tracking-wide transition-all duration-300 ${currentStepIndex === STEPS.length - 1 ? 'bg-primary text-foreground shadow-xl shadow-primary/20 hover:bg-primary/90 hover:scale-105' : 'bg-foreground text-background shadow-xl hover:scale-105'}`}
               >
                 {currentStepIndex === STEPS.length - 1 ? (
                   <><ShoppingCart className="w-6 h-6 mr-1" /> Add to Cart</>

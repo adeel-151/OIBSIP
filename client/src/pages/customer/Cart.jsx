@@ -211,7 +211,7 @@ const Cart = () => {
             Looks like you haven't added anything to your cart yet. Discover our premium menu or build your own masterpiece.
           </p>
           <Link to="/menu">
-            <button className="bg-foreground text-background font-['Chewy'] text-2xl px-10 py-4 rounded-full border-4 border-foreground hover:bg-background hover:text-foreground shadow-[6px_6px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-1 transition-all duration-300">
+            <button className="bg-foreground hover:bg-foreground/90 text-background font-bold text-2xl px-10 py-4 rounded-full shadow-xl shadow-foreground/20 hover:scale-105 transition-all duration-300">
               Explore Pizzas
             </button>
           </Link>
@@ -317,10 +317,10 @@ const Cart = () => {
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setDeliveryMode('delivery')}
-                  className={`flex items-center gap-4 p-5 rounded-2xl border-4 transition-all ${
+                  className={`flex items-center gap-4 p-5 rounded-full border-2 transition-all ${
                     deliveryMode === 'delivery'
-                      ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
-                      : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                      ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
+                      : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
                   }`}
                 >
                   <Truck className={`w-8 h-8 ${deliveryMode === 'delivery' ? 'text-foreground' : 'text-muted-foreground'}`} />
@@ -331,10 +331,10 @@ const Cart = () => {
                 </button>
                 <button
                   onClick={() => setDeliveryMode('pickup')}
-                  className={`flex items-center gap-4 p-5 rounded-2xl border-4 transition-all ${
+                  className={`flex items-center gap-4 p-5 rounded-full border-2 transition-all ${
                     deliveryMode === 'pickup'
-                      ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
-                      : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                      ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
+                      : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
                   }`}
                 >
                   <Store className={`w-8 h-8 ${deliveryMode === 'pickup' ? 'text-foreground' : 'text-muted-foreground'}`} />
@@ -403,10 +403,10 @@ const Cart = () => {
                   <button
                     key={slot.id}
                     onClick={() => setSelectedTimeSlot(slot.id)}
-                    className={`p-4 rounded-2xl border-4 text-center transition-all ${
+                    className={`p-4 rounded-full border-2 text-center transition-all ${
                       selectedTimeSlot === slot.id
-                        ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
-                        : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                        ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
+                        : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
                     }`}
                   >
                     <p className={`font-['Chewy'] text-xl tracking-wide ${selectedTimeSlot === slot.id ? 'text-foreground' : 'text-muted-foreground'}`}>{slot.label}</p>
@@ -471,7 +471,7 @@ const Cart = () => {
                     </div>
                     <button
                       onClick={handleApplyCoupon}
-                      className="px-6 py-4 bg-foreground text-background rounded-2xl text-xl font-['Chewy'] tracking-wide border-4 border-transparent hover:border-foreground hover:bg-primary hover:text-foreground hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
+                      className="px-6 py-4 bg-foreground text-background rounded-full text-xl font-bold border-2 border-transparent hover:border-foreground hover:bg-primary hover:text-foreground shadow-md hover:scale-105 transition-all"
                     >
                       Apply
                     </button>
@@ -532,20 +532,20 @@ const Cart = () => {
                 <div className="grid grid-cols-2 gap-4">
                   <button
                     onClick={() => setPaymentMethod('COD')}
-                    className={`p-4 rounded-2xl border-4 text-center transition-all ${
+                    className={`p-4 rounded-full border-2 text-center transition-all ${
                       paymentMethod === 'COD'
-                        ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
-                        : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                        ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
+                        : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
                     }`}
                   >
                     <span className={`font-['Chewy'] text-xl tracking-wide ${paymentMethod === 'COD' ? 'text-foreground' : 'text-muted-foreground'}`}>COD</span>
                   </button>
                   <button
                     onClick={() => setPaymentMethod('ONLINE')}
-                    className={`p-4 rounded-2xl border-4 text-center transition-all ${
+                    className={`p-4 rounded-full border-2 text-center transition-all ${
                       paymentMethod === 'ONLINE'
-                        ? 'border-foreground bg-primary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] -translate-y-1'
-                        : 'border-foreground/20 hover:border-foreground bg-background hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_hsl(var(--foreground))]'
+                        ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
+                        : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
                     }`}
                   >
                     <span className={`font-['Chewy'] text-xl tracking-wide ${paymentMethod === 'ONLINE' ? 'text-foreground' : 'text-muted-foreground'}`}>Pay Online</span>
@@ -554,7 +554,7 @@ const Cart = () => {
               </div>
 
               <button 
-                className="w-full flex items-center justify-center gap-3 bg-foreground text-background hover:bg-background hover:text-foreground border-4 border-foreground rounded-full shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 text-2xl font-['Chewy'] tracking-wide py-5 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
+                className="w-full flex items-center justify-center gap-3 bg-primary hover:bg-primary/90 text-foreground rounded-full shadow-xl shadow-primary/20 hover:scale-105 text-2xl font-bold py-5 transition-all duration-300 disabled:opacity-70 disabled:cursor-not-allowed"
                 onClick={handleCheckout}
                 disabled={isProcessing}
               >

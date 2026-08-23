@@ -13,7 +13,7 @@ const PageLoader = () => {
             opacity: [0.3, 0.6, 0.3],
           }}
           transition={{
-            duration: 2,
+            duration: 4,
             repeat: Infinity,
             ease: "easeInOut"
           }}
@@ -43,7 +43,7 @@ const PageLoader = () => {
             viewBox="0 0 100 100"
             initial={{ rotate: -90 }}
             animate={{ rotate: 270 }}
-            transition={{ duration: 2, repeat: Infinity, ease: "linear" }}
+            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           >
             <motion.circle
               cx="50"
@@ -59,7 +59,7 @@ const PageLoader = () => {
                 strokeDashoffset: [283, 70, 283],
               }}
               transition={{ 
-                duration: 2, 
+                duration: 4, 
                 repeat: Infinity, 
                 ease: "easeInOut" 
               }}
@@ -69,7 +69,7 @@ const PageLoader = () => {
           {/* Center Icon */}
           <motion.div
             animate={{ scale: [0.9, 1.1, 0.9] }}
-            transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+            transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
             className="text-primary"
           >
             <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -86,10 +86,10 @@ const PageLoader = () => {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 0.5,
+                duration: 1.2,
                 repeat: Infinity,
                 repeatType: "reverse",
-                delay: i * 0.1,
+                delay: i * 0.15,
               }}
               className="text-2xl font-['Chewy'] tracking-widest text-foreground"
             >
@@ -101,7 +101,7 @@ const PageLoader = () => {
         <motion.p
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.5 }}
-          transition={{ duration: 1, repeat: Infinity, repeatType: "reverse" }}
+          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
           className="text-sm font-medium tracking-widest text-muted-foreground mt-3 uppercase"
         >
           Crafting Perfection

@@ -103,7 +103,7 @@ const Home = () => {
             <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">
               Taste The Best
             </p>
-            <h1 className="font-['Chewy'] text-6xl md:text-8xl leading-none text-background drop-shadow-lg tracking-wide">
+            <h1 className="font-['Chewy'] text-5xl sm:text-6xl md:text-8xl leading-none text-background drop-shadow-lg tracking-wide">
               PIZZARO
               <br />
               ORIGINALS
@@ -139,14 +139,14 @@ const Home = () => {
           <div className="flex flex-col md:flex-row shadow-2xl">
             
             {/* Card 1: Mauve/Purple Split */}
-            <div className="flex-1 flex text-white">
-              <div className="bg-[#947883] p-8 w-1/2">
+            <div className="flex-1 flex flex-col sm:flex-row text-white">
+              <div className="bg-[#947883] p-8 w-full sm:w-1/2">
                 <h3 className="font-['Chewy'] text-3xl mb-4 text-[#FFF6EA] tracking-wide">Our Story</h3>
                 <p className="text-sm opacity-90 leading-relaxed">
                   Authentic recipes passed down through generations.
                 </p>
               </div>
-              <div className="bg-[#AF8795] p-8 w-1/2">
+              <div className="bg-[#AF8795] p-8 w-full sm:w-1/2">
                 <h3 className="font-['Chewy'] text-3xl mb-4 text-[#FFF6EA] tracking-wide">Quality</h3>
                 <p className="text-sm opacity-90 leading-relaxed">
                   We use only the freshest, locally sourced ingredients.
@@ -163,7 +163,7 @@ const Home = () => {
             </div>
 
             {/* Card 3: Gold */}
-            <div className="w-32 bg-[#EBB336] p-6 text-black flex items-center justify-center">
+            <div className="w-full md:w-32 bg-[#EBB336] p-6 text-black flex items-center justify-center">
                <svg xmlns="http://www.w3.org/2000/svg" className="w-12 h-12 opacity-80" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
             </div>
 
@@ -193,7 +193,7 @@ const Home = () => {
             <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">
               Delicious
             </p>
-            <h2 className="font-['Chewy'] text-6xl md:text-7xl text-foreground leading-tight tracking-wide">
+            <h2 className="font-['Chewy'] text-5xl md:text-7xl text-foreground leading-tight tracking-wide">
               Slow-baked <br/> Specialties
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-md pt-2">
@@ -225,7 +225,7 @@ const Home = () => {
             <p className="text-red-500 font-['Chewy'] tracking-wide text-2xl uppercase">
               Farm to Table
             </p>
-            <h2 className="font-['Chewy'] text-5xl md:text-6xl text-foreground leading-tight tracking-wide">
+            <h2 className="font-['Chewy'] text-4xl sm:text-5xl md:text-6xl text-foreground leading-tight tracking-wide">
               Locally Sourced, <br/> Crafted with Love
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-md pt-2">
@@ -256,12 +256,12 @@ const Home = () => {
       {/* 4. PRODUCT GRID (Light Cream) */}
       <section className="bg-background pb-32">
         <div className="container mx-auto px-6 lg:px-12">
-          <div className="flex justify-between items-end mb-12">
+          <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
             <div>
               <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">Favorites</p>
               <h2 className="font-['Chewy'] text-5xl text-foreground tracking-wide mt-2">Trending Now</h2>
             </div>
-            <Link to="/menu" className="hidden md:inline-flex items-center gap-2 font-bold text-lg border-b-2 border-foreground pb-1 hover:text-primary hover:border-primary transition-colors">
+            <Link to="/menu" className="hidden sm:inline-flex items-center gap-2 font-bold text-lg border-b-2 border-foreground pb-1 hover:text-primary hover:border-primary transition-colors">
               View All Menu
             </Link>
           </div>
@@ -286,17 +286,17 @@ const Home = () => {
       </section>
 
       {/* 5. FOOTER OVERLAP SECTION */}
-      <section className="bg-foreground pt-24 pb-12 relative text-background">
+      <section className="bg-foreground pt-36 pb-12 relative text-background mt-20">
         {/* Floating Card */}
-        <div className="absolute left-1/2 -translate-x-1/2 -top-12 w-[90%] max-w-2xl bg-card rounded-[2rem] p-6 shadow-xl flex items-center justify-between text-foreground border-4 border-foreground shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
-          <div className="flex items-center gap-4">
+        <div className="absolute left-1/2 -translate-x-1/2 -top-16 w-[90%] max-w-2xl bg-card rounded-[2rem] p-6 shadow-xl flex flex-col sm:flex-row items-center justify-between text-foreground border-4 border-foreground shadow-[8px_8px_0px_0px_hsl(var(--foreground))] gap-4 text-center sm:text-left">
+          <div className="flex flex-col sm:flex-row items-center gap-4">
             <img src={COOKIES} alt="Cookie" className="w-16 h-16 rounded-full object-cover border-2 border-foreground shadow-[2px_2px_0px_0px_hsl(var(--foreground))]" />
             <div>
               <h4 className="font-['Chewy'] text-3xl">Sweet Tooth?</h4>
               <p className="text-sm font-bold">Add fresh baked cookies to your order!</p>
             </div>
           </div>
-          <button className="bg-foreground hover:bg-foreground/90 text-background px-6 py-2 rounded-xl font-black text-sm border-2 border-foreground shadow-[2px_2px_0px_0px_hsl(var(--foreground))] hover:translate-y-1 hover:shadow-none transition-all">
+          <button className="bg-foreground hover:bg-foreground/90 text-background px-6 py-2 rounded-xl font-black text-sm border-2 border-foreground shadow-[2px_2px_0px_0px_hsl(var(--foreground))] hover:translate-y-1 hover:shadow-none transition-all whitespace-nowrap">
             View Desserts
           </button>
         </div>

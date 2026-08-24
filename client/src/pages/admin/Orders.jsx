@@ -233,7 +233,7 @@ const AdminOrders = () => {
               className="relative w-full max-w-2xl bg-card border-4 border-foreground shadow-[12px_12px_0px_0px_hsl(var(--foreground))] rounded-[2rem] overflow-hidden flex flex-col max-h-[90vh] z-10"
             >
               {/* Modal Header */}
-              <div className="p-8 border-b-4 border-foreground bg-primary flex justify-between items-center">
+              <div className="p-4 sm:p-8 border-b-4 border-foreground bg-primary flex justify-between items-center">
                 <div>
                   <h3 className="text-4xl font-['Chewy'] tracking-wide text-foreground mb-1">Order Details</h3>
                   <p className="font-mono font-black text-foreground/80 text-lg bg-background/30 inline-block px-3 py-1 rounded-lg border-2 border-foreground/20">#{selectedOrder._id}</p>
@@ -251,7 +251,7 @@ const AdminOrders = () => {
               </div>
               
               {/* Modal Content */}
-              <div className="p-8 overflow-y-auto custom-scrollbar flex-grow space-y-10">
+              <div className="p-4 sm:p-8 overflow-y-auto custom-scrollbar flex-grow space-y-10">
                 
                 {/* Customer Info */}
                 <div>
@@ -323,7 +323,7 @@ const AdminOrders = () => {
               </div>
               
               {/* Modal Footer */}
-              <div className="p-8 border-t-4 border-foreground bg-secondary flex justify-between items-center">
+              <div className="p-4 sm:p-8 border-t-4 border-foreground bg-secondary flex justify-between items-center">
                 <div>
                   <p className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-2">Payment</p>
                   <p className="font-black text-lg text-foreground flex items-center gap-3">

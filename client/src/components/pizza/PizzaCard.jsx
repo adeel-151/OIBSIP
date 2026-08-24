@@ -64,18 +64,18 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
           </div>
           
           {/* Action Buttons Row */}
-          <div className="flex items-center gap-3">
+          <div className="flex flex-col sm:flex-row items-center gap-3">
             {onQuickAdd && (
               <button 
                 onClick={(e) => { e.stopPropagation(); onQuickAdd(pizza); }}
-                className="flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-foreground border-2 border-transparent px-2 py-3 rounded-full text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all duration-300"
+                className="w-full sm:flex-1 flex items-center justify-center gap-2 bg-primary hover:bg-primary/90 text-foreground border-2 border-transparent px-2 py-3 rounded-full text-lg font-bold shadow-xl shadow-primary/20 hover:scale-105 transition-all duration-300"
               >
                 <ShoppingCart className="w-5 h-5" /> Add
               </button>
             )}
             <button 
               onClick={() => onCustomize(pizza)}
-              className="flex-1 flex items-center justify-center gap-2 text-lg font-bold border-2 border-foreground bg-background hover:bg-foreground hover:text-background text-foreground px-2 py-3 rounded-full transition-all duration-300 shadow-md hover:scale-105 group/cust"
+              className="w-full sm:flex-1 flex items-center justify-center gap-2 text-lg font-bold border-2 border-foreground bg-background hover:bg-foreground hover:text-background text-foreground px-2 py-3 rounded-full transition-all duration-300 shadow-md hover:scale-105 group/cust"
             >
               Customize <ArrowRight className="w-5 h-5 group-hover/cust:translate-x-1 transition-transform" />
             </button>

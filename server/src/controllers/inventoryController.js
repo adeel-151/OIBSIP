@@ -1,5 +1,6 @@
 const Inventory = require('../models/Inventory');
 const Ingredient = require('../models/Ingredient');
+const { getIO } = require('../utils/socket');
 
 exports.getAllInventory = async (req, res, next) => {
   try {
@@ -47,6 +48,12 @@ exports.updateInventoryItem = async (req, res, next) => {
       await item.save();
     }
 
+    try {
+      getIO().to('admin_room').emit('inventory_updated', item);
+    } catch (err) {
+      console.error('Socket emit error for inventory:', err);
+    }
+
     res.status(200).json({ success: true, data: item });
   } catch (error) {
     next(error);
@@ -87,6 +94,12 @@ exports.adjustStock = async (req, res, next) => {
 
     await inventory.save();
     await inventory.populate('ingredientId', 'name category');
+
+    try {
+      getIO().to('admin_room').emit('inventory_updated', inventory);
+    } catch (err) {
+      console.error('Socket emit error for inventory:', err);
+    }
 
     // Optionally: Save adjustment history here if we had an InventoryHistory model (reason)
 

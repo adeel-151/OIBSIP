@@ -140,6 +140,13 @@ exports.createOrder = async (req, res, next) => {
       ).catch(err => console.error('Error deducting inventory', err));
     }
     
+    // Emit inventory update
+    try {
+      if (Object.keys(requiredIngredients).length > 0) {
+        getIO().to('admin_room').emit('inventory_updated');
+      }
+    } catch(err) { console.error('Socket error for inventory', err) }
+    
     try {
       const orderPopulated = await Order.findById(order._id).populate('user', 'name email');
       getIO().to('admin_room').emit('new_order', orderPopulated);
@@ -199,6 +206,12 @@ exports.verifyPayment = async (req, res, next) => {
         for (const [id, reqQty] of Object.entries(requiredIngredients)) {
           await Inventory.findOneAndUpdate({ ingredientId: id }, { $inc: { quantity: -reqQty } }).catch(err => console.error('Inventory error', err));
         }
+
+        try {
+          if (Object.keys(requiredIngredients).length > 0) {
+            getIO().to('admin_room').emit('inventory_updated');
+          }
+        } catch(err) { console.error('Socket error for inventory', err) }
 
         try {
           getIO().to('admin_room').emit('new_order', order);

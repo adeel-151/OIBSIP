@@ -3,6 +3,7 @@ import axios from 'axios';
 import useAuthStore from '../../store/authStore';
 import StockUpdateModal from '../../components/admin/StockUpdateModal';
 import { toast } from 'sonner';
+import { socket } from '../../services/socket';
 
 const Inventory = () => {
   const { token } = useAuthStore();
@@ -26,6 +27,20 @@ const Inventory = () => {
 
   useEffect(() => {
     fetchInventory();
+
+    // Setup Socket
+    socket.connect();
+    socket.emit('join_admin_room');
+
+    const handleInventoryUpdate = () => {
+      fetchInventory();
+    };
+
+    socket.on('inventory_updated', handleInventoryUpdate);
+
+    return () => {
+      socket.off('inventory_updated', handleInventoryUpdate);
+    };
   }, [token]);
 
   const handleUpdateClick = (item) => {
@@ -55,6 +70,10 @@ const Inventory = () => {
     <div className="pb-10 max-w-7xl mx-auto">
       <div className="flex justify-between items-center mb-10">
         <h1 className="text-5xl font-['Chewy'] tracking-wide text-foreground">Inventory Management</h1>
+        <div className="inline-flex items-center gap-3 bg-card border-4 border-foreground px-4 py-2 rounded-full shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+          <span className="w-3 h-3 rounded-full bg-green-500 animate-pulse border-2 border-foreground"></span>
+          <span className="font-black text-sm uppercase tracking-wider text-muted-foreground">Live Sync Active</span>
+        </div>
       </div>
 
       <div className="bg-card border-4 border-foreground rounded-[2rem] overflow-hidden shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">

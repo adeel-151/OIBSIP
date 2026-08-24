@@ -22,7 +22,14 @@ const Navbar = () => {
     { label: 'Home', path: '/' },
     { label: 'Menu', path: '/menu' },
     { label: 'Build Pizza', path: '/build' },
-    { label: 'Track Order', path: user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/track-order' },
+    ...(isAuthenticated
+      ? [
+          {
+            label: user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? 'Dashboard' : 'Track Order',
+            path: user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? '/admin/dashboard' : '/track-order'
+          }
+        ]
+      : []),
     { label: 'About', path: '/about' },
   ];
 
@@ -225,7 +232,7 @@ const Navbar = () => {
                             onClick={() => setShowProfileMenu(false)}
                             className="flex items-center gap-3 px-4 py-3 text-base font-bold text-foreground hover:bg-primary hover:text-foreground rounded-xl transition-colors"
                           >
-                            <Pizza className="w-5 h-5" /> Track Order
+                            <Pizza className="w-5 h-5" /> {user?.role === 'ADMIN' || user?.role === 'SUPER_ADMIN' ? 'Dashboard' : 'Track Order'}
                           </Link>
                           <Link
                             to="/profile"

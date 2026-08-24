@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 
-const PageLoader = () => {
+const PageLoader = ({ onComplete }) => {
   const [progress, setProgress] = useState(0);
 
   useEffect(() => {
@@ -9,16 +9,25 @@ const PageLoader = () => {
       setProgress(old => {
         if (old >= 100) {
           clearInterval(timer);
+          if (onComplete) {
+            setTimeout(onComplete, 400); // Show 100% for a brief moment
+          }
           return 100;
         }
-        return old + Math.floor(Math.random() * 15) + 5;
+        return old + Math.floor(Math.random() * 12) + 8;
       });
-    }, 150);
+    }, 100);
+    
     return () => clearInterval(timer);
-  }, []);
+  }, [onComplete]);
 
   return (
-    <div className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center">
+    <motion.div 
+      initial={{ opacity: 1 }}
+      exit={{ opacity: 0 }}
+      transition={{ duration: 0.5 }}
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center"
+    >
       <div className="relative flex flex-col items-center">
         
         {/* Glowing Background Effect */}
@@ -118,7 +127,7 @@ const PageLoader = () => {
           Crafting Perfection
         </motion.p>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

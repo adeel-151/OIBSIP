@@ -305,13 +305,7 @@ const PizzaBuilder = () => {
     );
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-[60vh]">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-8 border-b-8 border-primary"></div>
-      </div>
-    );
-  }
+
 
   const stepDescriptions = {
     SIZE: 'Select how big you want your pizza',

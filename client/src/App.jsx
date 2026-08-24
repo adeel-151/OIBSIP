@@ -1,4 +1,4 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState, lazy } from 'react';
 import { Routes, Route, useLocation, useOutlet } from 'react-router-dom';
 import { Toaster } from '@/components/ui/sonner';
 import { AnimatePresence, motion } from 'framer-motion';
@@ -8,26 +8,25 @@ import ErrorBoundary from './components/ErrorBoundary';
 import ProtectedRoute from './components/ProtectedRoute';
 import PageLoader from './components/PageLoader';
 import { ThemeProvider } from './contexts/ThemeContext';
-import { lazyWithDelay } from './utils/lazyWithDelay';
 
-// Lazy-loaded pages with delay for smoother loader transition
-const Home = lazyWithDelay(() => import('./pages/customer/Home'));
-const Login = lazyWithDelay(() => import('./pages/auth/Login'));
-const Register = lazyWithDelay(() => import('./pages/auth/Register'));
-const Menu = lazyWithDelay(() => import('./pages/customer/Menu'));
-const PizzaBuilder = lazyWithDelay(() => import('./pages/customer/PizzaBuilder'));
-const Cart = lazyWithDelay(() => import('./pages/customer/Cart'));
-const About = lazyWithDelay(() => import('./pages/customer/About'));
-const TrackOrder = lazyWithDelay(() => import('./pages/customer/TrackOrder'));
-const Profile = lazyWithDelay(() => import('./pages/customer/Profile'));
-const NotFound = lazyWithDelay(() => import('./pages/NotFound'));
+// Standard lazy loading (no artificial delay on page transitions)
+const Home = lazy(() => import('./pages/customer/Home'));
+const Login = lazy(() => import('./pages/auth/Login'));
+const Register = lazy(() => import('./pages/auth/Register'));
+const Menu = lazy(() => import('./pages/customer/Menu'));
+const PizzaBuilder = lazy(() => import('./pages/customer/PizzaBuilder'));
+const Cart = lazy(() => import('./pages/customer/Cart'));
+const About = lazy(() => import('./pages/customer/About'));
+const TrackOrder = lazy(() => import('./pages/customer/TrackOrder'));
+const Profile = lazy(() => import('./pages/customer/Profile'));
+const NotFound = lazy(() => import('./pages/NotFound'));
 
 // Admin pages
-const AdminLayout = lazyWithDelay(() => import('./pages/admin/AdminLayout'));
-const AdminDashboard = lazyWithDelay(() => import('./pages/admin/Dashboard'));
-const AdminOrders = lazyWithDelay(() => import('./pages/admin/Orders'));
-const AdminMenu = lazyWithDelay(() => import('./pages/admin/MenuManagement'));
-const AdminInventory = lazyWithDelay(() => import('./pages/admin/Inventory'));
+const AdminLayout = lazy(() => import('./pages/admin/AdminLayout'));
+const AdminDashboard = lazy(() => import('./pages/admin/Dashboard'));
+const AdminOrders = lazy(() => import('./pages/admin/Orders'));
+const AdminMenu = lazy(() => import('./pages/admin/MenuManagement'));
+const AdminInventory = lazy(() => import('./pages/admin/Inventory'));
 
 // Smooth animated outlet for page transitions
 const AnimatedOutlet = () => {
@@ -62,11 +61,22 @@ const CustomerLayout = () => (
 );
 
 function App() {
+  const [isInitialLoading, setIsInitialLoading] = useState(true);
+
   return (
     <ThemeProvider>
       <ErrorBoundary>
         <Toaster position="top-center" />
-        <Suspense fallback={<PageLoader />}>
+        
+        {/* The 0-100% Initial App Loader */}
+        <AnimatePresence>
+          {isInitialLoading && (
+            <PageLoader key="initial-loader" onComplete={() => setIsInitialLoading(false)} />
+          )}
+        </AnimatePresence>
+
+        {/* The rest of the app renders in the background to ensure it is ready when loader finishes */}
+        <Suspense fallback={null}>
           <Routes>
             {/* Public Customer Routes (Wrapped in Layout + Animation) */}
             <Route element={<CustomerLayout />}>

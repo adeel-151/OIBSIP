@@ -42,57 +42,59 @@ const Inventory = () => {
   };
 
   const getStatusBadge = (stock, threshold) => {
-    if (stock <= threshold * 0.5) return <span className="px-2 py-1 bg-red-500/20 text-red-500 rounded text-xs font-bold">Critical</span>;
-    if (stock <= threshold) return <span className="px-2 py-1 bg-yellow-500/20 text-yellow-500 rounded text-xs font-bold">Low</span>;
-    return <span className="px-2 py-1 bg-green-500/20 text-green-500 rounded text-xs font-bold">Healthy</span>;
+    if (stock <= threshold * 0.5) return <span className="px-3 py-1.5 bg-[#fca5a5] border-2 border-foreground text-foreground rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">Critical</span>;
+    if (stock <= threshold) return <span className="px-3 py-1.5 bg-[#fef08a] border-2 border-foreground text-foreground rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">Low</span>;
+    return <span className="px-3 py-1.5 bg-[#86efac] border-2 border-foreground text-foreground rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">Healthy</span>;
   };
 
   if (loading) {
-    return <div className="flex justify-center p-10"><div className="w-8 h-8 border-4 border-primary border-t-transparent rounded-full animate-spin"></div></div>;
+    return <div className="flex justify-center p-20"><div className="w-12 h-12 border-4 border-foreground border-t-primary rounded-full animate-spin"></div></div>;
   }
 
   return (
-    <div className="p-6">
-      <div className="flex justify-between items-center mb-6">
-        <h1 className="text-3xl font-bold font-heading">Inventory Management</h1>
+    <div className="pb-10 max-w-7xl mx-auto">
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-5xl font-['Chewy'] tracking-wide text-foreground">Inventory Management</h1>
       </div>
 
-      <div className="bg-card border border-border rounded-xl overflow-hidden">
-        <table className="w-full text-left">
-          <thead className="bg-muted/50 text-muted-foreground border-b border-border">
-            <tr>
-              <th className="p-4 font-semibold">Item</th>
-              <th className="p-4 font-semibold">Category</th>
-              <th className="p-4 font-semibold">Stock</th>
-              <th className="p-4 font-semibold">Threshold</th>
-              <th className="p-4 font-semibold">Status</th>
-              <th className="p-4 font-semibold">Action</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-border/50">
-            {inventory.length === 0 ? (
-              <tr><td colSpan="6" className="p-8 text-center text-muted-foreground">No inventory data available. Ensure ingredients are added.</td></tr>
-            ) : (
-              inventory.map((item) => (
-                <tr key={item._id} className="hover:bg-muted/30 transition-colors">
-                  <td className="p-4 font-medium">{item.ingredientId?.name || 'Unknown'}</td>
-                  <td className="p-4"><span className="text-xs uppercase tracking-wider">{item.ingredientId?.category || 'N/A'}</span></td>
-                  <td className="p-4 font-bold">{item.quantity} <span className="text-xs text-muted-foreground font-normal">{item.unit}</span></td>
-                  <td className="p-4 text-muted-foreground">{item.threshold} <span className="text-xs">{item.unit}</span></td>
-                  <td className="p-4">{getStatusBadge(item.quantity, item.threshold)}</td>
-                  <td className="p-4">
-                    <button 
-                      onClick={() => handleUpdateClick(item)}
-                      className="text-primary hover:text-primary/80 font-medium text-sm transition-colors"
-                    >
-                      Update
-                    </button>
-                  </td>
-                </tr>
-              ))
-            )}
-          </tbody>
-        </table>
+      <div className="bg-card border-4 border-foreground rounded-[2rem] overflow-hidden shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
+        <div className="overflow-x-auto">
+          <table className="w-full text-left border-collapse">
+            <thead className="bg-secondary text-foreground border-b-4 border-foreground">
+              <tr>
+                <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Item</th>
+                <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Category</th>
+                <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Stock</th>
+                <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Threshold</th>
+                <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Status</th>
+                <th className="p-5 font-black uppercase tracking-wider text-sm">Action</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y-4 divide-foreground/20">
+              {inventory.length === 0 ? (
+                <tr><td colSpan="6" className="p-10 text-center font-bold text-muted-foreground text-lg">No inventory data available. Ensure ingredients are added.</td></tr>
+              ) : (
+                inventory.map((item) => (
+                  <tr key={item._id} className="hover:bg-secondary/30 transition-colors">
+                    <td className="p-5 font-bold text-lg border-r-4 border-foreground/10">{item.ingredientId?.name || 'Unknown'}</td>
+                    <td className="p-5 border-r-4 border-foreground/10"><span className="text-xs font-black bg-foreground text-background px-3 py-1.5 rounded-lg uppercase tracking-wider">{item.ingredientId?.category || 'N/A'}</span></td>
+                    <td className="p-5 font-black text-2xl text-primary border-r-4 border-foreground/10">{item.quantity} <span className="text-sm text-foreground font-bold">{item.unit}</span></td>
+                    <td className="p-5 font-bold text-muted-foreground border-r-4 border-foreground/10">{item.threshold} <span className="text-sm">{item.unit}</span></td>
+                    <td className="p-5 border-r-4 border-foreground/10">{getStatusBadge(item.quantity, item.threshold)}</td>
+                    <td className="p-5">
+                      <button 
+                        onClick={() => handleUpdateClick(item)}
+                        className="bg-primary hover:bg-primary/90 text-white font-black px-4 py-2 rounded-xl border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:translate-y-1 hover:shadow-none transition-all"
+                      >
+                        Update
+                      </button>
+                    </td>
+                  </tr>
+                ))
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {isModalOpen && (

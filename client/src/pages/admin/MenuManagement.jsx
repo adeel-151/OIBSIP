@@ -29,7 +29,6 @@ const MenuManagement = () => {
       setIngredients(ingredientsRes.data.data || ingredientsRes.data || []);
       setPizzas(pizzasRes.data.data || pizzasRes.data || []);
     } catch (error) {
-      // Fallback demo data
       setIngredients([
         { _id: 'b1', name: 'Classic Thin', category: 'BASE', price: 80 },
         { _id: 'b2', name: 'Hand Tossed', category: 'BASE', price: 70 },
@@ -97,105 +96,111 @@ const MenuManagement = () => {
   if (isLoading) {
     return (
       <div className="flex justify-center items-center h-64">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+        <div className="w-12 h-12 border-4 border-foreground border-t-primary rounded-full animate-spin"></div>
       </div>
     );
   }
 
   return (
-    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }}>
+    <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} className="pb-10 max-w-7xl mx-auto">
+      <div className="flex justify-between items-center mb-10">
+        <h1 className="text-5xl font-['Chewy'] tracking-wide text-foreground">Menu Configuration</h1>
+      </div>
+
       {/* Tabs */}
-      <div className="flex items-center gap-4 mb-6">
+      <div className="flex items-center gap-4 mb-8">
         <button
           onClick={() => setActiveTab('ingredients')}
-          className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all ${
+          className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-lg transition-all border-4 ${
             activeTab === 'ingredients'
-              ? 'bg-primary/10 text-primary'
-              : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+              ? 'bg-foreground text-background border-foreground shadow-[4px_4px_0px_0px_hsl(var(--primary))] -translate-y-1'
+              : 'bg-card text-muted-foreground border-transparent hover:border-foreground/20 hover:bg-secondary/50'
           }`}
         >
-          <Package className="w-4 h-4 inline mr-2" /> Ingredients
+          <Package className={activeTab === 'ingredients' ? 'text-primary' : ''} /> 
+          Ingredients
         </button>
         <button
           onClick={() => setActiveTab('pizzas')}
-          className={`px-4 py-2 text-sm font-semibold rounded-lg transition-all ${
+          className={`flex items-center gap-2 px-6 py-3 rounded-2xl font-black text-lg transition-all border-4 ${
             activeTab === 'pizzas'
-              ? 'bg-primary/10 text-primary'
-              : 'text-muted-foreground hover:text-foreground hover:bg-secondary'
+              ? 'bg-foreground text-background border-foreground shadow-[4px_4px_0px_0px_hsl(var(--primary))] -translate-y-1'
+              : 'bg-card text-muted-foreground border-transparent hover:border-foreground/20 hover:bg-secondary/50'
           }`}
         >
-          <Pizza className="w-4 h-4 inline mr-2" /> Pizzas
+          <Pizza className={activeTab === 'pizzas' ? 'text-primary' : ''} /> 
+          Pizzas
         </button>
       </div>
 
       {/* Header Bar */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 mb-8">
         <div className="relative flex-1 max-w-sm">
-          <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" />
+          <Search className="absolute left-4 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground" />
           <input
             type="text"
             placeholder="Search ingredients..."
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-full pl-10 pr-4 py-2.5 bg-card border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50 transition-all"
+            className="w-full pl-12 pr-4 py-3 bg-card border-4 border-foreground rounded-2xl text-base font-bold text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-4 focus:ring-primary/30 shadow-[4px_4px_0px_0px_hsl(var(--foreground))] transition-all"
           />
         </div>
         <button
           onClick={() => setShowAddModal(true)}
-          className="inline-flex items-center gap-2 px-5 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
+          className="inline-flex items-center gap-2 px-6 py-3 bg-primary text-primary-foreground rounded-2xl font-black text-lg shadow-[4px_4px_0px_0px_hsl(var(--foreground))] border-4 border-foreground hover:-translate-y-1 hover:shadow-none transition-all"
         >
-          <Plus className="w-4 h-4" /> Add Ingredient
+          <Plus className="w-5 h-5 font-black" /> Add Ingredient
         </button>
       </div>
 
       {/* Ingredients Grid */}
       {activeTab === 'ingredients' && (
-        <div className="bg-card rounded-2xl border border-border overflow-hidden">
+        <div className="bg-card border-4 border-foreground rounded-[2rem] overflow-hidden shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
           <div className="overflow-x-auto">
-            <table className="w-full text-left">
-              <thead>
-                <tr className="bg-secondary/50 text-muted-foreground text-xs uppercase tracking-wider">
-                  <th className="p-4 font-semibold">Name</th>
-                  <th className="p-4 font-semibold">Category</th>
-                  <th className="p-4 font-semibold">Price</th>
-                  <th className="p-4 font-semibold text-right">Actions</th>
+            <table className="w-full text-left border-collapse">
+              <thead className="bg-secondary text-foreground border-b-4 border-foreground">
+                <tr>
+                  <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Name</th>
+                  <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Category</th>
+                  <th className="p-5 font-black uppercase tracking-wider text-sm border-r-4 border-foreground/20">Price</th>
+                  <th className="p-5 font-black uppercase tracking-wider text-sm text-right">Actions</th>
                 </tr>
               </thead>
-              <tbody className="divide-y divide-border/50">
+              <tbody className="divide-y-4 divide-foreground/20">
                 {filteredIngredients.map((item) => (
-                  <tr key={item._id} className="hover:bg-secondary/20 transition-colors group">
-                    <td className="p-4">
-                      <span className="font-semibold text-sm">{item.name}</span>
+                  <tr key={item._id} className="hover:bg-secondary/30 transition-colors group">
+                    <td className="p-5 border-r-4 border-foreground/10">
+                      <span className="font-bold text-lg">{item.name}</span>
                     </td>
-                    <td className="p-4">
-                      <span className={`inline-flex items-center px-2.5 py-1 rounded-full text-xs font-semibold ${
-                        item.category === 'BASE' ? 'bg-amber-500/10 text-amber-400' :
-                        item.category === 'SAUCE' ? 'bg-red-500/10 text-red-400' :
-                        item.category === 'CHEESE' ? 'bg-yellow-500/10 text-yellow-400' :
-                        item.category === 'VEGETABLE' ? 'bg-green-500/10 text-green-400' :
-                        'bg-purple-500/10 text-purple-400'
+                    <td className="p-5 border-r-4 border-foreground/10">
+                      <span className={`inline-flex items-center px-4 py-2 border-2 border-foreground rounded-full text-xs font-black uppercase tracking-wider shadow-[2px_2px_0px_0px_hsl(var(--foreground))] ${
+                        item.category === 'BASE' ? 'bg-[#fef08a] text-foreground' :
+                        item.category === 'SAUCE' ? 'bg-[#fca5a5] text-foreground' :
+                        item.category === 'CHEESE' ? 'bg-[#fef08a] text-foreground' :
+                        item.category === 'VEGETABLE' ? 'bg-[#86efac] text-foreground' :
+                        'bg-[#bfdbfe] text-foreground'
                       }`}>
                         {item.category}
                       </span>
                     </td>
-                    <td className="p-4 font-medium text-sm">
-                      {item.price === 0 ? <span className="text-muted-foreground">Included</span> : `Rs.${item.price}`}
+                    <td className="p-5 border-r-4 border-foreground/10 font-black text-xl">
+                      {item.price === 0 ? <span className="text-muted-foreground">Included</span> : <span className="text-primary">Rs.{item.price}</span>}
                     </td>
-                    <td className="p-4 text-right">
-                      <div className="flex justify-end gap-2 opacity-0 group-hover:opacity-100 transition-opacity">
+                    <td className="p-5 text-right">
+                      <div className="flex justify-end gap-3 opacity-100 sm:opacity-0 sm:group-hover:opacity-100 transition-opacity">
                         <button
                           onClick={() => openEditModal(item)}
-                          className="p-2 rounded-lg hover:bg-primary/10 text-muted-foreground hover:text-primary transition-all"
+                          className="w-10 h-10 rounded-xl bg-secondary border-2 border-foreground flex items-center justify-center hover:bg-primary hover:text-white hover:-translate-y-1 shadow-[2px_2px_0px_0px_hsl(var(--foreground))] hover:shadow-none transition-all"
                           title="Edit"
                         >
-                          <Edit3 className="w-4 h-4" />
+                          <Edit3 className="w-5 h-5" />
                         </button>
                         <button
                           onClick={() => handleDelete(item._id)}
-                          className="p-2 rounded-lg hover:bg-destructive/10 text-muted-foreground hover:text-red-400 transition-all"
+                          className="w-10 h-10 rounded-xl bg-secondary border-2 border-foreground flex items-center justify-center hover:bg-destructive hover:text-white hover:-translate-y-1 shadow-[2px_2px_0px_0px_hsl(var(--foreground))] hover:shadow-none transition-all"
                           title="Delete"
                         >
-                          <Trash2 className="w-4 h-4" />
+                          <Trash2 className="w-5 h-5" />
                         </button>
                       </div>
                     </td>
@@ -203,7 +208,7 @@ const MenuManagement = () => {
                 ))}
                 {filteredIngredients.length === 0 && (
                   <tr>
-                    <td colSpan="4" className="p-8 text-center text-muted-foreground text-sm">
+                    <td colSpan="4" className="p-10 text-center font-bold text-muted-foreground text-lg">
                       No ingredients found.
                     </td>
                   </tr>
@@ -216,15 +221,17 @@ const MenuManagement = () => {
 
       {/* Pizzas Tab */}
       {activeTab === 'pizzas' && (
-        <div className="bg-card rounded-2xl border border-border p-8 text-center">
-          <Pizza className="w-12 h-12 text-muted-foreground mx-auto mb-4 opacity-40" />
-          <h3 className="text-lg font-bold font-heading mb-2">Pizza Presets</h3>
-          <p className="text-sm text-muted-foreground max-w-md mx-auto">
+        <div className="bg-card border-4 border-dashed border-foreground/40 rounded-[2rem] p-12 text-center">
+          <Pizza className="w-20 h-20 text-muted-foreground mx-auto mb-6 opacity-60" />
+          <h3 className="text-4xl font-['Chewy'] tracking-wide text-foreground mb-3">Pizza Presets</h3>
+          <p className="text-lg font-bold text-muted-foreground max-w-md mx-auto">
             Manage pre-configured pizza recipes that appear on the menu. Create combos of your ingredients.
           </p>
-          <p className="text-xs text-muted-foreground mt-4">
-            {pizzas.length > 0 ? `${pizzas.length} pizzas loaded from database` : 'No preset pizzas in database yet.'}
-          </p>
+          <div className="mt-8 inline-block bg-background border-4 border-foreground px-6 py-3 rounded-full shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
+            <p className="font-black text-primary uppercase tracking-wider">
+              {pizzas.length > 0 ? `${pizzas.length} pizzas loaded from database` : 'No preset pizzas in database yet.'}
+            </p>
+          </div>
         </div>
       )}
 
@@ -237,41 +244,44 @@ const MenuManagement = () => {
               animate={{ opacity: 1 }}
               exit={{ opacity: 0 }}
               onClick={closeModal}
-              className="fixed inset-0 bg-black/60 backdrop-blur-sm z-50"
+              className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50"
             />
             <motion.div
               initial={{ opacity: 0, scale: 0.95, y: 20 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.95, y: 20 }}
-              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-md bg-card border border-border rounded-2xl shadow-2xl z-50 p-6"
+              className="fixed top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg bg-card border-4 border-foreground rounded-[2rem] shadow-[12px_12px_0px_0px_hsl(var(--foreground))] z-50 overflow-hidden flex flex-col max-h-[90vh]"
             >
-              <div className="flex justify-between items-center mb-6">
-                <h3 className="text-lg font-bold font-heading">
+              <div className="p-6 border-b-4 border-foreground bg-secondary/50 flex justify-between items-center">
+                <h3 className="text-3xl font-['Chewy'] tracking-wide text-foreground">
                   {editItem ? 'Edit Ingredient' : 'Add Ingredient'}
                 </h3>
-                <button onClick={closeModal} className="p-2 rounded-lg hover:bg-secondary transition-colors">
-                  <X className="w-4 h-4" />
+                <button 
+                  onClick={closeModal} 
+                  className="w-10 h-10 rounded-full bg-background border-2 border-foreground flex items-center justify-center hover:bg-destructive hover:text-white transition-colors"
+                >
+                  <X className="w-6 h-6" />
                 </button>
               </div>
 
-              <div className="space-y-4">
+              <div className="p-8 space-y-6 overflow-y-auto">
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">Name</label>
+                  <label className="text-base font-black uppercase tracking-wider text-foreground mb-2 block">Name</label>
                   <input
                     type="text"
                     value={form.name}
                     onChange={(e) => setForm({ ...form, name: e.target.value })}
                     placeholder="e.g. Mozzarella"
-                    className="w-full px-4 py-2.5 bg-secondary border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                    className="w-full px-4 py-3 bg-background border-4 border-foreground rounded-xl font-bold text-foreground focus:outline-none focus:ring-4 focus:ring-primary/30 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">Category</label>
+                  <label className="text-base font-black uppercase tracking-wider text-foreground mb-2 block">Category</label>
                   <select
                     value={form.category}
                     onChange={(e) => setForm({ ...form, category: e.target.value })}
-                    className="w-full px-4 py-2.5 bg-secondary border border-border rounded-xl text-sm text-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                    className="w-full px-4 py-3 bg-background border-4 border-foreground rounded-xl font-bold text-foreground focus:outline-none focus:ring-4 focus:ring-primary/30 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]"
                   >
                     {CATEGORIES.map(cat => (
                       <option key={cat} value={cat}>{cat}</option>
@@ -280,38 +290,38 @@ const MenuManagement = () => {
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">Price (Rs.)</label>
+                  <label className="text-base font-black uppercase tracking-wider text-foreground mb-2 block">Price (Rs.)</label>
                   <input
                     type="number"
                     value={form.price}
                     onChange={(e) => setForm({ ...form, price: Number(e.target.value) })}
                     placeholder="0"
-                    className="w-full px-4 py-2.5 bg-secondary border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                    className="w-full px-4 py-3 bg-background border-4 border-foreground rounded-xl font-bold text-foreground focus:outline-none focus:ring-4 focus:ring-primary/30 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]"
                   />
                 </div>
 
                 <div>
-                  <label className="text-sm font-medium text-foreground mb-1.5 block">Image URL (optional)</label>
+                  <label className="text-base font-black uppercase tracking-wider text-foreground mb-2 block">Image URL (optional)</label>
                   <input
                     type="text"
                     value={form.image}
                     onChange={(e) => setForm({ ...form, image: e.target.value })}
                     placeholder="https://..."
-                    className="w-full px-4 py-2.5 bg-secondary border border-border rounded-xl text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/50"
+                    className="w-full px-4 py-3 bg-background border-4 border-foreground rounded-xl font-bold text-foreground focus:outline-none focus:ring-4 focus:ring-primary/30 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]"
                   />
                 </div>
               </div>
 
-              <div className="flex gap-3 mt-6">
+              <div className="p-6 border-t-4 border-foreground bg-secondary/50 flex gap-4">
                 <button
                   onClick={closeModal}
-                  className="flex-1 px-4 py-2.5 border border-border rounded-xl text-sm font-medium hover:bg-secondary transition-all"
+                  className="flex-1 px-6 py-4 bg-background border-4 border-foreground rounded-2xl font-black text-lg hover:bg-secondary shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:translate-y-1 hover:shadow-none transition-all"
                 >
                   Cancel
                 </button>
                 <button
                   onClick={handleSave}
-                  className="flex-1 px-4 py-2.5 bg-primary text-primary-foreground rounded-xl text-sm font-semibold shadow-lg shadow-primary/20 hover:bg-primary/90 transition-all"
+                  className="flex-1 px-6 py-4 bg-primary text-white border-4 border-foreground rounded-2xl font-black text-lg shadow-[4px_4px_0px_0px_hsl(var(--foreground))] hover:translate-y-1 hover:shadow-none transition-all"
                 >
                   {editItem ? 'Update' : 'Add'}
                 </button>

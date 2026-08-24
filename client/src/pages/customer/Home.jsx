@@ -9,7 +9,7 @@ import PizzaCard from '../../components/pizza/PizzaCard';
 const HERO_PIZZA = 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=1200&auto=format&fit=crop';
 const FEATURED_PIZZA = 'https://images.unsplash.com/photo-1513104890138-7c749659a591?q=80&w=1200&auto=format&fit=crop';
 const MENU_PIZZA = 'https://images.unsplash.com/photo-1565299624946-b28f40a0ae38?q=80&w=500&auto=format&fit=crop';
-const MENU_PASTA = 'https://images.unsplash.com/photo-1621996316585-8837db1fe278?q=80&w=500&auto=format&fit=crop';
+const MENU_PASTA = 'https://images.unsplash.com/photo-1473093295043-cdd812d0e601?q=80&w=500&auto=format&fit=crop';
 const MENU_BURGER = 'https://images.unsplash.com/photo-1568901346375-23c9450c58cd?q=80&w=500&auto=format&fit=crop';
 const MENU_SANDWICH = 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=500&auto=format&fit=crop';
 const COOKIES = 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=500&auto=format&fit=crop';

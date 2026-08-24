@@ -70,14 +70,14 @@ const Navbar = () => {
           ? 'top-0 bg-background shadow-xl shadow-foreground/10 py-3 border-b-4 border-foreground'
           : 'top-0 bg-background py-5 border-b-4 border-transparent'
       }`}>
-        <div className="mx-auto w-full px-6 md:px-12 max-w-7xl">
+        <div className="mx-auto w-full px-4 sm:px-6 md:px-12 max-w-7xl">
           <div className="flex items-center justify-between">
             {/* Logo */}
             <Link to="/" className="flex items-center gap-3 group">
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg group-hover:-rotate-12 transition-transform duration-300 border-4 border-foreground ring-2 ring-primary">
                 <Pizza className="h-6 w-6 text-foreground" />
               </div>
-              <span className="text-3xl sm:text-4xl font-['Chewy'] text-foreground tracking-wide mt-1 group-hover:text-primary transition-colors">PIZZARO</span>
+              <span className="text-2xl sm:text-4xl font-['Chewy'] text-foreground tracking-wide mt-1 group-hover:text-primary transition-colors">PIZZARO</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -110,14 +110,14 @@ const Navbar = () => {
               {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-2 rounded-full text-foreground/80 hover:text-primary hover:bg-foreground/5 transition-colors"
+                className="hidden sm:block p-2 rounded-full text-foreground/80 hover:text-primary hover:bg-foreground/5 transition-colors"
                 aria-label="Toggle Theme"
               >
                 {theme === 'dark' ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
               </button>
 
               {/* Cart with Mini Preview */}
-              <div className="relative" ref={miniCartRef}>
+              <div className="relative hidden sm:block" ref={miniCartRef}>
                 <button
                   onClick={() => {
                     setShowMiniCart(!showMiniCart);
@@ -313,16 +313,43 @@ const Navbar = () => {
                   </div>
                   <span className="text-3xl font-['Chewy'] mt-1 text-foreground tracking-wide">PIZZARO</span>
                 </Link>
-                <button
-                  onClick={() => setMobileOpen(false)}
-                  className="p-2 bg-foreground text-background rounded-full hover:bg-red-500 hover:text-white transition-colors border-2 border-transparent hover:border-foreground"
-                >
-                  <X className="w-6 h-6" />
-                </button>
+                <div className="flex items-center gap-2">
+                  <button
+                    onClick={toggleTheme}
+                    className="sm:hidden p-2 rounded-full text-foreground/80 hover:text-primary hover:bg-background transition-colors"
+                  >
+                    {theme === 'dark' ? <Sun className="h-6 w-6" /> : <Moon className="h-6 w-6" />}
+                  </button>
+                  <button
+                    onClick={() => setMobileOpen(false)}
+                    className="p-2 bg-foreground text-background rounded-full hover:bg-red-500 hover:text-white transition-colors border-2 border-transparent hover:border-foreground"
+                  >
+                    <X className="w-6 h-6" />
+                  </button>
+                </div>
               </div>
 
               <div className="flex-1 overflow-y-auto py-6 px-4 bg-background">
                 <div className="space-y-3">
+                  <Link
+                    to="/cart"
+                    onClick={() => setMobileOpen(false)}
+                    className={`sm:hidden flex items-center justify-between px-5 py-4 rounded-2xl text-2xl font-['Chewy'] transition-all border-4 ${
+                      isActive('/cart')
+                        ? 'bg-primary text-foreground shadow-xl shadow-primary/20 scale-105'
+                        : 'bg-card text-foreground hover:scale-105 shadow-md'
+                    }`}
+                  >
+                    <div className="flex items-center gap-3">
+                      Cart
+                      {cartItemCount > 0 && (
+                        <span className="bg-red-500 text-white font-sans text-sm font-bold px-2 py-0.5 rounded-full border-2 border-foreground">
+                          {cartItemCount}
+                        </span>
+                      )}
+                    </div>
+                    <ShoppingCart className="w-6 h-6" />
+                  </Link>
                   {navLinks.map(link => (
                     <Link
                       key={link.path}

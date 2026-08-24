@@ -55,7 +55,7 @@ const PizzaCard = ({ pizza, onCustomize, onQuickAdd }) => {
         <div className="flex flex-col gap-5 mt-auto">
           {/* Price & Calories Row */}
           <div className="flex items-center justify-between pb-5 border-b-4 border-foreground/10">
-            <span className="text-4xl font-['Chewy'] tracking-wide text-foreground">
+            <span className="text-3xl sm:text-4xl font-['Chewy'] tracking-wide text-foreground">
               Rs.{pizza.basePrice || pizza.price || 0}
             </span>
             <span className="flex items-center gap-1.5 text-xs font-bold text-foreground bg-secondary px-3 py-1.5 rounded-xl border-2 border-foreground shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">

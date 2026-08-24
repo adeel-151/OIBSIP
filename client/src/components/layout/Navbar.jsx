@@ -77,7 +77,7 @@ const Navbar = () => {
               <div className="w-12 h-12 bg-primary rounded-full flex items-center justify-center shadow-lg group-hover:-rotate-12 transition-transform duration-300 border-4 border-foreground ring-2 ring-primary">
                 <Pizza className="h-6 w-6 text-foreground" />
               </div>
-              <span className="text-4xl font-['Chewy'] text-foreground tracking-wide mt-1 group-hover:text-primary transition-colors">PIZZARO</span>
+              <span className="text-3xl sm:text-4xl font-['Chewy'] text-foreground tracking-wide mt-1 group-hover:text-primary transition-colors">PIZZARO</span>
             </Link>
 
             {/* Desktop Navigation */}
@@ -149,7 +149,7 @@ const Navbar = () => {
                       animate={{ opacity: 1, y: 0, scale: 1 }}
                       exit={{ opacity: 0, y: 10, scale: 0.95 }}
                       transition={{ duration: 0.2 }}
-                      className="absolute right-0 top-full mt-4 w-80 bg-background border-4 border-foreground rounded-2xl shadow-[8px_8px_0px_0px_hsl(var(--foreground))] z-50 overflow-hidden"
+                      className="absolute right-0 top-full mt-4 w-[280px] sm:w-80 bg-background border-4 border-foreground rounded-2xl shadow-[8px_8px_0px_0px_hsl(var(--foreground))] z-50 overflow-hidden"
                     >
                       <div className="p-4 border-b-4 border-foreground bg-primary">
                         <h3 className="font-['Chewy'] text-2xl text-foreground tracking-wide">Your Cart ({cartItemCount})</h3>
@@ -304,7 +304,7 @@ const Navbar = () => {
               animate={{ x: 0 }}
               exit={{ x: '100%' }}
               transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="fixed right-0 top-0 bottom-0 z-[70] w-full max-w-sm bg-background border-l-8 border-foreground shadow-2xl flex flex-col"
+              className="fixed right-0 top-0 bottom-0 z-[70] w-full max-w-[280px] sm:max-w-sm bg-background border-l-8 border-foreground shadow-2xl flex flex-col"
             >
               <div className="flex items-center justify-between p-6 border-b-4 border-foreground bg-primary">
                 <Link to="/" className="flex items-center gap-3">

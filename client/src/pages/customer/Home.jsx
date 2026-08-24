@@ -103,7 +103,7 @@ const Home = () => {
             <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">
               Taste The Best
             </p>
-            <h1 className="font-['Chewy'] text-5xl sm:text-6xl md:text-8xl leading-none text-background drop-shadow-lg tracking-wide">
+            <h1 className="font-['Chewy'] text-5xl sm:text-6xl md:text-8xl leading-none text-background drop-shadow-lg tracking-wide break-words max-w-full">
               PIZZARO
               <br />
               ORIGINALS
@@ -140,14 +140,14 @@ const Home = () => {
             
             {/* Card 1: Mauve/Purple Split */}
             <div className="flex-1 flex flex-col sm:flex-row text-white">
-              <div className="bg-[#947883] p-8 w-full sm:w-1/2">
-                <h3 className="font-['Chewy'] text-3xl mb-4 text-[#FFF6EA] tracking-wide">Our Story</h3>
+              <div className="bg-[#947883] p-6 sm:p-8 w-full sm:w-1/2">
+                <h3 className="font-['Chewy'] text-2xl sm:text-3xl mb-4 text-[#FFF6EA] tracking-wide">Our Story</h3>
                 <p className="text-sm opacity-90 leading-relaxed">
                   Authentic recipes passed down through generations.
                 </p>
               </div>
-              <div className="bg-[#AF8795] p-8 w-full sm:w-1/2">
-                <h3 className="font-['Chewy'] text-3xl mb-4 text-[#FFF6EA] tracking-wide">Quality</h3>
+              <div className="bg-[#AF8795] p-6 sm:p-8 w-full sm:w-1/2">
+                <h3 className="font-['Chewy'] text-2xl sm:text-3xl mb-4 text-[#FFF6EA] tracking-wide">Quality</h3>
                 <p className="text-sm opacity-90 leading-relaxed">
                   We use only the freshest, locally sourced ingredients.
                 </p>
@@ -155,8 +155,8 @@ const Home = () => {
             </div>
 
             {/* Card 2: Light Yellow */}
-            <div className="flex-1 bg-[#FDD05B] p-8 text-black flex flex-col justify-center">
-              <h3 className="font-['Chewy'] text-4xl mb-3 tracking-wide">Fast Delivery</h3>
+            <div className="flex-1 bg-[#FDD05B] p-6 sm:p-8 text-black flex flex-col justify-center">
+              <h3 className="font-['Chewy'] text-3xl sm:text-4xl mb-3 tracking-wide">Fast Delivery</h3>
               <p className="text-sm font-medium opacity-80 leading-relaxed">
                 Hot and fresh to your door in under 30 minutes, guaranteed.
               </p>
@@ -193,7 +193,7 @@ const Home = () => {
             <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">
               Delicious
             </p>
-            <h2 className="font-['Chewy'] text-5xl md:text-7xl text-foreground leading-tight tracking-wide">
+            <h2 className="font-['Chewy'] text-4xl sm:text-5xl md:text-7xl text-foreground leading-tight tracking-wide break-words">
               Slow-baked <br/> Specialties
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-md pt-2">
@@ -225,7 +225,7 @@ const Home = () => {
             <p className="text-red-500 font-['Chewy'] tracking-wide text-2xl uppercase">
               Farm to Table
             </p>
-            <h2 className="font-['Chewy'] text-4xl sm:text-5xl md:text-6xl text-foreground leading-tight tracking-wide">
+            <h2 className="font-['Chewy'] text-4xl sm:text-5xl md:text-6xl text-foreground leading-tight tracking-wide break-words">
               Locally Sourced, <br/> Crafted with Love
             </h2>
             <p className="text-muted-foreground text-lg leading-relaxed max-w-md pt-2">
@@ -259,7 +259,7 @@ const Home = () => {
           <div className="flex flex-col sm:flex-row justify-between items-start sm:items-end mb-12 gap-4">
             <div>
               <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">Favorites</p>
-              <h2 className="font-['Chewy'] text-5xl text-foreground tracking-wide mt-2">Trending Now</h2>
+              <h2 className="font-['Chewy'] text-4xl sm:text-5xl text-foreground tracking-wide mt-2 break-words">Trending Now</h2>
             </div>
             <Link to="/menu" className="hidden sm:inline-flex items-center gap-2 font-bold text-lg border-b-2 border-foreground pb-1 hover:text-primary hover:border-primary transition-colors">
               View All Menu
@@ -302,7 +302,7 @@ const Home = () => {
         </div>
 
         <div className="container mx-auto px-6 text-center pt-16">
-           <h2 className="font-['Chewy'] text-5xl mb-4 text-primary tracking-wide">Pizzaro</h2>
+           <h2 className="font-['Chewy'] text-4xl sm:text-5xl mb-4 text-primary tracking-wide break-words">Pizzaro</h2>
            <p className="text-background/60 max-w-md mx-auto font-bold">
              Delivering happiness, one slice at a time. Thank you for choosing the best pizza in town!
            </p>

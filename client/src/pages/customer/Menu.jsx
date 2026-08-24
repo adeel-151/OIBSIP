@@ -209,7 +209,7 @@ const Menu = () => {
           <motion.h1 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            className="text-6xl md:text-7xl font-['Chewy'] mb-6 tracking-wide text-foreground"
+            className="text-5xl sm:text-6xl md:text-7xl font-['Chewy'] mb-6 tracking-wide text-foreground break-words"
           >
             Explore Our <span className="text-primary">Menu</span>
           </motion.h1>
@@ -333,12 +333,12 @@ const Menu = () => {
           </div>
 
           <div className="relative z-10 max-w-xl text-center md:text-left">
-            <h2 className="text-5xl md:text-6xl font-['Chewy'] tracking-wide mb-4 text-foreground drop-shadow-sm">Can't find what you're craving?</h2>
-            <p className="text-foreground/80 font-bold text-xl">Be the chef! Build your perfect pizza from scratch with our 50+ premium ingredients.</p>
+            <h2 className="text-4xl sm:text-5xl md:text-6xl font-['Chewy'] tracking-wide mb-4 text-foreground drop-shadow-sm break-words">Can't find what you're craving?</h2>
+            <p className="text-foreground/80 font-bold text-lg sm:text-xl">Be the chef! Build your perfect pizza from scratch with our 50+ premium ingredients.</p>
           </div>
           <button 
             onClick={() => navigate('/build')}
-            className="relative z-10 shrink-0 bg-foreground text-background hover:bg-background hover:text-foreground border-4 border-foreground px-10 py-5 rounded-full font-['Chewy'] text-3xl tracking-wide shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 transition-all duration-300"
+            className="relative z-10 shrink-0 bg-foreground text-background hover:bg-background hover:text-foreground border-4 border-foreground px-6 sm:px-10 py-4 sm:py-5 rounded-full font-['Chewy'] text-xl sm:text-3xl tracking-wide shadow-[8px_8px_0px_0px_hsl(var(--foreground))] hover:shadow-none hover:translate-y-2 transition-all duration-300 whitespace-nowrap"
           >
             Build Your Own
           </button>

@@ -206,7 +206,7 @@ const Cart = () => {
           <div className="w-32 h-32 bg-primary rounded-full flex items-center justify-center mx-auto mb-8 border-4 border-foreground shadow-[4px_4px_0px_0px_hsl(var(--foreground))] text-foreground">
             <ShoppingBag className="w-16 h-16" />
           </div>
-          <h2 className="text-5xl font-['Chewy'] mb-4 text-foreground tracking-wide">Your cart is empty</h2>
+          <h2 className="text-4xl sm:text-5xl font-['Chewy'] mb-4 text-foreground tracking-wide">Your cart is empty</h2>
           <p className="text-muted-foreground mb-8 text-lg font-bold">
             Looks like you haven't added anything to your cart yet. Discover our premium menu or build your own masterpiece.
           </p>
@@ -224,7 +224,7 @@ const Cart = () => {
     <div className="min-h-screen bg-background py-20">
       <SEO title="Cart | Pizzaro" />
       <div className="container mx-auto px-6 max-w-7xl">
-        <h1 className="text-5xl md:text-6xl font-['Chewy'] mb-12 text-foreground tracking-wide">Your Cart</h1>
+        <h1 className="text-4xl sm:text-5xl md:text-6xl font-['Chewy'] mb-12 text-foreground tracking-wide">Your Cart</h1>
         
         <div className="flex flex-col lg:flex-row gap-12">
           {/* Left Column */}
@@ -317,7 +317,7 @@ const Cart = () => {
               <div className="grid grid-cols-2 gap-4">
                 <button
                   onClick={() => setDeliveryMode('delivery')}
-                  className={`flex items-center gap-4 p-5 rounded-full border-2 transition-all ${
+                  className={`flex flex-col sm:flex-row items-center gap-2 sm:gap-4 p-3 sm:p-5 rounded-3xl sm:rounded-full border-2 transition-all text-center sm:text-left ${
                     deliveryMode === 'delivery'
                       ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
                       : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
@@ -331,7 +331,7 @@ const Cart = () => {
                 </button>
                 <button
                   onClick={() => setDeliveryMode('pickup')}
-                  className={`flex items-center gap-4 p-5 rounded-full border-2 transition-all ${
+                  className={`flex flex-col sm:flex-row items-center gap-2 sm:gap-4 p-3 sm:p-5 rounded-3xl sm:rounded-full border-2 transition-all text-center sm:text-left ${
                     deliveryMode === 'pickup'
                       ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
                       : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'

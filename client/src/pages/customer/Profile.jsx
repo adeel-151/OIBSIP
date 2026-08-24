@@ -79,12 +79,12 @@ const Profile = () => {
         <div className="flex flex-col md:flex-row gap-8">
           {/* Sidebar Tabs */}
           <div className="md:w-56 flex-shrink-0">
-            <div className="bg-card rounded-2xl border border-border p-2 flex md:flex-col gap-1">
+            <div className="bg-card rounded-2xl border border-border p-2 flex md:flex-col gap-1 overflow-x-auto scrollbar-hide">
               {tabs.map(tab => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
-                  className={`flex items-center gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all w-full text-left ${
+                  className={`flex items-center justify-center md:justify-start gap-3 px-4 py-3 rounded-xl text-sm font-medium transition-all min-w-[120px] md:w-full md:text-left ${
                     activeTab === tab.id
                       ? 'bg-primary/10 text-primary'
                       : 'text-muted-foreground hover:bg-secondary hover:text-foreground'

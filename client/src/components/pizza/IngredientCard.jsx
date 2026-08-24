@@ -14,7 +14,7 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
       whileHover={{ scale: 1.02 }}
       whileTap={{ scale: 0.95 }}
     >
-      <div className="h-32 w-full overflow-hidden bg-secondary flex items-center justify-center border-b-4 border-foreground">
+      <div className="h-24 sm:h-32 w-full overflow-hidden bg-secondary flex items-center justify-center border-b-4 border-foreground">
         {ingredient.image ? (
           <img 
             src={ingredient.image} 
@@ -29,9 +29,9 @@ const IngredientCard = ({ ingredient, isSelected, onClick }) => {
         )}
       </div>
       
-      <div className="p-4">
+      <div className="p-3 sm:p-4">
         <div className="flex justify-between items-start gap-2 mb-1">
-          <h4 className={`font-['Chewy'] text-xl leading-tight tracking-wide ${isSelected ? 'text-foreground' : 'text-foreground'}`}>
+          <h4 className={`font-['Chewy'] text-lg sm:text-xl leading-tight tracking-wide ${isSelected ? 'text-foreground' : 'text-foreground'}`}>
             {ingredient.name}
           </h4>
           {isSelected && (

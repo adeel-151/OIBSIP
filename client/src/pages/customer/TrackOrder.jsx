@@ -90,7 +90,7 @@ const TrackOrder = () => {
           className="flex flex-col md:flex-row justify-between items-start md:items-end mb-16 gap-6"
         >
           <div>
-            <h1 className="text-5xl lg:text-7xl font-['Chewy'] tracking-wide text-foreground mb-2">Track Order</h1>
+            <h1 className="text-4xl sm:text-5xl lg:text-7xl font-['Chewy'] tracking-wide text-foreground mb-2">Track Order</h1>
             <p className="text-muted-foreground font-bold text-lg flex items-center gap-2">
               <MapPin className="w-5 h-5 text-primary" /> Delivery ready to {user?.email}
             </p>
@@ -169,7 +169,7 @@ const TrackOrder = () => {
                             >
                               <Icon className={`w-10 h-10 ${isActive ? 'animate-bounce' : ''}`} />
                             </motion.div>
-                            <span className={`text-lg md:text-xl text-center transition-colors font-['Chewy'] tracking-wide
+                            <span className={`text-sm md:text-xl text-center transition-colors font-['Chewy'] tracking-wide
                               ${isActive ? 'text-primary' : 
                                 isCompleted ? 'text-foreground' : 'text-muted-foreground'}`}>
                               {status.label}
@@ -193,7 +193,7 @@ const TrackOrder = () => {
         >
           <div className="flex justify-between items-end mb-10">
             <div>
-              <h2 className="text-4xl font-['Chewy'] tracking-wide flex items-center gap-4 text-foreground">
+              <h2 className="text-3xl sm:text-4xl font-['Chewy'] tracking-wide flex items-center gap-4 text-foreground">
                 <History className="w-10 h-10 text-primary" /> Past Orders
               </h2>
               <p className="text-muted-foreground font-bold text-lg mt-2">Review and reorder your favorites.</p>

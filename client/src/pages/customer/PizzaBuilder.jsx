@@ -158,14 +158,14 @@ const PizzaBuilder = () => {
     // SIZE step
     if (currentStep.id === 'SIZE') {
       return (
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-3 sm:gap-6">
           {SIZES.map(size => (
             <motion.div
               key={size.id}
               whileHover={{ scale: 1.02 }}
               whileTap={{ scale: 0.95 }}
               onClick={() => setSelectedSize(size)}
-              className={`relative cursor-pointer rounded-3xl border-4 p-6 text-center transition-all duration-300 ${
+              className={`relative cursor-pointer rounded-3xl border-4 p-3 sm:p-6 text-center transition-all duration-300 ${
                 selectedSize.id === size.id
                   ? 'border-foreground bg-primary shadow-xl shadow-primary/20 scale-105'
                   : 'border-transparent hover:border-foreground bg-background hover:scale-105 shadow-md'
@@ -177,7 +177,7 @@ const PizzaBuilder = () => {
                 </motion.div>
               )}
               <div className="text-4xl mb-3">{size.icon}</div>
-              <h4 className={`font-bold text-2xl font-['Chewy'] tracking-wide ${selectedSize.id === size.id ? 'text-foreground' : 'text-foreground'}`}>{size.name}</h4>
+              <h4 className={`font-bold text-xl sm:text-2xl font-['Chewy'] tracking-wide ${selectedSize.id === size.id ? 'text-foreground' : 'text-foreground'}`}>{size.name}</h4>
               <p className={`text-sm font-bold ${selectedSize.id === size.id ? 'text-foreground/80' : 'text-muted-foreground'}`}>{size.size}</p>
               <p className={`text-xs mt-1 font-bold ${selectedSize.id === size.id ? 'text-foreground/80' : 'text-muted-foreground'}`}>{size.serves}</p>
               <div className="mt-4 pt-3 border-t-2 border-foreground/10">
@@ -195,7 +195,7 @@ const PizzaBuilder = () => {
     if (currentStep.id === 'REVIEW') {
       return (
         <div className="bg-card border-4 border-foreground rounded-[2rem] p-8 shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
-          <h3 className="text-4xl font-['Chewy'] text-foreground mb-6 border-b-4 border-foreground pb-4 tracking-wide">Your Masterpiece</h3>
+          <h3 className="text-3xl sm:text-4xl font-['Chewy'] text-foreground mb-6 border-b-4 border-foreground pb-4 tracking-wide">Your Masterpiece</h3>
           <ul className="space-y-4 mb-8 text-foreground/90 font-bold">
             <li className="flex justify-between items-center bg-background border-2 border-foreground p-4 rounded-xl shadow-[2px_2px_0px_0px_hsl(var(--foreground))]">
               <div>
@@ -249,8 +249,8 @@ const PizzaBuilder = () => {
             </li>
           </ul>
           <div className="border-t-4 border-foreground pt-6 flex justify-between items-center bg-primary p-6 rounded-2xl border-4 mt-6 shadow-[4px_4px_0px_0px_hsl(var(--foreground))]">
-            <span className="text-2xl font-bold font-['Chewy'] tracking-wide">Grand Total</span>
-            <span className="text-4xl font-extrabold font-['Chewy'] text-foreground tracking-wide">Rs.{finalPrice}</span>
+            <span className="text-xl sm:text-2xl font-bold font-['Chewy'] tracking-wide">Grand Total</span>
+            <span className="text-3xl sm:text-4xl font-extrabold font-['Chewy'] text-foreground tracking-wide">Rs.{finalPrice}</span>
           </div>
         </div>
       );
@@ -270,7 +270,7 @@ const PizzaBuilder = () => {
     }
 
     return (
-      <div className="grid grid-cols-2 md:grid-cols-3 gap-6">
+      <div className="grid grid-cols-2 md:grid-cols-3 gap-3 sm:gap-6">
         {availableIngredients.map(ingredient => {
           let isSelected = false;
           let onClick = () => {};
@@ -325,8 +325,8 @@ const PizzaBuilder = () => {
         
         {/* Page Header */}
         <div className="text-center mb-16">
-          <h1 className="font-['Chewy'] text-6xl md:text-7xl text-foreground tracking-wide mb-4">Build Your Pizza</h1>
-          <p className="text-xl text-muted-foreground max-w-2xl mx-auto font-bold">Craft the perfect pie with our fresh, artisanal ingredients. The oven is hot and waiting!</p>
+          <h1 className="font-['Chewy'] text-5xl sm:text-6xl md:text-7xl text-foreground tracking-wide mb-4">Build Your Pizza</h1>
+          <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto font-bold">Craft the perfect pie with our fresh, artisanal ingredients. The oven is hot and waiting!</p>
         </div>
 
         {/* Step Indicator */}
@@ -386,7 +386,7 @@ const PizzaBuilder = () => {
               <div className="w-full border-t-4 border-foreground pt-6 mt-2 flex justify-between items-center">
                 <div>
                   <span className="text-muted-foreground text-sm font-bold uppercase tracking-widest">Total Amount</span>
-                  <h2 className="text-4xl font-bold font-['Chewy'] text-foreground tracking-wide mt-1">Rs.{finalPrice}</h2>
+                  <h2 className="text-3xl sm:text-4xl font-bold font-['Chewy'] text-foreground tracking-wide mt-1">Rs.{finalPrice}</h2>
                 </div>
                 <div className="text-right text-xs font-bold text-muted-foreground bg-background border-2 border-foreground p-2 rounded-lg">
                   {selectedSize.multiplier !== 1 && (
@@ -416,7 +416,7 @@ const PizzaBuilder = () => {
                   transition={{ duration: 0.3, ease: "easeOut" }}
                 >
                   <div className="mb-10 flex flex-col items-start bg-card border-4 border-foreground p-6 rounded-[2rem] shadow-[6px_6px_0px_0px_hsl(var(--foreground))]">
-                    <h2 className="text-4xl font-['Chewy'] text-foreground tracking-wide mb-2">
+                    <h2 className="text-3xl sm:text-4xl font-['Chewy'] text-foreground tracking-wide mb-2 break-words">
                       {currentStep.id === 'REVIEW' ? 'Review Order' : `Choose your ${currentStep.title.toLowerCase()}`}
                     </h2>
                     <p className="text-muted-foreground font-bold text-lg">{stepDescriptions[currentStep.id]}</p>

@@ -25,107 +25,68 @@ const PageLoader = ({ onComplete }) => {
     <motion.div 
       initial={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-md flex items-center justify-center"
+      transition={{ duration: 0.6, ease: "easeInOut" }}
+      className="fixed inset-0 z-[100] bg-background/95 backdrop-blur-xl flex flex-col items-center justify-center overflow-hidden"
     >
-      <div className="relative flex flex-col items-center">
+      {/* Background Ambience */}
+      <motion.div
+        animate={{
+          scale: [1, 1.1, 1],
+          opacity: [0.15, 0.3, 0.15],
+        }}
+        transition={{ duration: 5, repeat: Infinity, ease: "easeInOut" }}
+        className="absolute inset-0 bg-primary/20 blur-[120px] rounded-full w-[60vw] h-[60vw] -z-10"
+      />
+      
+      <div className="relative flex flex-col items-center justify-center w-full max-w-md px-8">
         
-        {/* Glowing Background Effect */}
-        <motion.div
-          animate={{
-            scale: [1, 1.2, 1],
-            opacity: [0.3, 0.6, 0.3],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            ease: "easeInOut"
-          }}
-          className="absolute inset-0 bg-primary/20 blur-3xl rounded-full w-48 h-48 -z-10"
-        />
-
-        {/* Cinematic Circular Loader */}
-        <div className="relative w-32 h-32 flex items-center justify-center mb-8">
-          {/* Outer Ring */}
-          <motion.svg
-            className="absolute inset-0 w-full h-full text-border"
-            viewBox="0 0 100 100"
-          >
-            <circle
-              cx="50"
-              cy="50"
-              r="45"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-            />
-          </motion.svg>
-          
-          {/* Animated Progress Ring */}
-          <motion.svg
-            className="absolute inset-0 w-full h-full text-primary drop-shadow-[0_0_15px_rgba(225,29,72,0.5)]"
-            viewBox="0 0 100 100"
-            initial={{ rotate: -90 }}
-            animate={{ rotate: 270 }}
-            transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
-          >
-            <motion.circle
-              cx="50"
-              cy="50"
-              r="45"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="4"
-              strokeLinecap="round"
-              strokeDasharray="283"
-              initial={{ strokeDashoffset: 283 }}
-              animate={{ 
-                strokeDashoffset: [283, 70, 283],
-              }}
-              transition={{ 
-                duration: 4, 
-                repeat: Infinity, 
-                ease: "easeInOut" 
-              }}
-            />
-          </motion.svg>
-
-          {/* Center Progress */}
-          <motion.div
-            className="text-primary font-['Chewy'] text-3xl"
-          >
-            {progress > 100 ? 100 : progress}%
-          </motion.div>
-        </div>
-
-        {/* Animated Text */}
-        <div className="flex space-x-1">
+        {/* Brand Name / Logo */}
+        <div className="flex space-x-2 mb-10 overflow-hidden">
           {['P', 'I', 'Z', 'Z', 'A', 'R', 'O'].map((letter, i) => (
             <motion.span
               key={i}
-              initial={{ opacity: 0, y: 10 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{
-                duration: 1.2,
-                repeat: Infinity,
-                repeatType: "reverse",
-                delay: i * 0.15,
+                duration: 0.8,
+                delay: i * 0.1,
+                ease: [0.16, 1, 0.3, 1] // Custom easeOut bezier
               }}
-              className="text-2xl font-['Chewy'] tracking-widest text-foreground"
+              className="text-4xl md:text-5xl font-['Chewy'] tracking-widest text-foreground"
             >
               {letter}
             </motion.span>
           ))}
         </div>
         
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 0.5 }}
-          transition={{ duration: 2, repeat: Infinity, repeatType: "reverse" }}
-          className="text-sm font-medium tracking-widest text-muted-foreground mt-3 uppercase"
-        >
-          Crafting Perfection
-        </motion.p>
+        {/* Horizontal Loader Track */}
+        <div className="w-full relative h-1.5 md:h-2 bg-secondary rounded-full overflow-hidden mb-6 shadow-inner">
+          <motion.div 
+            className="absolute top-0 left-0 bottom-0 bg-primary shadow-[0_0_15px_rgba(225,29,72,0.8)]"
+            initial={{ width: "0%" }}
+            animate={{ width: `${progress}%` }}
+            transition={{ duration: 0.3, ease: "easeOut" }}
+          />
+        </div>
+        
+        {/* Progress Percentage & Text */}
+        <div className="flex justify-between items-center w-full px-1">
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 0.7 }}
+            transition={{ duration: 1, delay: 0.5 }}
+            className="text-sm md:text-base font-bold tracking-[0.2em] text-muted-foreground uppercase"
+          >
+            Baking Experience
+          </motion.p>
+          
+          <motion.div
+            className="text-lg md:text-xl font-black font-mono text-primary flex items-center justify-end min-w-[3rem]"
+          >
+            {progress > 100 ? 100 : progress}%
+          </motion.div>
+        </div>
+        
       </div>
     </motion.div>
   );

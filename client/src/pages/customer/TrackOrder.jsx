@@ -70,13 +70,7 @@ const TrackOrder = () => {
     return ORDER_STATUSES.findIndex(s => s.id === status) !== -1 ? ORDER_STATUSES.findIndex(s => s.id === status) : 0;
   };
 
-  if (isLoading) {
-    return (
-      <div className="flex justify-center items-center h-screen bg-background">
-        <div className="animate-spin rounded-full h-16 w-16 border-t-8 border-b-8 border-primary"></div>
-      </div>
-    );
-  }
+
 
   return (
     <div className="min-h-screen bg-background py-16 lg:py-24 relative overflow-hidden">

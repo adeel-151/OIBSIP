@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import useAuthStore from '../../store/authStore';
 import StockUpdateModal from '../../components/admin/StockUpdateModal';
 import { toast } from 'sonner';
@@ -14,9 +14,7 @@ const Inventory = () => {
 
   const fetchInventory = async () => {
     try {
-      const response = await axios.get('http://localhost:5000/api/admin/inventory', {
-        headers: { Authorization: `Bearer ${token}` }
-      });
+      const response = await api.get('/admin/inventory');
       setInventory(response.data.data);
     } catch (error) {
       toast.error('Failed to fetch inventory');

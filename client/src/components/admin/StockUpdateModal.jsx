@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import axios from 'axios';
+import api from '../../services/api';
 import { toast } from 'sonner';
 import { X } from 'lucide-react';
 import Button from '../ui/Button';
@@ -30,17 +30,11 @@ const StockUpdateModal = ({ item, onClose, token }) => {
 
     setLoading(true);
     try {
-      await axios.post(
-        'http://localhost:5000/api/admin/inventory/adjust',
-        {
-          ingredientId: item.ingredientId._id,
-          quantityChange,
-          reason
-        },
-        {
-          headers: { Authorization: `Bearer ${token}` }
-        }
-      );
+      await api.post('/admin/inventory/adjust', {
+        ingredientId: item.ingredientId._id,
+        quantityChange,
+        reason
+      });
       toast.success('Stock updated successfully');
       onClose(true);
     } catch (error) {

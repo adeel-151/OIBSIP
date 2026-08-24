@@ -120,7 +120,7 @@ const Register = () => {
                 label="Full Name"
                 type="text"
                 placeholder="John Doe"
-                className="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
+                inputClassName="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
                 {...register('name')}
                 error={errors.name?.message}
               />
@@ -132,7 +132,7 @@ const Register = () => {
                 label="Email Address"
                 type="email"
                 placeholder="pizza.lover@example.com"
-                className="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
+                inputClassName="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
                 {...register('email')}
                 error={errors.email?.message}
               />
@@ -144,7 +144,7 @@ const Register = () => {
                 label="Password"
                 type="password"
                 placeholder="••••••••"
-                className="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
+                inputClassName="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
                 {...register('password')}
                 error={errors.password?.message}
               />
@@ -156,7 +156,7 @@ const Register = () => {
                 label="Confirm Password"
                 type="password"
                 placeholder="••••••••"
-                className="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
+                inputClassName="bg-secondary/50 border-transparent focus-visible:ring-primary focus-visible:border-primary rounded-2xl h-14 px-5 text-base shadow-sm transition-all"
                 {...register('confirmPassword')}
                 error={errors.confirmPassword?.message}
               />

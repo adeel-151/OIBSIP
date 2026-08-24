@@ -5,6 +5,7 @@ const Input = React.forwardRef(({
   label, 
   error, 
   className = '', 
+  inputClassName = '',
   ...props 
 }, ref) => {
   return (
@@ -12,7 +13,7 @@ const Input = React.forwardRef(({
       {label && <label className="text-sm font-medium text-foreground">{label}</label>}
       <ShadcnInput 
         ref={ref}
-        className={`${error ? 'border-destructive focus-visible:ring-destructive' : ''}`}
+        className={`${error ? 'border-destructive focus-visible:ring-destructive' : ''} ${inputClassName}`}
         {...props} 
       />
       {error && <span className="text-xs text-destructive mt-1">{error}</span>}

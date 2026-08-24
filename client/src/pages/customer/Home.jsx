@@ -1,7 +1,9 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { ShoppingCart } from 'lucide-react';
-import Button from '../../components/ui/Button';
+import useCartStore from '../../store/cartStore';
+import { toast } from 'sonner';
+import PizzaCard from '../../components/pizza/PizzaCard';
 
 // Unsplash Images
 const HERO_PIZZA = 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?q=80&w=1200&auto=format&fit=crop';
@@ -12,7 +14,72 @@ const MENU_BURGER = 'https://images.unsplash.com/photo-1568901346375-23c9450c58c
 const MENU_SANDWICH = 'https://images.unsplash.com/photo-1528735602780-2552fd46c7af?q=80&w=500&auto=format&fit=crop';
 const COOKIES = 'https://images.unsplash.com/photo-1499636136210-6f4ee915583e?q=80&w=500&auto=format&fit=crop';
 
+const FEATURED_ITEMS = [
+  {
+    _id: 'f1',
+    name: 'Margherita',
+    description: 'Classic tomato sauce, fresh mozzarella, and basil.',
+    price: 349,
+    calories: 850,
+    tag: 'Popular',
+    isVeg: true,
+    rating: 4.8,
+    image: MENU_PIZZA
+  },
+  {
+    _id: 'f2',
+    name: 'Penne Arrabiata',
+    description: 'Spicy tomato sauce with garlic and fresh herbs.',
+    price: 299,
+    calories: 600,
+    tag: 'New',
+    isVeg: true,
+    rating: 4.6,
+    image: MENU_PASTA
+  },
+  {
+    _id: 'f3',
+    name: 'Pizzaro Burger',
+    description: 'Beef patty with melted pizza cheese and pepperoni.',
+    price: 399,
+    calories: 1200,
+    tag: 'Spicy',
+    isVeg: false,
+    rating: 4.9,
+    image: MENU_BURGER
+  },
+  {
+    _id: 'f4',
+    name: 'Italian Sub',
+    description: 'Salami, prosciutto, fresh greens, and vinaigrette.',
+    price: 249,
+    calories: 850,
+    isVeg: false,
+    rating: 4.7,
+    image: MENU_SANDWICH
+  }
+];
+
 const Home = () => {
+  const navigate = useNavigate();
+  const { addToCart } = useCartStore();
+
+  const handleCustomize = (item) => {
+    navigate(`/build?pizza=${item._id}`);
+  };
+
+  const handleQuickAdd = (item) => {
+    addToCart({
+      name: item.name,
+      image: item.image,
+      pizzaId: item._id,
+      isCustom: false,
+      quantity: 1,
+      price: item.basePrice || item.price,
+    });
+    toast.success(`${item.name} added to cart!`);
+  };
+
   return (
     <div className="min-h-screen font-sans bg-background">
       
@@ -188,72 +255,32 @@ const Home = () => {
 
       {/* 4. PRODUCT GRID (Light Cream) */}
       <section className="bg-background pb-32">
-        <div className="container mx-auto px-6">
+        <div className="container mx-auto px-6 lg:px-12">
+          <div className="flex justify-between items-end mb-12">
+            <div>
+              <p className="text-primary font-['Chewy'] tracking-wide text-2xl uppercase">Favorites</p>
+              <h2 className="font-['Chewy'] text-5xl text-foreground tracking-wide mt-2">Trending Now</h2>
+            </div>
+            <Link to="/menu" className="hidden md:inline-flex items-center gap-2 font-bold text-lg border-b-2 border-foreground pb-1 hover:text-primary hover:border-primary transition-colors">
+              View All Menu
+            </Link>
+          </div>
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            
-            {/* Product 1 */}
-            <div className="bg-card rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group border border-border/50">
-              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
-                <div className="absolute top-2 left-2 bg-foreground text-background font-['Chewy'] px-3 py-1 rounded-full text-sm z-10">Popular</div>
-                <img src={MENU_PIZZA} alt="Margherita" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <h3 className="font-['Chewy'] text-3xl text-foreground">Margherita</h3>
-              <p className="text-muted-foreground text-sm mt-2 mb-6 flex-grow">Classic tomato sauce, fresh mozzarella, and basil.</p>
-              <div className="flex justify-between items-center mt-auto">
-                <span className="font-bold text-xl text-foreground">$14.00</span>
-                <button className="bg-primary p-2 rounded-xl hover:bg-primary/90 text-foreground transition-colors shadow-sm">
-                   <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Product 2 */}
-            <div className="bg-card rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group border border-border/50">
-              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
-                <div className="absolute top-2 left-2 bg-primary text-foreground font-['Chewy'] px-3 py-1 rounded-full text-sm z-10">New</div>
-                <img src={MENU_PASTA} alt="Pasta" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <h3 className="font-['Chewy'] text-3xl text-foreground">Penne Arrabiata</h3>
-              <p className="text-muted-foreground text-sm mt-2 mb-6 flex-grow">Spicy tomato sauce with garlic and fresh herbs.</p>
-              <div className="flex justify-between items-center mt-auto">
-                <span className="font-bold text-xl text-foreground">$12.50</span>
-                <button className="bg-primary p-2 rounded-xl hover:bg-primary/90 text-foreground transition-colors shadow-sm">
-                   <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Product 3 */}
-            <div className="bg-card rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group border border-border/50">
-              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
-                <div className="absolute top-2 left-2 bg-red-500 text-white font-['Chewy'] px-3 py-1 rounded-full text-sm z-10">Spicy</div>
-                <img src={MENU_BURGER} alt="Burger" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <h3 className="font-['Chewy'] text-3xl text-foreground">Pizzaro Burger</h3>
-              <p className="text-muted-foreground text-sm mt-2 mb-6 flex-grow">Beef patty with melted pizza cheese and pepperoni.</p>
-              <div className="flex justify-between items-center mt-auto">
-                <span className="font-bold text-xl text-foreground">$11.00</span>
-                <button className="bg-primary p-2 rounded-xl hover:bg-primary/90 text-foreground transition-colors shadow-sm">
-                   <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-
-            {/* Product 4 */}
-            <div className="bg-card rounded-3xl overflow-hidden shadow-lg hover:shadow-xl transition-shadow p-4 flex flex-col group border border-border/50">
-              <div className="relative h-48 rounded-2xl overflow-hidden mb-4">
-                <img src={MENU_SANDWICH} alt="Sandwich" className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" />
-              </div>
-              <h3 className="font-['Chewy'] text-3xl text-foreground">Italian Sub</h3>
-              <p className="text-muted-foreground text-sm mt-2 mb-6 flex-grow">Salami, prosciutto, fresh greens, and vinaigrette.</p>
-              <div className="flex justify-between items-center mt-auto">
-                <span className="font-bold text-xl text-foreground">$9.50</span>
-                <button className="bg-primary p-2 rounded-xl hover:bg-primary/90 text-foreground transition-colors shadow-sm">
-                   <ShoppingCart size={20} />
-                </button>
-              </div>
-            </div>
-
+            {FEATURED_ITEMS.map((item) => (
+              <PizzaCard 
+                key={item._id}
+                pizza={item}
+                onCustomize={handleCustomize}
+                onQuickAdd={handleQuickAdd}
+              />
+            ))}
+          </div>
+          <div className="mt-12 text-center md:hidden">
+            <Link to="/menu">
+              <button className="bg-foreground text-background font-bold text-lg px-8 py-3 rounded-full transition-transform hover:scale-105 shadow-md">
+                View All Menu
+              </button>
+            </Link>
           </div>
         </div>
       </section>
@@ -261,22 +288,22 @@ const Home = () => {
       {/* 5. FOOTER OVERLAP SECTION */}
       <section className="bg-foreground pt-24 pb-12 relative text-background">
         {/* Floating Card */}
-        <div className="absolute left-1/2 -translate-x-1/2 -top-12 w-[90%] max-w-2xl bg-card rounded-2xl p-6 shadow-xl flex items-center justify-between text-foreground border-2 border-border/50">
+        <div className="absolute left-1/2 -translate-x-1/2 -top-12 w-[90%] max-w-2xl bg-card rounded-[2rem] p-6 shadow-xl flex items-center justify-between text-foreground border-4 border-foreground shadow-[8px_8px_0px_0px_hsl(var(--foreground))]">
           <div className="flex items-center gap-4">
-            <img src={COOKIES} alt="Cookie" className="w-16 h-16 rounded-full object-cover ring-4 ring-background shadow-md" />
+            <img src={COOKIES} alt="Cookie" className="w-16 h-16 rounded-full object-cover border-2 border-foreground shadow-[2px_2px_0px_0px_hsl(var(--foreground))]" />
             <div>
-              <h4 className="font-['Chewy'] text-2xl">Sweet Tooth?</h4>
-              <p className="text-sm font-medium">Add fresh baked cookies to your order!</p>
+              <h4 className="font-['Chewy'] text-3xl">Sweet Tooth?</h4>
+              <p className="text-sm font-bold">Add fresh baked cookies to your order!</p>
             </div>
           </div>
-          <button className="bg-foreground hover:bg-foreground/90 text-background px-6 py-2 rounded-full font-bold text-sm transition-colors">
+          <button className="bg-foreground hover:bg-foreground/90 text-background px-6 py-2 rounded-xl font-black text-sm border-2 border-foreground shadow-[2px_2px_0px_0px_hsl(var(--foreground))] hover:translate-y-1 hover:shadow-none transition-all">
             View Desserts
           </button>
         </div>
 
-        <div className="container mx-auto px-6 text-center pt-8">
-           <h2 className="font-['Chewy'] text-5xl mb-4 text-primary">Pizzaro</h2>
-           <p className="text-background/60 max-w-md mx-auto">
+        <div className="container mx-auto px-6 text-center pt-16">
+           <h2 className="font-['Chewy'] text-5xl mb-4 text-primary tracking-wide">Pizzaro</h2>
+           <p className="text-background/60 max-w-md mx-auto font-bold">
              Delivering happiness, one slice at a time. Thank you for choosing the best pizza in town!
            </p>
         </div>

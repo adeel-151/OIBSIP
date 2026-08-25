@@ -1,2 +1,7 @@
-// This file acts as a proxy for platforms like Render that look for server.js at the root by default.
-require('./src/server.js');
+require('ts-node').register({
+  transpileOnly: true,
+  compilerOptions: {
+    module: "commonjs"
+  }
+});
+require('./src/server.ts');

@@ -1,8 +1,8 @@
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
-const jwt = require('jsonwebtoken');
-const crypto = require('crypto');
-const sendEmail = require('../utils/sendEmail');
+import User from '../models/User';
+import bcrypt from 'bcrypt';
+import jwt from 'jsonwebtoken';
+import crypto from 'crypto';
+import sendEmail from '../utils/sendEmail';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {
@@ -10,13 +10,13 @@ const generateToken = (id) => {
   });
 };
 
-exports.registerUser = async (userData) => {
+export const registerUser = async (userData) => {
   const { name, email, password, phone } = userData;
   
   const existingUser = await User.findOne({ email });
   if (existingUser) {
     const error = new Error('Email already registered');
-    error.statusCode = 400;
+    (error as any).statusCode = 400;
     throw error;
   }
   
@@ -65,25 +65,25 @@ exports.registerUser = async (userData) => {
   };
 };
 
-exports.loginUser = async (email, password) => {
+export const loginUser = async (email, password) => {
   const user = await User.findOne({ email });
   if (!user) {
     const error = new Error('Invalid credentials');
-    error.statusCode = 401;
+    (error as any).statusCode = 401;
     throw error;
   }
   
   // Bypassed email verification for portfolio ease-of-use
   // if (!user.isEmailVerified) {
   //   const error = new Error('Please verify your email first');
-  //   error.statusCode = 403;
+  //   (error as any).statusCode = 403;
   //   throw error;
   // }
   
   const isMatch = await bcrypt.compare(password, user.passwordHash);
   if (!isMatch) {
     const error = new Error('Invalid credentials');
-    error.statusCode = 401;
+    (error as any).statusCode = 401;
     throw error;
   }
   
@@ -101,7 +101,7 @@ exports.loginUser = async (email, password) => {
   };
 };
 
-exports.verifyEmail = async (token) => {
+export const verifyEmail = async (token) => {
   const user = await User.findOne({
     verificationToken: token,
     verificationTokenExpires: { $gt: Date.now() }
@@ -109,7 +109,7 @@ exports.verifyEmail = async (token) => {
   
   if (!user) {
     const error = new Error('Invalid or expired verification token');
-    error.statusCode = 400;
+    (error as any).statusCode = 400;
     throw error;
   }
   
@@ -124,11 +124,11 @@ exports.verifyEmail = async (token) => {
   };
 };
 
-exports.forgotPassword = async (email) => {
+export const forgotPassword = async (email) => {
   const user = await User.findOne({ email });
   if (!user) {
     const error = new Error('There is no user with that email');
-    error.statusCode = 404;
+    (error as any).statusCode = 404;
     throw error;
   }
 
@@ -167,7 +167,7 @@ exports.forgotPassword = async (email) => {
   }
 };
 
-exports.resetPassword = async (resetToken, newPassword) => {
+export const resetPassword = async (resetToken, newPassword) => {
   const resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
 
   const user = await User.findOne({
@@ -177,7 +177,7 @@ exports.resetPassword = async (resetToken, newPassword) => {
 
   if (!user) {
     const error = new Error('Invalid or expired reset token');
-    error.statusCode = 400;
+    (error as any).statusCode = 400;
     throw error;
   }
 

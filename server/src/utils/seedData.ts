@@ -1,10 +1,10 @@
-const mongoose = require('mongoose');
-const dotenv = require('dotenv');
-const path = require('path');
-const Pizza = require('../models/Pizza');
-const Ingredient = require('../models/Ingredient');
-const User = require('../models/User');
-const bcrypt = require('bcrypt');
+import mongoose from 'mongoose';
+import dotenv from 'dotenv';
+import path from 'path';
+import Pizza from '../models/Pizza';
+import Ingredient from '../models/Ingredient';
+import User from '../models/User';
+import bcrypt from 'bcrypt';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });
 
@@ -59,7 +59,7 @@ const seedData = async () => {
         description: 'A timeless classic with tomato sauce, mozzarella cheese, and fresh basil.',
         image: 'https://images.unsplash.com/photo-1574071318508-1cdbab80d002?auto=format&fit=crop&q=80&w=800',
         basePrice: 999,
-        category: 'CLASSIC',
+        category: 'CLASSIC' as 'CLASSIC',
         rating: 4.8,
         isFeatured: true,
         ingredients: [getIngId('Classic Thin'), getIngId('Classic Tomato'), getIngId('Mozzarella')]
@@ -79,7 +79,7 @@ const seedData = async () => {
         description: 'A vegetarian delight with mushrooms, bell peppers, onions, and olives.',
         image: 'https://images.unsplash.com/photo-1604382354936-07c5d9983bd3?auto=format&fit=crop&q=80&w=800',
         basePrice: 1199,
-        category: 'CLASSIC',
+        category: 'CLASSIC' as 'CLASSIC',
         rating: 4.6,
         isFeatured: true,
         ingredients: [getIngId('Whole Wheat'), getIngId('Classic Tomato'), getIngId('Mozzarella'), getIngId('Mushrooms'), getIngId('Bell Pepper'), getIngId('Onions'), getIngId('Olives')]
@@ -110,7 +110,7 @@ const seedData = async () => {
         name: 'Super Admin',
         email: 'admin@pizzaro.com',
         password,
-        role: 'admin' // User schema uses 'role' string which can be 'admin'
+        role: 'ADMIN' as 'ADMIN' // User schema uses 'role' string which can be 'admin'
       });
       console.log('Admin seeded!');
     }

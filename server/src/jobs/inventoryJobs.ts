@@ -1,8 +1,8 @@
-const cron = require('node-cron');
-const Inventory = require('../models/Inventory');
-const sendEmail = require('../utils/sendEmail');
-const { lowStockAlertTemplate } = require('../templates/emailTemplates');
-const User = require('../models/User');
+import cron from 'node-cron';
+import Inventory from '../models/Inventory';
+import sendEmail from '../utils/sendEmail';
+import { lowStockAlertTemplate } from '../templates/emailTemplates';
+import User from '../models/User';
 
 const checkLowStock = async () => {
   try {
@@ -62,7 +62,7 @@ const initJobs = () => {
   console.log('Inventory cron jobs initialized.');
 };
 
-module.exports = {
+export default {
   initJobs,
   checkLowStock
 };

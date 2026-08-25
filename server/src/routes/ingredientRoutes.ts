@@ -1,8 +1,8 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const ingredientController = require('../controllers/ingredientController');
+import * as ingredientController from '../controllers/ingredientController';
 
 router.get('/', ingredientController.getAllIngredients);
 router.get('/:category', ingredientController.getIngredientsByCategory);
 
-module.exports = router;
+export default router;

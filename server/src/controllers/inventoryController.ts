@@ -1,8 +1,9 @@
-const Inventory = require('../models/Inventory');
-const Ingredient = require('../models/Ingredient');
-const { getIO } = require('../utils/socket');
+import Inventory from '../models/Inventory';
+import Ingredient from '../models/Ingredient';
+import socketUtils from '../utils/socket';
+const { getIO } = socketUtils;
 
-exports.getAllInventory = async (req, res, next) => {
+export const getAllInventory = async (req, res, next) => {
   try {
     const inventory = await Inventory.find().populate('ingredientId', 'name category image');
     res.status(200).json({ success: true, data: inventory });
@@ -11,7 +12,7 @@ exports.getAllInventory = async (req, res, next) => {
   }
 };
 
-exports.getInventoryById = async (req, res, next) => {
+export const getInventoryById = async (req, res, next) => {
   try {
     const item = await Inventory.findById(req.params.id).populate('ingredientId', 'name category image');
     if (!item) {
@@ -23,7 +24,7 @@ exports.getInventoryById = async (req, res, next) => {
   }
 };
 
-exports.updateInventoryItem = async (req, res, next) => {
+export const updateInventoryItem = async (req, res, next) => {
   try {
     const { quantity, threshold, unit } = req.body;
     
@@ -60,7 +61,7 @@ exports.updateInventoryItem = async (req, res, next) => {
   }
 };
 
-exports.adjustStock = async (req, res, next) => {
+export const adjustStock = async (req, res, next) => {
   try {
     const { ingredientId, quantityChange, reason } = req.body;
     
@@ -109,7 +110,7 @@ exports.adjustStock = async (req, res, next) => {
   }
 };
 
-exports.getInventoryHistory = async (req, res, next) => {
+export const getInventoryHistory = async (req, res, next) => {
   // Mock history endpoint for portfolio purposes
   res.status(200).json({ success: true, data: [] });
 };

@@ -1,9 +1,11 @@
 require('dotenv').config();
-const http = require('http');
-const app = require('./app');
-const mongoose = require('mongoose');
-const https = require('https');
-const inventoryJobs = require('./jobs/inventoryJobs');
+import http from 'http';
+import app from './app';
+import mongoose from 'mongoose';
+import https from 'https';
+import inventoryJobs from './jobs/inventoryJobs';
+import socketUtils from './utils/socket';
+import { connectRedis } from './utils/redis';
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);
@@ -14,11 +16,14 @@ const startServer = async () => {
     await mongoose.connect(process.env.MONGO_URI);
     console.log('Connected to MongoDB');
     
+    // Connect to Redis
+    await connectRedis();
+    
     // Initialize Scheduled Jobs
     inventoryJobs.initJobs();
     
     // Initialize Socket.io
-    const io = require('./utils/socket').init(server);
+    const io = socketUtils.init(server);
     io.on('connection', (socket) => {
       console.log('Client connected to Socket.io:', socket.id);
       

@@ -1,4 +1,4 @@
-exports.orderConfirmationTemplate = (order, user) => `
+export const orderConfirmationTemplate = (order, user) => `
   <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
     <div style="background-color: #E53935; color: white; padding: 20px; text-align: center;">
       <h1 style="margin: 0;">Pizzaro</h1>
@@ -45,7 +45,7 @@ exports.orderConfirmationTemplate = (order, user) => `
   </div>
 `;
 
-exports.lowStockAlertTemplate = (inventoryItem) => `
+export const lowStockAlertTemplate = (inventoryItem) => `
   <div style="font-family: Arial, sans-serif; color: #333; max-width: 600px; margin: 0 auto; border: 1px solid #eee; border-radius: 8px; overflow: hidden;">
     <div style="background-color: #F59E0B; color: white; padding: 20px; text-align: center;">
       <h1 style="margin: 0;">Inventory Alert</h1>

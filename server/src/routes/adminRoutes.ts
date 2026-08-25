@@ -1,8 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const adminController = require('../controllers/adminController');
-const inventoryController = require('../controllers/inventoryController');
-const { authenticateAdmin } = require('../middleware/auth');
+import * as adminController from '../controllers/adminController';
+import * as inventoryController from '../controllers/inventoryController';
+import * as auth from '../middleware/auth';
+const { authenticateAdmin } = auth;
 
 // Protect all admin routes
 router.use(authenticateAdmin);
@@ -27,4 +28,4 @@ router.get('/inventory/:id', inventoryController.getInventoryById);
 router.patch('/inventory/:id', inventoryController.updateInventoryItem);
 router.post('/inventory/adjust', inventoryController.adjustStock);
 
-module.exports = router;
+export default router;

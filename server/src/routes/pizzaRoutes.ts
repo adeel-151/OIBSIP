@@ -1,9 +1,9 @@
-const express = require('express');
+import express from 'express';
 const router = express.Router();
-const pizzaController = require('../controllers/pizzaController');
+import * as pizzaController from '../controllers/pizzaController';
 
 router.get('/', pizzaController.getAllPizzas);
 router.get('/featured', pizzaController.getFeaturedPizzas);
 router.get('/:id', pizzaController.getPizzaById);
 
-module.exports = router;
+export default router;

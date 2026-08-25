@@ -1,8 +1,8 @@
-const { Server } = require('socket.io');
+import { Server } from 'socket.io';
 
 let io;
 
-module.exports = {
+export default {
   init: (httpServer) => {
     io = new Server(httpServer, {
       cors: {

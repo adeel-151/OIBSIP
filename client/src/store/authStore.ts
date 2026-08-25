@@ -6,7 +6,6 @@ const useAuthStore = create(
   persist(
     (set, get) => ({
       user: null,
-      token: null,
       isAuthenticated: false,
       isLoading: false,
       error: null,
@@ -15,10 +14,9 @@ const useAuthStore = create(
         set({ isLoading: true, error: null });
         try {
           const response = await api.post('/auth/login', credentials);
-          const { user, token } = response.data;
+          const { user } = response.data;
           set({
             user,
-            token,
             isAuthenticated: true,
             isLoading: false,
           });
@@ -47,10 +45,14 @@ const useAuthStore = create(
         }
       },
 
-      logout: () => {
+      logout: async () => {
+        try {
+          await api.post('/auth/logout');
+        } catch (error) {
+          console.error('Logout error', error);
+        }
         set({
           user: null,
-          token: null,
           isAuthenticated: false,
         });
       },
@@ -59,7 +61,7 @@ const useAuthStore = create(
     }),
     {
       name: 'auth-storage', // local storage key
-      partialize: (state) => ({ token: state.token, user: state.user, isAuthenticated: state.isAuthenticated }),
+      partialize: (state) => ({ user: state.user, isAuthenticated: state.isAuthenticated }),
     }
   )
 );

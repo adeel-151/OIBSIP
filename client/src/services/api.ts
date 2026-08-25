@@ -13,31 +13,11 @@ if (!baseURL.endsWith('/api')) {
 
 const api = axios.create({
   baseURL,
+  withCredentials: true,
   headers: {
     'Content-Type': 'application/json',
   },
 });
-
-api.interceptors.request.use(
-  (config) => {
-    // We get the token from localStorage (managed by Zustand persist)
-    const storageData = localStorage.getItem('auth-storage');
-    if (storageData) {
-      try {
-        const { state } = JSON.parse(storageData);
-        if (state.token) {
-          config.headers.Authorization = `Bearer ${state.token}`;
-        }
-      } catch (error) {
-        console.error('Error parsing auth storage', error);
-      }
-    }
-    return config;
-  },
-  (error) => {
-    return Promise.reject(error);
-  }
-);
 
 api.interceptors.response.use(
   (response) => response,

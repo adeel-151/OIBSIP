@@ -1,20 +1,21 @@
-const Order = require('../models/Order');
-const Pizza = require('../models/Pizza');
-const Ingredient = require('../models/Ingredient');
-const Inventory = require('../models/Inventory');
-const Razorpay = require('razorpay');
-const crypto = require('crypto');
-const { getIO } = require('../utils/socket');
-const mongoose = require('mongoose');
-const sendEmail = require('../utils/sendEmail');
-const { orderConfirmationTemplate } = require('../templates/emailTemplates');
+import Order from '../models/Order';
+import Pizza from '../models/Pizza';
+import Ingredient from '../models/Ingredient';
+import Inventory from '../models/Inventory';
+import Razorpay from 'razorpay';
+import crypto from 'crypto';
+import socketUtils from '../utils/socket';
+const { getIO } = socketUtils;
+import mongoose from 'mongoose';
+import sendEmail from '../utils/sendEmail';
+import { orderConfirmationTemplate } from '../templates/emailTemplates';
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || 'mock',
   key_secret: process.env.RAZORPAY_KEY_SECRET || 'mock',
 });
 
-exports.createOrder = async (req, res, next) => {
+export const createOrder = async (req, res, next) => {
   try {
     const { items, deliveryAddress, paymentMethod, deliveryMode, couponCode, specialInstructions, deliveryTimeSlot } = req.body;
 
@@ -166,7 +167,7 @@ exports.createOrder = async (req, res, next) => {
   }
 };
 
-exports.verifyPayment = async (req, res, next) => {
+export const verifyPayment = async (req, res, next) => {
   try {
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } = req.body;
     let isValid = false;
@@ -230,7 +231,7 @@ exports.verifyPayment = async (req, res, next) => {
   }
 };
 
-exports.getUserOrders = async (req, res, next) => {
+export const getUserOrders = async (req, res, next) => {
   try {
     const orders = await Order.find({ user: req.user._id })
       .populate('items.pizza')

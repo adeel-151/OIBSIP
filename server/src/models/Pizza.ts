@@ -1,5 +1,5 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+import mongoose from 'mongoose';
+import slugify from 'slugify';
 
 const pizzaSchema = new mongoose.Schema(
   {
@@ -64,4 +64,4 @@ pizzaSchema.pre('save', function () {
   }
 });
 
-module.exports = mongoose.model('Pizza', pizzaSchema);
+export default mongoose.model('Pizza', pizzaSchema);

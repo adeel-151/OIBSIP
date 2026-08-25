@@ -1,11 +1,14 @@
-const jwt = require('jsonwebtoken');
-const User = require('../models/User');
+import jwt from 'jsonwebtoken';
+import User from '../models/User';
 
-const authenticateUser = async (req, res, next) => {
+export const authenticateUser = async (req: any, res: any, next: any) => {
   try {
     let token;
     
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      // Fallback for non-browser clients
       token = req.headers.authorization.split(' ')[1];
     }
     
@@ -30,11 +33,14 @@ const authenticateUser = async (req, res, next) => {
   }
 };
 
-const authenticateAdmin = async (req, res, next) => {
+export const authenticateAdmin = async (req: any, res: any, next: any) => {
   try {
     let token;
     
-    if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+    if (req.cookies && req.cookies.token) {
+      token = req.cookies.token;
+    } else if (req.headers.authorization && req.headers.authorization.startsWith('Bearer')) {
+      // Fallback for non-browser clients
       token = req.headers.authorization.split(' ')[1];
     }
     
@@ -63,4 +69,3 @@ const authenticateAdmin = async (req, res, next) => {
   }
 };
 
-module.exports = { authenticateUser, authenticateAdmin };

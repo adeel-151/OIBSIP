@@ -1,21 +1,26 @@
-const express = require('express');
-const cors = require('cors');
-const helmet = require('helmet');
-const morgan = require('morgan');
-const rateLimit = require('express-rate-limit');
+import express from 'express';
+import cors from 'cors';
+import helmet from 'helmet';
+import morgan from 'morgan';
+import rateLimit from 'express-rate-limit';
+import cookieParser from 'cookie-parser';
 
-const authRoutes = require('./routes/authRoutes');
-const pizzaRoutes = require('./routes/pizzaRoutes');
-const ingredientRoutes = require('./routes/ingredientRoutes');
-const orderRoutes = require('./routes/orderRoutes');
-const adminRoutes = require('./routes/adminRoutes');
+import authRoutes from './routes/authRoutes';
+import pizzaRoutes from './routes/pizzaRoutes';
+import ingredientRoutes from './routes/ingredientRoutes';
+import orderRoutes from './routes/orderRoutes';
+import adminRoutes from './routes/adminRoutes';
 
 const app = express();
 
 // Security & Utility Middleware
 app.use(helmet());
-app.use(cors());
+app.use(cors({
+  origin: process.env.CLIENT_URL || 'http://localhost:5173',
+  credentials: true
+}));
 app.use(express.json());
+app.use(cookieParser());
 app.use(morgan('dev'));
 
 // Rate Limiting
@@ -46,4 +51,4 @@ app.use((err, req, res, next) => {
   });
 });
 
-module.exports = app;
+export default app;

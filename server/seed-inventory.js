@@ -1,4 +1,4 @@
-const mongoose = require('mongoose');
+import mongoose from 'mongoose';
 
 const uri = 'mongodb+srv://adeelkhattak223_db_user:1aoP0ueKKceERcjH@cluster0.pfwrej6.mongodb.net/pizzaro?appName=Cluster0';
 

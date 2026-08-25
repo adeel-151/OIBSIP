@@ -1,8 +1,8 @@
-import User from '../models/User';
+import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import crypto from 'crypto';
-import sendEmail from '../utils/sendEmail';
+import sendEmail from '../utils/sendEmail.js';
 
 const generateToken = (id) => {
   return jwt.sign({ id }, process.env.JWT_SECRET, {

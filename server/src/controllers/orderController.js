@@ -1,14 +1,14 @@
-import Order from '../models/Order';
-import Pizza from '../models/Pizza';
-import Ingredient from '../models/Ingredient';
-import Inventory from '../models/Inventory';
+import Order from '../models/Order.js';
+import Pizza from '../models/Pizza.js';
+import Ingredient from '../models/Ingredient.js';
+import Inventory from '../models/Inventory.js';
 import Razorpay from 'razorpay';
 import crypto from 'crypto';
-import socketUtils from '../utils/socket';
+import socketUtils from '../utils/socket.js';
 const { getIO } = socketUtils;
 import mongoose from 'mongoose';
-import sendEmail from '../utils/sendEmail';
-import { orderConfirmationTemplate } from '../templates/emailTemplates';
+import sendEmail from '../utils/sendEmail.js';
+import { orderConfirmationTemplate } from '../templates/emailTemplates.js';
 
 const razorpay = new Razorpay({
   key_id: process.env.RAZORPAY_KEY_ID || 'mock',

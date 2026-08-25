@@ -5,11 +5,11 @@ import morgan from 'morgan';
 import rateLimit from 'express-rate-limit';
 import cookieParser from 'cookie-parser';
 
-import authRoutes from './routes/authRoutes';
-import pizzaRoutes from './routes/pizzaRoutes';
-import ingredientRoutes from './routes/ingredientRoutes';
-import orderRoutes from './routes/orderRoutes';
-import adminRoutes from './routes/adminRoutes';
+import authRoutes from './routes/authRoutes.js';
+import pizzaRoutes from './routes/pizzaRoutes.js';
+import ingredientRoutes from './routes/ingredientRoutes.js';
+import orderRoutes from './routes/orderRoutes.js';
+import adminRoutes from './routes/adminRoutes.js';
 
 const app = express();
 

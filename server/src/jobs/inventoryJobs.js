@@ -1,8 +1,8 @@
 import cron from 'node-cron';
-import Inventory from '../models/Inventory';
-import sendEmail from '../utils/sendEmail';
-import { lowStockAlertTemplate } from '../templates/emailTemplates';
-import User from '../models/User';
+import Inventory from '../models/Inventory.js';
+import sendEmail from '../utils/sendEmail.js';
+import { lowStockAlertTemplate } from '../templates/emailTemplates.js';
+import User from '../models/User.js';
 
 const checkLowStock = async () => {
   try {

@@ -1,9 +1,9 @@
-import Order from '../models/Order';
-import Pizza from '../models/Pizza';
-import Ingredient from '../models/Ingredient';
-import socketUtils from '../utils/socket';
+import Order from '../models/Order.js';
+import Pizza from '../models/Pizza.js';
+import Ingredient from '../models/Ingredient.js';
+import socketUtils from '../utils/socket.js';
 const { getIO } = socketUtils;
-import { clearCachePrefix, clearExactCache } from '../utils/redis';
+import { clearCachePrefix, clearExactCache } from '../utils/redis.js';
 
 // --- ORDERS ---
 export const getAllOrders = async (req, res, next) => {

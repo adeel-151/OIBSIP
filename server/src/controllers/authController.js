@@ -1,4 +1,4 @@
-import * as authService from '../services/authService';
+import * as authService from '../services/authService.js';
 
 const setTokenCookie = (res, token) => {
   res.cookie('token', token, {

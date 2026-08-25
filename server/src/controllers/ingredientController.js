@@ -1,5 +1,5 @@
-import Ingredient from '../models/Ingredient';
-import { getCache, setCache } from '../utils/redis';
+import Ingredient from '../models/Ingredient.js';
+import { getCache, setCache } from '../utils/redis.js';
 
 export const getAllIngredients = async (req, res, next) => {
   try {

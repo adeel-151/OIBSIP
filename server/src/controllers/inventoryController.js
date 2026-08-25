@@ -1,6 +1,6 @@
-import Inventory from '../models/Inventory';
+import Inventory from '../models/Inventory.js';
 
-import socketUtils from '../utils/socket';
+import socketUtils from '../utils/socket.js';
 const { getIO } = socketUtils;
 
 export const getAllInventory = async (req, res, next) => {

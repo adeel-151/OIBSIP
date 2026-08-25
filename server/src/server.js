@@ -1,11 +1,11 @@
 require('dotenv').config();
 import http from 'http';
-import app from './app';
+import app from './app.js';
 import mongoose from 'mongoose';
 import https from 'https';
-import inventoryJobs from './jobs/inventoryJobs';
-import socketUtils from './utils/socket';
-import { connectRedis } from './utils/redis';
+import inventoryJobs from './jobs/inventoryJobs.js';
+import socketUtils from './utils/socket.js';
+import { connectRedis } from './utils/redis.js';
 
 const PORT = process.env.PORT || 5000;
 const server = http.createServer(app);

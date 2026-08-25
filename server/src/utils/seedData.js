@@ -1,9 +1,9 @@
 import mongoose from 'mongoose';
 import dotenv from 'dotenv';
 import path from 'path';
-import Pizza from '../models/Pizza';
-import Ingredient from '../models/Ingredient';
-import User from '../models/User';
+import Pizza from '../models/Pizza.js';
+import Ingredient from '../models/Ingredient.js';
+import User from '../models/User.js';
 import bcrypt from 'bcrypt';
 
 dotenv.config({ path: path.join(__dirname, '../../.env') });

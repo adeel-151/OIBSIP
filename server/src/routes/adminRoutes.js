@@ -1,8 +1,8 @@
 import express from 'express';
 const router = express.Router();
-import * as adminController from '../controllers/adminController';
-import * as inventoryController from '../controllers/inventoryController';
-import * as auth from '../middleware/auth';
+import * as adminController from '../controllers/adminController.js';
+import * as inventoryController from '../controllers/inventoryController.js';
+import * as auth from '../middleware/auth.js';
 const { authenticateAdmin } = auth;
 
 // Protect all admin routes

@@ -1,5 +1,5 @@
-import Pizza from '../models/Pizza';
-import { getCache, setCache } from '../utils/redis';
+import Pizza from '../models/Pizza.js';
+import { getCache, setCache } from '../utils/redis.js';
 
 export const getAllPizzas = async (req, res, next) => {
   try {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Outlet, Link, useNavigate, useLocation } from 'react-router-dom';
 import useAuthStore from '../../store/authStore';
-import { LayoutDashboard, ShoppingBag, Pizza, LogOut, Package, Menu, X } from 'lucide-react';
+import { LayoutDashboard, ShoppingBag, Pizza, LogOut, Package, Menu, X, Calendar } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import SEO from '../../components/SEO';
 
@@ -36,6 +36,7 @@ const AdminLayout = () => {
   const navItems = [
     { to: '/admin/dashboard', icon: LayoutDashboard, label: 'Dashboard' },
     { to: '/admin/orders', icon: ShoppingBag, label: 'Orders' },
+    { to: '/admin/history', icon: Calendar, label: 'History' },
     { to: '/admin/menu', icon: Pizza, label: 'Menu' },
     { to: '/admin/inventory', icon: Package, label: 'Inventory' }
   ];

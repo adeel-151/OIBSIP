@@ -3,8 +3,10 @@ import { motion, AnimatePresence } from 'framer-motion';
 import api from '../../services/api';
 import { socket } from '../../services/socket';
 import { toast } from 'sonner';
-import { Search, Filter, Package, Clock, Utensils, CheckCircle2, ChevronDown, Bell } from 'lucide-react';
+import { Search, Filter, Package, Clock, Utensils, CheckCircle2, ChevronDown, Bell, Download } from 'lucide-react';
 import SEO from '../../components/SEO';
+import jsPDF from 'jspdf';
+import 'jspdf-autotable';
 
 const STATUS_CONFIG = {
   RECEIVED: { color: 'bg-[#bfdbfe] text-blue-700', icon: Package },
@@ -79,6 +81,78 @@ const AdminOrders = () => {
     const matchesStatus = filterStatus === 'ALL' || order.orderStatus === filterStatus;
     return matchesSearch && matchesStatus;
   });
+
+  const generateInvoice = (order) => {
+    const doc = new jsPDF();
+    
+    // Header
+    doc.setFontSize(22);
+    doc.setTextColor(220, 38, 38); // Red
+    doc.text('PIZZARO', 14, 20);
+    
+    doc.setFontSize(10);
+    doc.setTextColor(100);
+    doc.text('Crafted Your Way', 14, 25);
+    
+    // Invoice Title
+    doc.setFontSize(16);
+    doc.setTextColor(0);
+    doc.text('INVOICE', 160, 20);
+    doc.setFontSize(10);
+    doc.text(`Order ID: #${order._id.substring(0, 8)}`, 160, 26);
+    doc.text(`Date: ${new Date(order.createdAt).toLocaleDateString()}`, 160, 31);
+    
+    // Customer Info
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    doc.text('Billed To:', 14, 45);
+    doc.setFontSize(10);
+    doc.setTextColor(80);
+    doc.text(`Name: ${order.user?.name || 'Guest User'}`, 14, 52);
+    doc.text(`Email: ${order.user?.email || 'N/A'}`, 14, 58);
+    const address = typeof order.deliveryAddress === 'object' 
+      ? `${order.deliveryAddress?.street || ''}, ${order.deliveryAddress?.city || ''}`
+      : (order.deliveryAddress || 'N/A');
+    doc.text(`Address: ${address}`, 14, 64);
+    
+    // Items Table
+    const tableColumn = ["Item", "Qty", "Unit Price", "Total"];
+    const tableRows = [];
+    
+    order.items.forEach(item => {
+      const itemData = [
+        item.name || 'Custom Pizza',
+        item.quantity,
+        `Rs.${item.price}`,
+        `Rs.${item.price * item.quantity}`
+      ];
+      tableRows.push(itemData);
+    });
+    
+    doc.autoTable({
+      startY: 75,
+      head: [tableColumn],
+      body: tableRows,
+      theme: 'grid',
+      headStyles: { fillColor: [220, 38, 38], textColor: 255 },
+      styles: { fontSize: 10, cellPadding: 4 }
+    });
+    
+    const finalY = doc.lastAutoTable.finalY || 75;
+    
+    // Totals
+    doc.setFontSize(12);
+    doc.setTextColor(0);
+    doc.text(`Total Amount: Rs.${order.totalAmount}`, 140, finalY + 15);
+    doc.text(`Payment: ${order.paymentMethod} (${order.paymentStatus})`, 14, finalY + 15);
+    
+    // Footer
+    doc.setFontSize(10);
+    doc.setTextColor(150);
+    doc.text('Thank you for choosing Pizzaro!', 105, finalY + 40, { align: 'center' });
+    
+    doc.save(`Invoice_${order._id.substring(0,8)}.pdf`);
+  };
 
   return (
     <div className="pb-10 max-w-7xl mx-auto">
@@ -335,9 +409,15 @@ const AdminOrders = () => {
                     </span>
                   </p>
                 </div>
-                <div className="text-right">
+                <div className="text-right flex flex-col items-end gap-2">
                   <p className="text-xs font-black text-muted-foreground uppercase tracking-widest mb-1">Total Amount</p>
                   <p className="text-5xl font-['Chewy'] tracking-wide text-primary drop-shadow-[2px_2px_0px_hsl(var(--foreground))]">Rs.{selectedOrder.totalAmount}</p>
+                  <button 
+                    onClick={() => generateInvoice(selectedOrder)}
+                    className="mt-2 flex items-center gap-2 bg-foreground text-background px-4 py-2 rounded-xl font-bold hover:scale-105 transition-transform shadow-[2px_2px_0px_0px_hsl(var(--primary))]"
+                  >
+                    <Download className="w-4 h-4" /> Download PDF
+                  </button>
                 </div>
               </div>
             </motion.div>

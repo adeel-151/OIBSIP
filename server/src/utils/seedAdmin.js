@@ -1,7 +1,8 @@
 import mongoose from 'mongoose';
 import bcrypt from 'bcrypt';
 import User from '../models/User.js';
-require('dotenv').config();
+import dotenv from 'dotenv';
+dotenv.config();
 
 const seedAdmin = async () => {
   try {

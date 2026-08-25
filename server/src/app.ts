@@ -16,10 +16,11 @@ const app = express();
 // Security & Utility Middleware
 app.use(helmet());
 app.use(cors({
-  origin: function (origin, callback) {
-    // Reflect origin back
-    callback(null, true);
-  },
+  origin: [
+    'http://localhost:5173',
+    'http://localhost:3000',
+    'https://pizzaro-gamma.vercel.app'
+  ],
   credentials: true
 }));
 app.use(express.json());

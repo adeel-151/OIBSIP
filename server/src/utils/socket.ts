@@ -6,9 +6,11 @@ export default {
   init: (httpServer) => {
     io = new Server(httpServer, {
       cors: {
-        origin: function (origin: any, callback: any) {
-          callback(null, true);
-        },
+        origin: [
+          'http://localhost:5173',
+          'http://localhost:3000',
+          'https://pizzaro-gamma.vercel.app'
+        ],
         methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
         credentials: true
       }

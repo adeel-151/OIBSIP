@@ -6,8 +6,11 @@ export default {
   init: (httpServer) => {
     io = new Server(httpServer, {
       cors: {
-        origin: '*', // Adjust in production for security
-        methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE']
+        origin: function (origin: any, callback: any) {
+          callback(null, true);
+        },
+        methods: ['GET', 'POST', 'PATCH', 'PUT', 'DELETE'],
+        credentials: true
       }
     });
     return io;

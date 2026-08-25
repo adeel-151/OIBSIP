@@ -1,3 +1,5 @@
+// Express application setup and configuration
+// Defines middleware and routing for the API
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';

@@ -1,3 +1,5 @@
+// Main entry point for the Pizzaro Backend API
+// This file initializes the HTTP server, MongoDB connection, Redis, and Socket.io
 import dotenv from 'dotenv';
 dotenv.config();
 import http from 'http';
